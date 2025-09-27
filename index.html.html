@@ -1,0 +1,2485 @@
+<!DOCTYPE html><html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>DIARIO MOJI</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --transition-speed: 0.3s;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 6px 30px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            transition: all var(--transition-speed) ease;
+            line-height: 1.6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Temas mejorados con mejor contraste */
+        body.theme-pastel {
+            --bg-primary: #fdf6f7;
+            --bg-secondary: #ffffff;
+            --text-primary: #2d2d2d;
+            --text-secondary: #666666;
+            --accent-primary: #e89595;
+            --accent-secondary: #9cb6c9;
+            --border-color: #e4d8dc;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        body.theme-cream {
+            --bg-primary: #fdfaf2;
+            --bg-secondary: #ffffff;
+            --text-primary: #3c3c3c;
+            --text-secondary: #666666;
+            --accent-primary: #c89f68;
+            --accent-secondary: #a8bba2;
+            --border-color: #e7e2d9;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        body.theme-light {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --accent-primary: #3182ce;
+            --accent-secondary: #38a169;
+            --border-color: #e2e8f0;
+            --success-color: #38a169;
+            --warning-color: #ed8936;
+            --error-color: #e53e3e;
+        }
+
+        body.theme-dark {
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --accent-primary: #63b3ed;
+            --accent-secondary: #68d391;
+            --border-color: #4a5568;
+            --success-color: #68d391;
+            --warning-color: #f6ad55;
+            --error-color: #fc8181;
+        }
+
+        body.theme-vibrant {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #c0c0c0;
+            --accent-primary: #e94560;
+            --accent-secondary: #f39c12;
+            --border-color: #333366;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --error-color: #e74c3c;
+        }
+
+        body.theme-forest {
+            --bg-primary: #f0f5f0;
+            --bg-secondary: #ffffff;
+            --text-primary: #2d4a2d;
+            --text-secondary: #5a6e5a;
+            --accent-primary: #4a7c59;
+            --accent-secondary: #6a994e;
+            --border-color: #d8e0d8;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        body.theme-ocean {
+            --bg-primary: #eef7f9;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e3a4a;
+            --text-secondary: #5b8ea7;
+            --accent-primary: #3a8a9e;
+            --accent-secondary: #5b8ea7;
+            --border-color: #d1e3e8;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.success { background-color: var(--success-color); }
+        .toast.error { background-color: var(--error-color); }
+        .toast.warning { background-color: var(--warning-color); }
+        .toast.show { transform: translateX(0); }
+
+        /* Screen transitions mejoradas */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background-color: var(--bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .screen.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        #main-diary-screen {
+            align-items: flex-start;
+        }
+
+        /* Contenedores de bienvenida mejorados */
+        .welcome-container {
+            max-width: 500px;
+            padding: 3rem;
+            text-align: center;
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-container h1, .name-prompt-container h1 {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-container p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .name-prompt-container input {
+            width: 100%;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color var(--transition-speed);
+        }
+
+        .name-prompt-container input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        /* Header mejorado */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        /* Layout del diario */
+        .diary-layout {
+            width: 100%;
+            display: flex;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            max-width: 1400px;
+        }
+
+        .left-panel,
+        .right-panel {
+            width: 370px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Widgets mejorados */
+        .widget {
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all var(--transition-speed);
+        }
+
+        .widget:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .widget h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Calendario mejorado */
+        .flatpickr-calendar {
+            border-radius: var(--border-radius) !important;
+            box-shadow: var(--shadow) !important;
+        }
+
+        .flatpickr-day.has-entry {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
+            color: white !important;
+            border-radius: 50% !important;
+            font-weight: 600 !important;
+        }
+
+        .flatpickr-day.today {
+            border: 2px solid var(--accent-primary) !important;
+        }
+
+        /* Selector de emociones mejorado */
+        #emotion-selector {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .emotion-emoji {
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(80%) brightness(0.7);
+            opacity: 0.6;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-primary);
+            border: 2px solid transparent;
+        }
+
+        .emotion-emoji:hover {
+            transform: scale(1.2) rotate(5deg);
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+        }
+
+        .emotion-emoji.selected {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+            transform: scale(1.15);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Slider de intensidad mejorado */
+        .intensity-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+            background-color: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        #emotion-intensity {
+            flex-grow: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--error-color), var(--warning-color), var(--success-color));
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        #emotion-intensity::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        #intensity-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            min-width: 20px;
+        }
+
+        /* Lista de hábitos mejorada */
+        #habits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #habits-list li {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed);
+        }
+
+        #habits-list li:hover {
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            margin: 0 -8px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #habits-list input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        #habits-list label {
+            flex-grow: 1;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        #manage-habits-btn {
+            width: 100%;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        #manage-habits-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Contenedor de motto mejorado */
+        #motto-container {
+            text-align: center;
+            font-style: italic;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        #motto-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        #motto-text {
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Editor mejorado */
+        .editor-widget {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-toolbar {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius);
+        }
+
+        .editor-toolbar button {
+            padding: 8px 12px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-weight: 600;
+        }
+
+        .editor-toolbar button:hover {
+            background-color: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        #emoji-picker {
+            position: absolute;
+            display: none;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            top: 60px;
+            max-width: 300px;
+        }
+
+        #emoji-picker span {
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin: 4px;
+            display: inline-block;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all var(--transition-speed);
+        }
+
+        #emoji-picker span:hover {
+            background-color: var(--bg-primary);
+            transform: scale(1.2);
+        }
+
+        /* Estadísticas mejoradas */
+        .stats-controls {
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stats-controls button {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-weight: 600;
+        }
+
+        .stats-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stats-controls button.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        /* --- Estilos para las Pestañas de Estadísticas --- */
+.stats-tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 2rem;
+    gap: 0.5rem;
+}
+
+.stats-tab {
+    padding: 12px 24px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; /* Alinea con el borde inferior del contenedor */
+}
+
+.stats-tab:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+.stats-tab.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+}
+
+.stats-tab-content {
+    display: none; /* Oculta todas las pestañas por defecto */
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.stats-tab-content.active {
+    display: grid; /* Muestra solo la pestaña activa como una cuadrícula */
+}
+
+/* Media query para apilar gráficos en pantallas más pequeñas */
+@media (max-width: 1024px) {
+    .stats-tab-content {
+        grid-template-columns: 1fr;
+    }
+}
+        .chart-wrapper {
+            background-color: var(--bg-primary);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-wrapper h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 350px;
+            position: relative;
+        }
+
+        .chart-explanation {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        #bienestar-summary {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        #bienestar-summary .score {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        #bienestar-summary .period {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Modales mejorados */
+        .modal {
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .modal-content {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 1400px;
+            position: relative;
+            animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            color: var(--text-secondary);
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background-color: var(--error-color);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Botones mejorados */
+        button {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Inputs mejorados */
+        input[type="text"], input[type="password"], select {
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all var(--transition-speed);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(var(--accent-primary), 0.1);
+        }
+
+        /* Gestión de hábitos */
+        #habits-management-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed);
+        }
+
+        #habits-management-list li:hover {
+            background-color: var(--bg-primary);
+        }
+
+        .delete-habit-btn {
+            background-color: var(--error-color);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+            min-width: auto;
+        }
+
+        .add-habit-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .add-habit-form input {
+            flex-grow: 1;
+        }
+
+        .add-habit-form button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Configuración */
+        .setting-item {
+            margin-bottom: 20px;
+        }
+
+        .setting-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .setting-item small {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Error messages */
+        .error-msg {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* Estilos para la gestión de gastos */
+        .expenses-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .expenses-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all var(--transition-speed);
+            border-bottom: 3px solid transparent;
+        }
+
+        .expenses-tab.active {
+            color: var(--accent-primary);
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .expenses-tab-content {
+            display: none;
+        }
+
+        .expenses-tab-content.active {
+            display: block;
+        }
+
+        .transaction-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed);
+        }
+
+        .transaction-item:hover {
+            background-color: var(--bg-primary);
+        }
+
+        .transaction-item.income {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .transaction-item.expense {
+            border-left: 4px solid var(--error-color);
+        }
+
+        .transaction-details {
+            flex-grow: 1;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-amount.income {
+            color: var(--success-color);
+        }
+
+        .transaction-amount.expense {
+            color: var(--error-color);
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .delete-transaction-btn {
+            background-color: var(--error-color);
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            border-radius: 15px;
+            min-width: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+        }
+
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .budget-progress {
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .budget-progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            transition: width 0.3s ease;
+        }
+
+        .budget-progress-bar.warning {
+            background-color: var(--warning-color);
+        }
+
+        .budget-progress-bar.danger {
+            background-color: var(--error-color);
+        }
+
+        /* Lista de pagos del día */
+        #payments-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        #payments-list li {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color var(--transition-speed);
+        }
+
+        #payments-list li:hover {
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            margin: 0 -8px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #payments-list input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        #payments-list label {
+            flex-grow: 1;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        #manage-expenses-btn {
+            width: 100%;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        #manage-expenses-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Bienestar físico */
+        .wellbeing-item {
+            margin-bottom: 15px;
+        }
+
+        .wellbeing-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Mejoras de accesibilidad */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus visible para navegación por teclado */
+        *:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 800px) {
+    .left-panel,
+    .right-panel {
+        width: 100%;
+    }
+    /* ...otras reglas responsivas... */
+}
+    /* PUEDES ELIMINAR ESTE BLOQUE */
+@media (max-width: 1024px) {
+    .stats-charts-container {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head> <body class="theme-pastel">
+<div id="welcome-screen" class="screen active"><div class="welcome-container"><h1>DIARIO MOJI</h1><p>Tu espacio personal para reflexionar y crecer.</p><div class="welcome-buttons"><button id="btn-new-diary">Crear un Nuevo Diario</button><button id="btn-open-diary">Abrir un Diario Existente</button><input type="file" id="import-file-input" accept=".xml" style="display: none;"></div></div></div>
+<div id="name-prompt-screen" class="screen"><div class="name-prompt-container welcome-container"><h1>¿Cómo te llamas?</h1><p>Este nombre se usará como título de tu diario.</p><input type="text" id="owner-name-input" placeholder="Escribe tu nombre aquí..."><button id="btn-confirm-name">Continuar</button></div></div>
+<div id="main-diary-screen" class="screen"><div style="width:100%; display:flex; flex-direction:column; align-items:center;"><header><h1 id="diary-owner-name"></h1><div class="header-buttons"><button id="btn-expenses">💰 Gastos</button><button id="btn-stats">📊 Estadísticas</button><button id="btn-settings">⚙️ Ajustes</button><button id="btn-save">💾 Guardar y Exportar</button></div></header><main class="diary-layout">
+    <aside class="left-panel">
+        <section class="widget"><h2>Calendario</h2><div id="calendar-container"></div></section>
+        <section id="motto-container" class="widget" style="text-align:center;font-style:italic;color:white; background-color: var(--accent-secondary);"><p id="motto-text"></p></section>
+    </aside>
+
+    <div class="main-content">
+        <section class="widget"><h2 id="emotion-date-label"></h2><div id="emotion-selector"></div><div class="intensity-slider-container"><label for="emotion-intensity">Intensidad:</label><input type="range" id="emotion-intensity" min="1" max="10" value="5"><span id="intensity-value">5</span></div></section>
+        <section class="widget editor-widget"><h2>Entrada: <span id="editor-date-label"></span></h2><div class="editor-toolbar"><button data-command="bold"><b>B</b></button><button data-command="italic"><i>I</i></button><button data-command="underline"><u>U</u></button><button data-command="insertUnorderedList">●</button><button data-command="justifyLeft"> L</button><button data-command="justifyCenter"> C</button><button data-command="justifyRight"> R</button><button id="btn-emoji">😀</button><div id="emoji-picker"></div></div><div id="editor" contenteditable="true"></div></section>
+    </div>
+
+    <aside class="right-panel">
+        <section class="widget"><h2>Hábitos del Día</h2><ul id="habits-list"></ul><button id="manage-habits-btn">Gestionar Hábitos</button></section>
+        <section class="widget"><h2>Pagos del Día</h2><ul id="payments-list"></ul><button id="manage-expenses-btn">Gestionar Gastos</button></section>
+        <section class="widget">
+            <h2>Bienestar Físico</h2>
+            <div class="wellbeing-item">
+                <label for="sleep-quality">Calidad del Sueño:</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="range" id="sleep-quality" min="1" max="5" value="3" style="flex-grow: 1;">
+                    <span id="sleep-quality-value" style="font-size: 1.5rem;">😴</span>
+                </div>
+            </div>
+            <div class="wellbeing-item">
+                <label for="exercised-toggle">¿Hiciste ejercicio?</label>
+                <input type="checkbox" id="exercised-toggle" style="transform: scale(1.3);">
+            </div>
+            <div class="wellbeing-item">
+                <label for="water-intake">Vasos de Agua:</label>
+                <input type="number" id="water-intake" min="0" value="0" style="width: 60px; padding: 5px;">
+            </div>
+        </section>
+    </aside>
+</main></div></div>
+<div id="settings-modal" class="modal screen"><div class="modal-content"><span class="close-btn">&times;</span><h2>Ajustes</h2><div class="setting-item"><label>Paleta de Colores:</label><select id="theme-selector"><option value="pastel">Pastel</option><option value="cream">Crema</option><option value="light">Claro</option><option value="dark">Oscuro</option><option value="vibrant">Vibrante</option><option value="forest">Bosque</option><option value="ocean">Océano</option></select></div><div class="setting-item"><label for="show-motto-toggle">Mostrar Frase Motivacional:</label><input type="checkbox" id="show-motto-toggle" checked></div><div class="setting-item"><label>Contraseña:</label><input type="password" id="password-input" placeholder="Opcional"><small>Se guarda en el archivo XML.</small></div><button class="close-btn-footer">Cerrar</button></div></div>
+
+<div id="stats-modal" class="modal screen">
+    <div class="modal-content large">
+        <span class="close-btn">&times;</span>
+        <h2>Estadísticas de Emociones</h2>
+        <div class="stats-controls" id="wellness-chart-filters">
+            <button data-period="7">Semana</button>
+            <button data-period="30">Mes</button>
+            <button data-period="365">Año</button>
+            <button class="active" data-period="all">Todo</button>
+        </div>
+        <div class="stats-tabs">
+            <button class="stats-tab active" data-tab="emocional">📈 Bienestar Emocional</button>
+            <button class="stats-tab" data-tab="financiero">💰 Finanzas</button>
+            <button class="stats-tab" data-tab="fisico">🏃 Bienestar Físico</button>
+        </div>
+
+        <div id="stats-tab-content-container">
+            <div id="emocional-tab" class="stats-tab-content active">
+                <div class="chart-wrapper">
+                    <h3>Índice de Bienestar</h3>
+                    <p class="chart-explanation">Balance emocional de -20 a +20. Cero es neutral.</p>
+                    <div id="bienestar-summary"></div>
+                    <div class="chart-container"><canvas id="wellness-chart"></canvas></div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Emociones Dominantes</h3>
+                    <p class="chart-explanation">Emociones más utilizadas en el período seleccionado.</p>
+                    <div class="chart-container"><canvas id="emotions-chart"></canvas></div>
+                </div>
+            </div>
+
+            <div id="financiero-tab" class="stats-tab-content">
+                <div class="chart-wrapper">
+                    <h3>Gastos por Categoría</h3>
+                    <p class="chart-explanation">Distribución de gastos por categoría.</p>
+                    <div class="chart-container"><canvas id="expenses-chart"></canvas></div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Tendencias de Gastos</h3>
+                    <p class="chart-explanation">Evolución de ingresos y gastos a lo largo del tiempo.</p>
+                    <div class="chart-container"><canvas id="expenses-trend-chart"></canvas></div>
+                </div>
+            </div>
+
+            <div id="fisico-tab" class="stats-tab-content">
+                <div class="chart-wrapper">
+                    <h3>Tendencias de Bienestar Físico</h3>
+                    <p class="chart-explanation">Calidad del sueño (línea, eje derecho) y vasos de agua (barras, eje izquierdo).</p>
+                    <div class="chart-container"><canvas id="physical-wellbeing-chart"></canvas></div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3>Correlación: Ejercicio y Bienestar</h3>
+                    <p class="chart-explanation">Comparación del índice de bienestar promedio.</p>
+                    <div class="chart-container"><canvas id="exercise-correlation-chart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights-container" class="chart-wrapper" style="grid-column: 1 / -1; margin-top: 20px;">
+            <h3>🧠 Perspectivas Inteligentes</h3>
+            <p class="chart-explanation">Análisis automático de patrones en tus datos.</p>
+            <ul id="insights-list"></ul>
+        </div>
+    </div>
+</div>
+<div id="habits-modal" class="modal screen"><div class="modal-content"><span class="close-btn">&times;</span><h2>Gestionar Hábitos</h2><ul id="habits-management-list"></ul><h4>Añadir Nuevo Hábito</h4><div class="add-habit-form"><input type="text" id="new-habit-text" placeholder="Descripción..."><select id="new-habit-frequency"><option value="daily">Diario</option><option value="weekly">Semanal</option><option value="monthly">Mensual</option></select><button id="btn-add-habit">+</button></div></div></div>
+<div id="password-prompt-modal" class="modal screen"><div class="modal-content small"><span class="close-btn">&times;</span><h3>Diario Protegido</h3><p>Introduce la contraseña.</p><input type="password" id="password-prompt-input"><button id="btn-submit-password">Desbloquear</button><p id="password-error-msg" class="error-msg"></p></div></div>
+<div id="expenses-modal" class="modal screen">
+    <div class="modal-content large">
+        <span class="close-btn">&times;</span>
+        <h2>Gestión de Gastos</h2>
+        <div class="expenses-tabs">
+            <button class="expenses-tab active" data-tab="transactions">Transacciones</button>
+            <button class="expenses-tab" data-tab="categories">Categorías</button>
+            <button class="expenses-tab" data-tab="budgets">Presupuestos</button>
+        </div>
+        <div id="transactions-tab" class="expenses-tab-content active">
+            <h3>Registro de Transacciones</h3>
+            <form id="transaction-form">
+                <div class="form-group">
+                    <label for="transaction-type">Tipo:</label>
+                    <select id="transaction-type">
+                        <option value="income">Ingreso</option>
+                        <option value="expense">Gasto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-amount">Monto ($):</label>
+                    <input type="number" id="transaction-amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-category">Categoría:</label>
+                    <select id="transaction-category"></select>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-subcategory">Subcategoría (opcional):</label>
+                    <input type="text" id="transaction-subcategory">
+                </div>
+                <div class="form-group">
+                    <label for="transaction-description">Descripción:</label>
+                    <input type="text" id="transaction-description" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-date">Fecha:</label>
+                    <input type="date" id="transaction-date">
+                </div>
+                <div class="form-group">
+                    <label for="transaction-recurring">Recurrente:</label>
+                    <select id="transaction-recurring">
+                        <option value="none">No</option>
+                        <option value="daily">Diario</option>
+                        <option value="weekly">Semanal</option>
+                        <option value="monthly">Mensual</option>
+                        <option value="yearly">Anual</option>
+                    </select>
+                </div>
+                <button type="submit">Agregar Transacción</button>
+            </form>
+            <h3>Lista de Transacciones</h3>
+            <div class="transaction-list" id="transactions-list"></div>
+        </div>
+        <div id="categories-tab" class="expenses-tab-content">
+            <h3>Gestión de Categorías</h3>
+            <form id="category-form">
+                <div class="form-group">
+                    <label for="category-name">Nombre de la categoría:</label>
+                    <input type="text" id="category-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="category-type">Tipo:</label>
+                    <select id="category-type">
+                        <option value="income">Ingreso</option>
+                        <option value="expense">Gasto</option>
+                    </select>
+                </div>
+                <button type="submit">Agregar Categoría</button>
+            </form>
+            <h3>Categorías Existentes</h3>
+            <ul id="categories-list"></ul>
+        </div>
+        <div id="budgets-tab" class="expenses-tab-content">
+            <h3>Presupuestos</h3>
+            <form id="budget-form">
+                <div class="form-group">
+                    <label for="budget-category">Categoría:</label>
+                    <select id="budget-category"></select>
+                </div>
+                <div class="form-group">
+                    <label for="budget-amount">Monto límite ($):</label>
+                    <input type="number" id="budget-amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget-period">Período:</label>
+                    <select id="budget-period">
+                        <option value="daily">Diario</option>
+                        <option value="weekly">Semanal</option>
+                        <option value="monthly">Mensual</option>
+                    </select>
+                </div>
+                <button type="submit">Establecer Presupuesto</button>
+            </form>
+            <h3>Presupuestos Activos</h3>
+            <ul id="budgets-list"></ul>
+        </div>
+    </div>
+</div>
+
+<div id="insights-container" class="chart-wrapper" style="grid-column: 1 / -1; margin-top: 20px;">
+    <h3>🧠 Perspectivas Inteligentes</h3>
+    <p class="chart-explanation">Análisis automático de patrones en tus datos.</p>
+    <ul id="insights-list"></ul>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    let diaryData = {}, currentDate = new Date().toISOString().split('T')[0];
+    let calendarInstance, wellnessChartInstance, emotionsChartInstance, expensesChartInstance, expensesTrendChartInstance, physicalWellbeingChartInstance, exerciseCorrelationChartInstance;
+    let masterEntryList = [];
+
+    const EMOTIONS=[{e:'😄',n:'Alegría',v:2},{e:'😊',n:'Calma',v:1},{e:'😐',n:'Neutral',v:0},{e:'😟',n:'Ansiedad',v:-1},{e:'😭',n:'Tristeza',v:-2},{e:'😠',n:'Enojo',v:-2},{e:'😱',n:'Miedo',v:-1},{e:'😍',n:'Amor',v:2},{e:'🤔',n:'Reflexión',v:0},{e:'😴',n:'Cansancio',v:-1}];
+    const PHRASES=["El único modo de hacer un gran trabajo es amar lo que haces.","La vida es un 10% lo que nos ocurre y un 90% cómo reaccionamos a ello.","El éxito es la suma de pequeños esfuerzos repetidos día tras día."];
+    const EMOJI_LIST = ['😀', '😂', '😊', '😍', '🤔', '😢', '😠', '👍', '👎', '❤️', '🔥', '🎉', '✨', '💡', '🙏'];
+    
+    // Categorías predefinidas para gastos
+    const DEFAULT_CATEGORIES = [
+        { id: 1, name: 'Alimentación', type: 'expense' },
+        { id: 2, name: 'Transporte', type: 'expense' },
+        { id: 3, name: 'Vivienda', type: 'expense' },
+        { id: 4, name: 'Salud', type: 'expense' },
+        { id: 5, name: 'Ocio', type: 'expense' },
+        { id: 6, name: 'Educación', type: 'expense' },
+        { id: 7, name: 'Salario', type: 'income' },
+        { id: 8, name: 'Inversiones', type: 'income' },
+        { id: 9, name: 'Regalos', type: 'income' },
+        { id: 10, name: 'Otros', type: 'expense' }
+    ];
+    
+    const screens = { welcome: document.getElementById('welcome-screen'), namePrompt: document.getElementById('name-prompt-screen'), main: document.getElementById('main-diary-screen') };
+    const modals = { settings: document.getElementById('settings-modal'), stats: document.getElementById('stats-modal'), habits: document.getElementById('habits-modal'), password: document.getElementById('password-prompt-modal'), expenses: document.getElementById('expenses-modal') };
+    const editor = document.getElementById('editor');
+
+    const showScreen = name => { Object.values(screens).forEach(s => s.classList.remove('active')); screens[name]?.classList.add('active'); };
+    const showModal = name => modals[name]?.classList.add('active');
+    const hideModal = modal => modal.classList.remove('active');
+
+    const startDiary = () => { 
+        destroyInstances(); 
+        showScreen('main'); 
+        document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`; 
+        initCalendar(); 
+        applySettings(true); 
+        renderHabitsForDate(currentDate); 
+        loadEntryForDate(currentDate);
+        renderPaymentsForDate(currentDate);
+    };
+    
+    const destroyInstances=()=>{
+        if(calendarInstance)calendarInstance.destroy();
+        if(wellnessChartInstance)wellnessChartInstance.destroy();
+        if(emotionsChartInstance)emotionsChartInstance.destroy();
+        if(expensesChartInstance)expensesChartInstance.destroy();
+        if(expensesTrendChartInstance)expensesTrendChartInstance.destroy();
+        if(physicalWellbeingChartInstance)physicalWellbeingChartInstance.destroy();
+        if(exerciseCorrelationChartInstance)exerciseCorrelationChartInstance.destroy();
+
+        calendarInstance=wellnessChartInstance=emotionsChartInstance=expensesChartInstance=expensesTrendChartInstance=physicalWellbeingChartInstance=exerciseCorrelationChartInstance=null;
+    };
+    
+    const initCalendar = () => {
+        calendarInstance = flatpickr("#calendar-container", {
+            inline: true, dateFormat: "Y-m-d", defaultDate: currentDate, maxDate: new Date(),
+            onDayCreate: (d,s,f,day) => { 
+                const date=day.dateObj.toISOString().split('T')[0], e=diaryData.entries[date]; 
+                if(e&&(e.text||e.emotion||(e.completedHabits&&e.completedHabits.length>0)))day.classList.add("has-entry"); 
+            },
+            onChange: (dates, dateStr) => { currentDate = dateStr; loadEntryForDate(currentDate); renderPaymentsForDate(currentDate); }
+        });
+    };
+    
+    const loadEntryForDate = date => {
+        const fDate = new Date(date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        document.getElementById('editor-date-label').textContent=fDate; 
+        document.getElementById('emotion-date-label').textContent=`Emoción del día (${date})`;
+        const entry=diaryData.entries[date]||{}; 
+        editor.innerHTML=entry.text||'';
+        document.querySelectorAll('.emotion-emoji.selected').forEach(el=>el.classList.remove('selected'));
+        const iSlider=document.getElementById('emotion-intensity');
+        if(entry.emotion){
+            document.querySelector(`.emotion-emoji[data-name="${entry.emotion.name}"]`)?.classList.add('selected');
+            iSlider.value=entry.emotion.intensity;
+        }else{
+            iSlider.value=5;
+        }
+        document.getElementById('intensity-value').textContent=iSlider.value; 
+        renderHabitsForDate(date);
+        
+        const sleepQualityInput = document.getElementById('sleep-quality');
+        const sleepValueDisplay = document.getElementById('sleep-quality-value');
+        const sleepEmojis = ['😭', '😟', '😐', '😊', '😍'];
+
+        sleepQualityInput.value = entry.sleepQuality || 3;
+        sleepValueDisplay.textContent = sleepEmojis[sleepQualityInput.value - 1] || '😐';
+
+        document.getElementById('exercised-toggle').checked = entry.exercised || false;
+        document.getElementById('water-intake').value = entry.waterIntake || 0;
+    };
+    
+    const saveCurrentEntryData=(key,value)=>{
+        if(!diaryData.entries[currentDate])diaryData.entries[currentDate]={};
+        diaryData.entries[currentDate][key]=value;
+        calendarInstance?.redraw();
+    };
+    
+    const renderHabitsForDate = date => {
+        const list=document.getElementById('habits-list'), completed=diaryData.entries[date]?.completedHabits||[];
+        const today=new Date(date+'T12:00:00'), dayOfWeek=today.getDay()===0?6:today.getDay()-1, dayOfMonth=today.getDate();
+        list.innerHTML=diaryData.habits.filter(h=>h.frequency==='daily'||(h.frequency==='weekly'&&dayOfWeek===0)||(h.frequency==='monthly'&&dayOfMonth===1))
+        .map(h=>`<li><input type="checkbox" id="h-${h.id}-${date}" data-id="${h.id}" ${completed.includes(h.id)?'checked':''}><label for="h-${h.id}-${date}">${h.text}</label></li>`).join('');
+    };
+    
+    const renderHabitManagementList = () => { 
+        document.getElementById('habits-management-list').innerHTML=diaryData.habits.map(h=>`<li><span>${h.text} <i>(${h.frequency})</i></span><button class="delete-habit-btn" data-id="${h.id}">X</button></li>`).join(''); 
+    };
+    
+    const applySettings = (isInitial=false)=>{
+        document.body.className=`theme-${diaryData.settings.theme}`;
+        updateMotto(isInitial);
+    };
+    
+    const updateMotto = isInitial => { 
+        const c=document.getElementById('motto-container');
+        c.style.display=diaryData.settings.showMotto?'block':'none';
+        if(diaryData.settings.showMotto&&isInitial)document.getElementById('motto-text').textContent=`"${PHRASES[Math.floor(Math.random()*PHRASES.length)]}"`; 
+    };
+    
+    const loadDiaryFromXML = xmlDoc => {
+        try{
+            const dNode=xmlDoc.querySelector('diary');if(!dNode)throw new Error("XML inválido");
+            const nData={
+                ownerName:dNode.getAttribute('owner'),
+                settings:{},
+                habits:[],
+                entries:{},
+                expenses: {
+                    transactions: [],
+                    categories: DEFAULT_CATEGORIES,
+                    budgets: []
+                }
+            };
+            
+            const s=xmlDoc.querySelector('settings'); 
+            nData.settings.theme=s.querySelector('theme')?.textContent||'pastel'; 
+            nData.settings.showMotto=s.querySelector('showMotto')?.textContent==='true'; 
+            nData.settings.password=s.querySelector('password')?.textContent||null;
+            
+            xmlDoc.querySelectorAll('habits>habit').forEach(n=>nData.habits.push({id:parseInt(n.getAttribute('id')),frequency:n.getAttribute('frequency'),text:n.textContent}));
+            
+            xmlDoc.querySelectorAll('entries>entry').forEach(n=>{
+                const date=n.getAttribute('date'),eData={};
+                const em=n.querySelector('emotion');
+                if(em)eData.emotion={name:em.getAttribute('name'),intensity:parseInt(em.getAttribute('intensity'))};
+                eData.text=n.querySelector('content')?.textContent||'';
+                eData.completedHabits=Array.from(n.querySelectorAll('completedHabits>habitId')).map(id=>parseInt(id.textContent));
+                if(Object.keys(eData).length>0&&(eData.text||eData.emotion||eData.completedHabits.length>0))nData.entries[date]=eData;
+            });
+            
+            // Cargar datos de gastos
+            const expensesNode = xmlDoc.querySelector('expenses');
+            if (expensesNode) {
+                expensesNode.querySelectorAll('transaction').forEach(n => {
+                    nData.expenses.transactions.push({
+                        id: parseInt(n.getAttribute('id')),
+                        type: n.getAttribute('type'),
+                        amount: parseFloat(n.getAttribute('amount')),
+                        category: n.getAttribute('category'),
+                        subcategory: n.getAttribute('subcategory') || '',
+                        description: n.getAttribute('description'),
+                        date: n.getAttribute('date'),
+                        recurring: n.getAttribute('recurring') || 'none'
+                    });
+                });
+                
+                expensesNode.querySelectorAll('category').forEach(n => {
+                    const existing = nData.expenses.categories.find(c => c.id === parseInt(n.getAttribute('id')));
+                    if (!existing) {
+                        nData.expenses.categories.push({
+                            id: parseInt(n.getAttribute('id')),
+                            name: n.getAttribute('name'),
+                            type: n.getAttribute('type')
+                        });
+                    }
+                });
+                
+                expensesNode.querySelectorAll('budget').forEach(n => {
+                    nData.expenses.budgets.push({
+                        id: parseInt(n.getAttribute('id')),
+                        category: n.getAttribute('category'),
+                        amount: parseFloat(n.getAttribute('amount')),
+                        period: n.getAttribute('period')
+                    });
+                });
+            }
+            
+            diaryData=nData;
+            startDiary();
+        }catch(e){
+            console.error("Error al parsear XML:",e);
+            alert("Error: El archivo XML parece corrupto.");
+        }
+    };
+    
+    // --- FUNCIÓN DE ESTADÍSTICAS DEL GRÁFICO DE LÍNEAS CORREGIDA ---
+    const updateStatsDisplay = (period) => {
+        let filteredEntries = masterEntryList;
+        if (period !== 'all') {
+            const cutoff = new Date();
+            cutoff.setHours(0, 0, 0, 0);
+            cutoff.setDate(cutoff.getDate() - Number(period));
+            filteredEntries = masterEntryList.filter(([date]) => new Date(date) >= cutoff);
+        }
+        
+        // Preparar datos para todos los gráficos
+        const dailyScores = filteredEntries.map(([date, entry]) => {
+            const emoDef = EMOTIONS.find(e => e.n === entry.emotion.name);
+            const intensity = Number(entry.emotion.intensity);
+            const score = emoDef && !isNaN(intensity) ? emoDef.v * intensity : 0;
+            return { x: date, y: score };
+        });
+
+        const physicalData = filteredEntries.map(([date, entry]) => ({
+            x: date,
+            sleep: entry.sleepQuality || 0,
+            water: entry.waterIntake || 0
+        }));
+
+        // ---- Gráfico 1: Índice de Bienestar (Existente, sin cambios en su lógica) ----
+        const bienestarSummary = document.getElementById('bienestar-summary');
+        if (dailyScores.length > 0) {
+            const average = dailyScores.reduce((sum, val) => sum + val.y, 0) / dailyScores.length;
+            const color = average > 0.5 ? 'var(--success-color)' : average < -0.5 ? 'var(--error-color)' : 'var(--text-secondary)';
+            bienestarSummary.innerHTML = `<div class="score" style="color: ${color};">${average.toFixed(1)}</div><div class="period">Promedio del período</div>`;
+        } else {
+            bienestarSummary.innerHTML = `<div class="score" style="color: var(--text-secondary);">--</div><div class="period">Sin datos</div>`;
+        }
+        
+        if (wellnessChartInstance) wellnessChartInstance.destroy();
+        const style = getComputedStyle(document.body);
+        const cTxt = style.getPropertyValue('--text-primary');
+        const cBorder = style.getPropertyValue('--border-color');
+        const cAccent = style.getPropertyValue('--accent-primary');
+
+        wellnessChartInstance = new Chart(document.getElementById('wellness-chart'), {
+            type: 'line',
+            data: { datasets: [{ label: 'Índice de Bienestar', data: dailyScores, fill: true, tension: 0.4, borderColor: cAccent, backgroundColor: 'rgba(54, 162, 235, 0.2)' }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'day' }, ticks: { color: cTxt }, grid: { color: cBorder } }, y: { min: -20, max: 20, ticks: { color: cTxt }, grid: { color: context => context.tick.value === 0 ? cTxt : cBorder, lineWidth: context => context.tick.value === 0 ? 2 : 1 } } }, plugins: { legend: { labels: { color: cTxt } } } }
+        });
+
+        // ---- Gráfico 2: NUEVO - Tendencias de Bienestar Físico ----
+        if (physicalWellbeingChartInstance) physicalWellbeingChartInstance.destroy();
+        physicalWellbeingChartInstance = new Chart(document.getElementById('physical-wellbeing-chart'), {
+            type: 'bar', // Tipo base es barra (para el agua)
+            data: {
+                datasets: [
+                    {
+                        label: 'Vasos de Agua',
+                        data: physicalData.map(d => ({ x: d.x, y: d.water })),
+                        backgroundColor: 'rgba(91, 142, 167, 0.6)', // Color Ocean
+                        yAxisID: 'yWater',
+                    },
+                    {
+                        label: 'Calidad del Sueño',
+                        data: physicalData.map(d => ({ x: d.x, y: d.sleep })),
+                        borderColor: 'rgba(232, 149, 149, 1)', // Color Pastel
+                        type: 'line', // Este dataset es una línea
+                        tension: 0.4,
+                        yAxisID: 'ySleep',
+                    }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: {
+                    x: { type: 'time', time: { unit: 'day' }, ticks: { color: cTxt }, grid: { color: cBorder } },
+                    yWater: { type: 'linear', position: 'left', min: 0, max: 15, title: { display: true, text: 'Vasos de Agua', color: cTxt }, ticks: { color: cTxt }, grid: { color: cBorder } },
+                    ySleep: { type: 'linear', position: 'right', min: 1, max: 5, title: { display: true, text: 'Calidad del Sueño (1-5)', color: cTxt }, ticks: { color: cTxt }, grid: { drawOnChartArea: false } } // No superponer la rejilla
+                },
+                plugins: { legend: { labels: { color: cTxt } } }
+            }
+        });
+
+        // ---- Gráfico 3: NUEVO - Correlación Ejercicio y Bienestar ----
+        const exercisedEntries = filteredEntries.filter(([d, e]) => e.exercised);
+        const notExercisedEntries = filteredEntries.filter(([d, e]) => !e.exercised || e.exercised === false);
+
+        const getAvgScore = (arr) => {
+            if (arr.length === 0) return 0;
+            const total = arr.reduce((sum, [d, e]) => {
+                const emoDef = EMOTIONS.find(emo => emo.n === e.emotion?.name);
+                return sum + (emoDef ? emoDef.v * (e.emotion?.intensity || 5) : 0);
+            }, 0);
+            return total / arr.length;
+        };
+
+        const avgWithExercise = getAvgScore(exercisedEntries);
+        const avgWithoutExercise = getAvgScore(notExercisedEntries);
+        
+        if (exerciseCorrelationChartInstance) exerciseCorrelationChartInstance.destroy();
+        exerciseCorrelationChartInstance = new Chart(document.getElementById('exercise-correlation-chart'), {
+            type: 'bar',
+            data: {
+                labels: ['Días con Ejercicio', 'Días sin Ejercicio'],
+                datasets: [{
+                    label: 'Índice de Bienestar Promedio',
+                    data: [avgWithExercise, avgWithoutExercise],
+                    backgroundColor: ['rgba(74, 124, 89, 0.7)', 'rgba(244, 67, 54, 0.5)'],
+                    borderColor: ['rgba(74, 124, 89, 1)', 'rgba(244, 67, 54, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: { y: { min: -10, max: 10, title: { display: true, text: 'Índice de Bienestar', color: cTxt }, ticks: { color: cTxt }, grid: { color: cBorder } } },
+                plugins: { legend: { display: false } }
+            }
+        });
+    };
+    
+    // --- FUNCIÓN PRINCIPAL DE ESTADÍSTICAS ACTUALIZADA ---
+    const generateStatistics = () => {
+        if (emotionsChartInstance) emotionsChartInstance.destroy();
+        masterEntryList = Object.entries(diaryData.entries).filter(([_, e]) => e.emotion).sort(([a], [b]) => new Date(a) - new Date(b));
+        
+        if (masterEntryList.length === 0) {
+            alert('No hay datos de emociones para generar estadísticas. Por favor, añade algunas entradas primero.');
+            return;
+        }
+        
+        const emotionFrequency = {};
+        masterEntryList.forEach(([_, entry]) => {
+            emotionFrequency[entry.emotion.name] = (emotionFrequency[entry.emotion.name] || 0) + 1;
+        });
+        
+        const chartLabels = Object.keys(emotionFrequency).map(name => {
+            const emoDef = EMOTIONS.find(e => e.n === name);
+            return `${emoDef ? emoDef.e : ''} ${name}`;
+        });
+        
+        const style = getComputedStyle(document.body), cTxt = style.getPropertyValue('--text-primary');
+        emotionsChartInstance = new Chart(document.getElementById('emotions-chart'),{
+            type:'pie',
+            data:{labels: chartLabels, datasets:[{data:Object.values(emotionFrequency),backgroundColor:['#3498db','#2ecc71','#f1c40f','#e67e22','#e74c3c','#9b59b6','#1abc9c','#34495e', '#7f8c8d', '#2c3e50']}]},
+            options: { responsive: true, maintainAspectRatio: false, plugins:{legend:{position:'top',labels:{color:cTxt}}}}
+        });
+        
+        // Actualizar gráficos de gastos
+        updateExpenseCharts();
+        
+        document.querySelector('#wellness-chart-filters button.active')?.classList.remove('active');
+        document.querySelector('#wellness-chart-filters button[data-period="all"]').classList.add('active');
+        updateStatsDisplay('all');
+        showModal('stats');
+    };
+    
+    // --- FUNCIONES PARA GESTIÓN DE GASTOS ---
+    
+    // Renderizar lista de pagos del día
+    const renderPaymentsForDate = (date) => {
+        const paymentsList = document.getElementById('payments-list');
+        const today = new Date(date + 'T12:00:00');
+        
+        // Filtrar transacciones recurrentes que deben mostrarse hoy
+        const todayPayments = diaryData.expenses.transactions.filter(transaction => {
+            if (transaction.recurring === 'none') return false;
+            
+            const transactionDate = new Date(transaction.date + 'T12:00:00');
+            
+            switch (transaction.recurring) {
+                case 'daily':
+                    return true;
+                case 'weekly':
+                    // Mismo día de la semana
+                    return today.getDay() === transactionDate.getDay();
+                case 'monthly':
+                    // Mismo día del mes
+                    return today.getDate() === transactionDate.getDate();
+                case 'yearly':
+                    // Mismo día y mes
+                    return today.getDate() === transactionDate.getDate() && 
+                           today.getMonth() === transactionDate.getMonth();
+                default:
+                    return false;
+            }
+        });
+        
+        paymentsList.innerHTML = todayPayments.map(transaction => {
+            const isCompleted = diaryData.entries[date]?.completedPayments?.includes(transaction.id) || false;
+            return `
+                <li>
+                    <input type="checkbox" id="p-${transaction.id}-${date}" data-id="${transaction.id}" ${isCompleted ? 'checked' : ''}>
+                    <label for="p-${transaction.id}-${date}">
+                        ${transaction.type === 'income' ? '💰 Ingreso: ' : '💸 Gasto: '} 
+                        ${transaction.description} - $${transaction.amount}
+                    </label>
+                </li>
+            `;
+        }).join('');
+        
+        // Si no hay pagos, mostrar mensaje
+        if (todayPayments.length === 0) {
+            paymentsList.innerHTML = '<li>No hay pagos programados para hoy</li>';
+        }
+    };
+    
+    // Inicializar gestión de gastos
+    const initExpensesManagement = () => {
+        // Llenar selectores de categorías
+        updateCategorySelectors();
+        
+        // Renderizar listas
+        renderTransactionsList();
+        renderCategoriesList();
+        renderBudgetsList();
+        
+        // Mostrar modal
+        showModal('expenses');
+    };
+    
+    // Actualizar selectores de categoría
+    const updateCategorySelectors = () => {
+        const transactionCategorySelect = document.getElementById('transaction-category');
+        const budgetCategorySelect = document.getElementById('budget-category');
+        
+        // Limpiar opciones
+        transactionCategorySelect.innerHTML = '';
+        budgetCategorySelect.innerHTML = '';
+        
+        // Agregar opciones de categorías de gastos
+        diaryData.expenses.categories
+            .filter(cat => cat.type === 'expense')
+            .forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = cat.name;
+                transactionCategorySelect.appendChild(option);
+            });
+        
+        // Agregar opciones de categorías de ingresos
+        diaryData.expenses.categories
+            .filter(cat => cat.type === 'income')
+            .forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = cat.name;
+                transactionCategorySelect.appendChild(option);
+            });
+            
+        // Para presupuestos, solo categorías de gastos
+        diaryData.expenses.categories
+            .filter(cat => cat.type === 'expense')
+            .forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = cat.name;
+                budgetCategorySelect.appendChild(option);
+            });
+    };
+    
+    // Renderizar lista de transacciones
+    const renderTransactionsList = () => {
+        const transactionsList = document.getElementById('transactions-list');
+        
+        // Ordenar transacciones por fecha (más recientes primero)
+        const sortedTransactions = [...diaryData.expenses.transactions].sort((a, b) => 
+            new Date(b.date) - new Date(a.date)
+        );
+        
+        transactionsList.innerHTML = sortedTransactions.map(transaction => `
+            <div class="transaction-item ${transaction.type}">
+                <div class="transaction-details">
+                    <div class="transaction-amount ${transaction.type}">
+                        ${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                    </div>
+                    <div>${transaction.description}</div>
+                    <div class="transaction-date">
+                        ${new Date(transaction.date + 'T12:00:00').toLocaleDateString('es-ES')} 
+                        | ${transaction.category}${transaction.subcategory ? ' > ' + transaction.subcategory : ''}
+                        ${transaction.recurring !== 'none' ? ' | 🔄 ' + transaction.recurring : ''}
+                    </div>
+                </div>
+                <button class="delete-transaction-btn" data-id="${transaction.id}">X</button>
+            </div>
+        `).join('');
+        
+        if (sortedTransactions.length === 0) {
+            transactionsList.innerHTML = '<p>No hay transacciones registradas</p>';
+        }
+    };
+    
+    // Renderizar lista de categorías
+    const renderCategoriesList = () => {
+        const categoriesList = document.getElementById('categories-list');
+        
+        categoriesList.innerHTML = diaryData.expenses.categories.map(category => `
+            <li class="transaction-item">
+                <span>${category.name} (${category.type === 'income' ? 'Ingreso' : 'Gasto'})</span>
+                ${category.id > 10 ? `<button class="delete-transaction-btn" data-category-id="${category.id}">X</button>` : ''}
+            </li>
+        `).join('');
+    };
+    
+    // Renderizar lista de presupuestos
+    const renderBudgetsList = () => {
+        const budgetsList = document.getElementById('budgets-list');
+        
+        budgetsList.innerHTML = diaryData.expenses.budgets.map(budget => {
+            // Calcular gasto actual para esta categoría en el período
+            const now = new Date();
+            let startDate;
+            
+            switch (budget.period) {
+                case 'daily':
+                    startDate = new Date(now);
+                    startDate.setHours(0, 0, 0, 0);
+                    break;
+                case 'weekly':
+                    startDate = new Date(now);
+                    startDate.setDate(now.getDate() - now.getDay());
+                    startDate.setHours(0, 0, 0, 0);
+                    break;
+                case 'monthly':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    break;
+            }
+            
+            const expensesInPeriod = diaryData.expenses.transactions
+                .filter(t => t.type === 'expense' && t.category === budget.category)
+                .filter(t => new Date(t.date) >= startDate)
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const percentage = Math.min(100, (expensesInPeriod / budget.amount) * 100);
+            let progressClass = 'budget-progress-bar';
+            if (percentage > 80) progressClass += ' danger';
+            else if (percentage > 60) progressClass += ' warning';
+            
+            return `
+                <li class="budget-item">
+                    <div>
+                        <div>${budget.category} - $${budget.amount.toFixed(2)} (${budget.period})</div>
+                        <div class="budget-progress">
+                            <div class="${progressClass}" style="width: ${percentage}%"></div>
+                        </div>
+                        <div>Gastado: $${expensesInPeriod.toFixed(2)} (${percentage.toFixed(1)}%)</div>
+                    </div>
+                    <button class="delete-transaction-btn" data-budget-id="${budget.id}">X</button>
+                </li>
+            `;
+        }).join('');
+        
+        if (diaryData.expenses.budgets.length === 0) {
+            budgetsList.innerHTML = '<p>No hay presupuestos establecidos</p>';
+        }
+    };
+    
+    // Actualizar gráficos de gastos
+    const updateExpenseCharts = () => {
+        // Destruir gráficos existentes
+        if (expensesChartInstance) expensesChartInstance.destroy();
+        if (expensesTrendChartInstance) expensesTrendChartInstance.destroy();
+        
+        const style = getComputedStyle(document.body);
+        const cTxt = style.getPropertyValue('--text-primary');
+        const cBorder = style.getPropertyValue('--border-color');
+        
+        // Gráfico de gastos por categoría
+        const expensesByCategory = {};
+
+        diaryData.expenses.transactions
+            .filter(t => t.type === 'expense')
+            .forEach(t => {
+                expensesByCategory[t.category] = (expensesByCategory[t.category] || 0) + t.amount;
+            });
+        
+        expensesChartInstance = new Chart(document.getElementById('expenses-chart'), {
+            type: 'pie',
+            data: {
+                labels: Object.keys(expensesByCategory),
+                datasets: [{
+                    data: Object.values(expensesByCategory),
+                    backgroundColor: ['#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#e74c3c', '#9b59b6', '#1abc9c', '#34495e']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: cTxt }
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de tendencias de gastos
+        const dailyTotals = {};
+        diaryData.expenses.transactions.forEach(t => {
+            if (!dailyTotals[t.date]) {
+                dailyTotals[t.date] = { income: 0, expense: 0 };
+            }
+            dailyTotals[t.date][t.type] += t.amount;
+        });
+        
+        const sortedDates = Object.keys(dailyTotals).sort();
+        const trendData = sortedDates.map(date => ({
+            x: date,
+            income: dailyTotals[date].income,
+            expense: dailyTotals[date].expense
+        }));
+        
+        expensesTrendChartInstance = new Chart(document.getElementById('expenses-trend-chart'), {
+            type: 'bar',
+            data: {
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: trendData.map(d => ({ x: d.x, y: d.income })),
+                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Gastos',
+                        data: trendData.map(d => ({ x: d.x, y: d.expense })),
+                        backgroundColor: 'rgba(220, 53, 69, 0.7)',
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: { unit: 'day' },
+                        ticks: { color: cTxt },
+                        grid: { color: cBorder }
+                    },
+                    y: {
+                        ticks: { color: cTxt },
+                        grid: { color: cBorder }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: cTxt }
+                    }
+                }
+            }
+        });
+    };
+    
+    // Perspectivas Inteligentes (Análisis de Correlaciones)
+    const generateInsights = (entries) => {
+        const insightsList = document.getElementById('insights-list');
+        insightsList.innerHTML = '<li>Analizando datos...</li>';
+        let insights = [];
+
+        if (entries.length < 5) {
+            insightsList.innerHTML = '<li>Se necesitan más entradas para generar perspectivas fiables.</li>';
+            return;
+        }
+
+        // 1. Correlación: Ejercicio y Bienestar
+        const exercisedEntries = entries.filter(([d, e]) => e.exercised);
+        const notExercisedEntries = entries.filter(([d, e]) => !e.exercised || e.exercised === false);
+
+        if (exercisedEntries.length > 2 && notExercisedEntries.length > 2) {
+            const getAvgScore = (arr) => {
+                const totalScore = arr.reduce((sum, [date, entry]) => {
+                    const emoDef = EMOTIONS.find(e => e.n === entry.emotion?.name);
+                    return sum + (emoDef ? emoDef.v * (entry.emotion.intensity || 5) : 0);
+                }, 0);
+                return arr.length > 0 ? (totalScore / arr.length).toFixed(1) : 0;
+            };
+
+            const avgWithExercise = getAvgScore(exercisedEntries);
+            const avgWithoutExercise = getAvgScore(notExercisedEntries);
+
+            if (avgWithExercise > avgWithoutExercise) {
+                insights.push(`💪 Tu índice de bienestar promedio es <strong>${avgWithExercise}</strong> en días que haces ejercicio, comparado con <strong>${avgWithoutExercise}</strong> en días que no.`);
+            }
+        }
+
+        // 2. Correlación: Sueño y Emociones Negativas
+        const goodSleepEntries = entries.filter(([date, entry]) => entry.sleepQuality && entry.sleepQuality > 3);
+        const badSleepEntries = entries.filter(([date, entry]) => entry.sleepQuality && entry.sleepQuality <= 3);
+
+        if (goodSleepEntries.length > 2 && badSleepEntries.length > 2) {
+            const getNegativeEmotionRate = (arr) => {
+                const negativeCount = arr.filter(([date, entry]) => {
+                 const emoDef = EMOTIONS.find(e => e.n === entry.emotion?.name);
+                 return emoDef && emoDef.v < 0;
+            }).length;
+            return arr.length > 0 ? ((negativeCount / arr.length) * 100).toFixed(0) : 0;
+        };
+
+        const rateWithGoodSleep = getNegativeEmotionRate(goodSleepEntries);
+        const rateWithBadSleep = getNegativeEmotionRate(badSleepEntries);
+
+        if (rateWithBadSleep > rateWithGoodSleep) {
+            insights.push(`🌙 Registras emociones negativas un <strong>${rateWithBadSleep}%</strong> de las veces tras una mala noche de sueño, comparado con solo un <strong>${rateWithGoodSleep}%</strong> tras dormir bien.`);
+        }
+    }
+
+    // Mostrar resultados
+    if (insights.length > 0) {
+        insightsList.innerHTML = insights.map(insight => `<li>${insight}</li>`).join('');
+    } else {
+        insightsList.innerHTML = '<li>No se encontraron patrones claros con los datos actuales. ¡Sigue registrando!</li>';
+    }
+};
+    
+    // Listeners para el widget de Bienestar Físico
+    const wellbeingInputs = {
+        'sleep-quality': 'sleepQuality',
+        'exercised-toggle': 'exercised',
+        'water-intake': 'waterIntake'
+    };
+
+    Object.keys(wellbeingInputs).forEach(inputId => {
+        const inputElement = document.getElementById(inputId);
+        inputElement.addEventListener('input', e => {
+            const key = wellbeingInputs[inputId];
+            const value = e.target.type === 'checkbox' ? e.target.checked : Number(e.target.value);
+            saveCurrentEntryData(key, value);
+
+            // Actualizar emoji de sueño en tiempo real
+            if (inputId === 'sleep-quality') {
+                const sleepEmojis = ['😭', '😟', '😐', '😊', '😍'];
+                document.getElementById('sleep-quality-value').textContent = sleepEmojis[value - 1] || '😐';
+            }
+        });
+    });
+
+    // --- EVENT LISTENERS ---
+    
+    // Event listeners existentes
+    document.getElementById('btn-new-diary').addEventListener('click',()=>showScreen('namePrompt'));
+    document.getElementById('btn-confirm-name').addEventListener('click',()=>{
+        const name=document.getElementById('owner-name-input').value;
+        if(!name||!name.trim()){
+            alert("Por favor, introduce un nombre.");
+            return;
+        }
+        diaryData={
+            ownerName:name.trim(),
+            settings:{theme:'pastel',showMotto:true,password:null},
+            habits:[],
+            entries:{},
+            expenses: {
+                transactions: [],
+                categories: DEFAULT_CATEGORIES,
+                budgets: []
+            }
+        };
+        startDiary();
+    });
+    document.getElementById('btn-open-diary').addEventListener('click',()=>document.getElementById('import-file-input').click());
+    document.getElementById('import-file-input').addEventListener('change', e=>{
+        const f=e.target.files[0];
+        if(!f)return;
+        const r=new FileReader();
+        r.onload=re=>{
+            const p=new DOMParser(),x=p.parseFromString(re.target.result,"application/xml"),pN=x.querySelector('settings>password');
+            if(pN?.textContent){
+                modals.password.dataset.retarget.result;
+                               showModal('password');
+            }else{
+                loadDiaryFromXML(x);
+            }
+        };
+        r.readAsText(f);
+        e.target.value=null;
+    });
+    document.getElementById('btn-stats').addEventListener('click', generateStatistics);
+    document.getElementById('btn-settings').addEventListener('click',()=>{
+        document.getElementById('theme-selector').value=diaryData.settings.theme;
+        document.getElementById('show-motto-toggle').checked=diaryData.settings.showMotto;
+        document.getElementById('password-input').value=diaryData.settings.password||'';
+        showModal('settings');
+    });
+    document.getElementById('btn-save').addEventListener('click',()=>{
+        const xml=`<?xml version="1.0" encoding="UTF-8"?>
+<diary owner="${diaryData.ownerName}">
+    <settings>
+        <theme>${diaryData.settings.theme}</theme>
+        <showMotto>${diaryData.settings.showMotto}</showMotto>
+        ${diaryData.settings.password?`<password>${diaryData.settings.password}</password>`:''}
+    </settings>
+    <habits>
+        ${diaryData.habits.map(h=>`<habit id="${h.id}" frequency="${h.frequency}"><![CDATA[${h.text}]]></habit>`).join('')}
+    </habits>
+    <entries>
+        ${Object.entries(diaryData.entries).map(([d,e])=>`
+        <entry date="${d}">
+            ${e.emotion?`<emotion name="${e.emotion.name}" intensity="${e.emotion.intensity}"/>`:''}
+            ${e.text?`<content><![CDATA[${e.text}]]></content>`:''}
+            ${(e.completedHabits&&e.completedHabits.length>0)?`<completedHabits>${e.completedHabits.map(id=>`<habitId>${id}</habitId>`).join('')}</completedHabits>`:''}
+            ${(e.completedPayments&&e.completedPayments.length>0)?`<completedPayments>${e.completedPayments.map(id=>`<paymentId>${id}</paymentId>`).join('')}</completedPayments>`:''}
+        </entry>`).join('')}
+    </entries>
+    <expenses>
+        ${diaryData.expenses.transactions.map(t=>`
+        <transaction id="${t.id}" type="${t.type}" amount="${t.amount}" category="${t.category}" subcategory="${t.subcategory}" description="${t.description}" date="${t.date}" recurring="${t.recurring}"/>`).join('')}
+        ${diaryData.expenses.categories.filter(c => c.id > 10).map(c=>`
+        <category id="${c.id}" name="${c.name}" type="${c.type}"/>`).join('')}
+        ${diaryData.expenses.budgets.map(b=>`
+        <budget id="${b.id}" category="${b.category}" amount="${b.amount}" period="${b.period}"/>`).join('')}
+    </expenses>
+</diary>`;
+        const a=document.createElement('a');
+        a.href=URL.createObjectURL(new Blob([xml],{type:'application/xml'}));
+        a.download=`diario_${diaryData.ownerName.replace(/ /g,'_')}.xml`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+    document.querySelector('.editor-toolbar').addEventListener('click', e=>{
+        const b=e.target.closest('button');
+        if(b&&b.dataset.command){
+            document.execCommand(b.dataset.command,false,null);
+            editor.focus();
+        }
+    });
+    editor.addEventListener('input',()=>saveCurrentEntryData('text',editor.innerHTML));
+    document.getElementById('emotion-selector').addEventListener('click', e=>{
+        if(e.target.classList.contains('emotion-emoji')){
+            document.querySelector('.emotion-emoji.selected')?.classList.remove('selected');
+            e.target.classList.add('selected');
+            saveCurrentEntryData('emotion',{name:e.target.dataset.name,intensity:parseInt(document.getElementById('emotion-intensity').value)});
+        }
+    });
+    document.getElementById('emotion-intensity').addEventListener('input', e=>{
+        document.getElementById('intensity-value').textContent=e.target.value;
+        const sE=document.querySelector('.emotion-emoji.selected');
+        if(sE)saveCurrentEntryData('emotion',{name:sE.dataset.name,intensity:parseInt(e.target.value)});
+    });
+    document.getElementById('habits-list').addEventListener('input', e=>{
+        if(e.target.type==='checkbox'){
+            const id=parseInt(e.target.dataset.id);
+            if(!diaryData.entries[currentDate])diaryData.entries[currentDate]={};
+            if(!diaryData.entries[currentDate].completedHabits)diaryData.entries[currentDate].completedHabits=[];
+            const list=diaryData.entries[currentDate].completedHabits,index=list.indexOf(id);
+            if(e.target.checked&&index===-1)list.push(id);
+            else if(!e.target.checked&&index>-1)list.splice(index,1);
+            saveCurrentEntryData('completedHabits',list);
+        }
+    });
+    document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{
+        if(e.target.classList.contains('close-btn')||e.target.classList.contains('close-btn-footer')||e.target===m)hideModal(m);
+    }));
+    document.getElementById('manage-habits-btn').addEventListener('click',()=>{
+        renderHabitManagementList();
+        showModal('habits');
+    });
+    document.getElementById('habits-modal').addEventListener('click', e=>{
+        if(e.target.id==='btn-add-habit'){
+            const txt=document.getElementById('new-habit-text');
+            if(!txt.value.trim())return;
+            diaryData.habits.push({id:Date.now(),text:txt.value.trim(),frequency:document.getElementById('new-habit-frequency').value});
+            txt.value='';
+            renderHabitManagementList();
+            renderHabitsForDate(currentDate);
+        }
+        if(e.target.classList.contains('delete-habit-btn')){
+            const id=parseInt(e.target.dataset.id);
+            diaryData.habits=diaryData.habits.filter(h=>h.id!==id);
+            renderHabitManagementList();
+            renderHabitsForDate(currentDate);
+        }
+    });
+    document.getElementById('theme-selector').addEventListener('change', e=>{
+        diaryData.settings.theme=e.target.value;
+        applySettings();
+    });
+    document.getElementById('show-motto-toggle').addEventListener('change',e=>{
+        diaryData.settings.showMotto=e.target.checked;
+        updateMotto();
+    });
+    document.getElementById('password-input').addEventListener('change',e=>{
+        diaryData.settings.password=e.target.value.trim()||null;
+    });
+    document.getElementById('btn-submit-password').addEventListener('click',()=>{
+        const x=new DOMParser().parseFromString(modals.password.dataset.xmlDoc,"application/xml");
+        if(document.getElementById('password-prompt-input').value===x.querySelector('settings>password').textContent){
+            document.getElementById('password-prompt-input').value='';
+            document.getElementById('password-error-msg').textContent='';
+            hideModal(modals.password);
+            loadDiaryFromXML(x);
+        }else{
+            document.getElementById('password-error-msg').textContent='Contraseña incorrecta.';
+        }
+    });
+    document.getElementById('wellness-chart-filters').addEventListener('click', e => { 
+        if (e.target.tagName === 'BUTTON') { 
+            document.querySelector('#wellness-chart-filters .active')?.classList.remove('active'); 
+            e.target.classList.add('active'); 
+            updateStatsDisplay(e.target.dataset.period); 
+        } 
+    });
+    const eP=document.getElementById('emoji-picker');
+    eP.innerHTML=EMOJI_LIST.map(e=>`<span>${e}</span>`).join('');
+    document.getElementById('btn-emoji').addEventListener('click', e=>{
+        e.stopPropagation();
+        eP.style.display=eP.style.display==='block'?'none':'block';
+    });
+    eP.addEventListener('click', e=>{
+        if(e.target.tagName==='SPAN'){
+            editor.focus();
+            document.execCommand('insertText',false,e.target.textContent);
+        }
+    });
+    document.addEventListener('click',()=>eP.style.display='none');
+    document.getElementById('emotion-selector').innerHTML=EMOTIONS.map(e=>`<span class="emotion-emoji" data-name="${e.n}" title="${e.n}">${e.e}</span>`).join('');
+    
+    // --- Event Listener para las Pestañas de Estadísticas ---
+    document.querySelector('.stats-tabs').addEventListener('click', e => {
+        if (e.target.tagName === 'BUTTON') {
+            // Ocultar todo
+            document.querySelectorAll('.stats-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.stats-tab-content').forEach(content => content.classList.remove('active'));
+
+            // Mostrar lo seleccionado
+            e.target.classList.add('active');
+            document.getElementById(e.target.dataset.tab + '-tab').classList.add('active');
+        }
+    });
+    
+    // Nuevos event listeners para gestión de gastos
+    document.getElementById('btn-expenses').addEventListener('click', initExpensesManagement);
+    document.getElementById('manage-expenses-btn').addEventListener('click', initExpensesManagement);
+    
+    // Tabs de gestión de gastos
+    document.querySelectorAll('.expenses-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remover clase activa de todas las pestañas
+            document.querySelectorAll('.expenses-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.expenses-tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Activar pestaña clickeada
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+        });
+    });
+    
+    // Formulario de transacción
+    document.getElementById('transaction-form').addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const transaction = {
+            id: Date.now(),
+            type: document.getElementById('transaction-type').value,
+            amount: parseFloat(document.getElementById('transaction-amount').value),
+            category: document.getElementById('transaction-category').value,
+            subcategory: document.getElementById('transaction-subcategory').value,
+            description: document.getElementById('transaction-description').value,
+            date: document.getElementById('transaction-date').value || currentDate,
+            recurring: document.getElementById('transaction-recurring').value
+        };
+        
+        diaryData.expenses.transactions.push(transaction);
+        renderTransactionsList();
+        updateExpenseCharts();
+        
+        // Limpiar formulario
+        e.target.reset();
+        document.getElementById('transaction-date').value = currentDate;
+    });
+    
+    // Formulario de categoría
+    document.getElementById('category-form').addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const category = {
+            id: Date.now(),
+            name: document.getElementById('category-name').value,
+            type: document.getElementById('category-type').value
+        };
+        
+        diaryData.expenses.categories.push(category);
+        updateCategorySelectors();
+        renderCategoriesList();
+        
+        // Limpiar formulario
+        e.target.reset();
+    });
+    
+    // Formulario de presupuesto
+    document.getElementById('budget-form').addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const budget = {
+            id: Date.now(),
+            category: document.getElementById('budget-category').value,
+            amount: parseFloat(document.getElementById('budget-amount').value),
+            period: document.getElementById('budget-period').value
+        };
+        
+        diaryData.expenses.budgets.push(budget);
+        renderBudgetsList();
+        
+        // Limpiar formulario
+        e.target.reset();
+    });
+    
+    // Eliminar transacción
+    document.getElementById('transactions-list').addEventListener('click', e => {
+        if (e.target.classList.contains('delete-transaction-btn')) {
+            const id = parseInt(e.target.dataset.id);
+            diaryData.expenses.transactions = diaryData.expenses.transactions.filter(t => t.id !== id);
+            renderTransactionsList();
+            updateExpenseCharts();
+        }
+    });
+    
+    // Eliminar categoría
+    document.getElementById('categories-list').addEventListener('click', e => {
+        if (e.target.classList.contains('delete-transaction-btn')) {
+            const id = parseInt(e.target.dataset.categoryId);
+            diaryData.expenses.categories = diaryData.expenses.categories.filter(c => c.id !== id);
+            updateCategorySelectors();
+            renderCategoriesList();
+        }
+    });
+    
+    // Eliminar presupuesto
+    document.getElementById('budgets-list').addEventListener('click', e => {
+        if (e.target.classList.contains('delete-transaction-btn')) {
+            const id = parseInt(e.target.dataset.budgetId);
+            diaryData.expenses.budgets = diaryData.expenses.budgets.filter(b => b.id !== id);
+            renderBudgetsList();
+        }
+    });
+    
+    // Marcar pago como completado
+    document.getElementById('payments-list').addEventListener('input', e => {
+        if (e.target.type === 'checkbox') {
+            const id = parseInt(e.target.dataset.id);
+            if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
+            if (!diaryData.entries[currentDate].completedPayments) diaryData.entries[currentDate].completedPayments = [];
+            
+            const list = diaryData.entries[currentDate].completedPayments;
+            const index = list.indexOf(id);
+            
+            if (e.target.checked && index === -1) {
+                list.push(id);
+                
+                // Si el pago no existe como transacción para hoy, crearla
+                const transaction = diaryData.expenses.transactions.find(t => t.id === id);
+                if (transaction) {
+                    const todayTransaction = {
+                        ...transaction,
+                        id: Date.now(), // Nuevo ID para evitar duplicados
+                        date: currentDate
+                    };
+                    diaryData.expenses.transactions.push(todayTransaction);
+                    renderTransactionsList();
+                    updateExpenseCharts();
+                }
+            } else if (!e.target.checked && index > -1) {
+                list.splice(index, 1);
+            }
+            
+            saveCurrentEntryData('completedPayments', list);
+        }
+    });
+    
+    // Establecer fecha actual por defecto en formulario de transacción
+    document.getElementById('transaction-date').value = currentDate;
+});
+</script>
+<script type="module">
+  // PASO 1: Importar las funciones necesarias de los SDK de Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // PASO 2: Tu configuración de Firebase (la que te dio la página)
+  // ¡Asegúrate de que estos valores coincidan con los de tu proyecto!
+  const firebaseConfig = {
+    apiKey: "AIzaSyDa2tyCgI3Ett...", // Reemplaza con tus datos
+    authDomain: "diario-moji.firebaseapp.com",
+    databaseURL: "https://diario-moji-default-rtdb.firebaseio.com",
+    projectId: "diario-moji",
+    storageBucket: "diario-moji.appspot.com",
+    messagingSenderId: "108392255231",
+    appId: "1:108392255231:web:ccd5f5be1accad9725088e",
+    measurementId: "G-MYZNKFCY5J"
+  };
+
+  // PASO 3: Inicializar Firebase y los servicios
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // =================================================================
+  // A PARTIR DE AQUÍ VA TODA LA LÓGICA DE TU DIARIO
+  // Es el mismo código de antes, adaptado a la nueva sintaxis
+  // =================================================================
+
+  let diaryData = {}, currentDate = new Date().toISOString().split('T')[0];
+  let calendarInstance, wellnessChartInstance, emotionsChartInstance, expensesChartInstance, expensesTrendChartInstance, physicalWellbeingChartInstance, exerciseCorrelationChartInstance;
+  let masterEntryList = [];
+  let currentUser = null;
+
+  // --- Constantes y Selectores de Elementos ---
+  const EMOTIONS=[{e:'😄',n:'Alegría',v:2},{e:'😊',n:'Calma',v:1},{e:'😐',n:'Neutral',v:0},{e:'😟',n:'Ansiedad',v:-1},{e:'😭',n:'Tristeza',v:-2},{e:'😠',n:'Enojo',v:-2},{e:'😱',n:'Miedo',v:-1},{e:'😍',n:'Amor',v:2},{e:'🤔',n:'Reflexión',v:0},{e:'😴',n:'Cansancio',v:-1}];
+  // ... (Aquí irían el resto de tus constantes como PHRASES, EMOJI_LIST, etc.)
+  const screens = { welcome: document.getElementById('welcome-screen'), namePrompt: document.getElementById('name-prompt-screen'), main: document.getElementById('main-diary-screen') };
+  // ... (El resto de tus selectores de elementos)
+  const editor = document.getElementById('editor');
+
+
+  // --- LÓGICA DE AUTENTICACIÓN Y CARGA DE DATOS ---
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      console.log("Usuario autenticado con ID:", user.uid);
+      currentUser = user;
+      loadDiaryFromFirestore();
+    } else {
+      signInAnonymously(auth).catch(error => {
+        console.error("Error al iniciar sesión anónimamente:", error);
+      });
+    }
+  });
+
+  async function loadDiaryFromFirestore() {
+    const docRef = doc(db, 'users', currentUser.uid); // Nueva sintaxis
+    const docSnap = await getDoc(docRef); // Nueva sintaxis
+
+    if (docSnap.exists()) {
+      console.log("Cargando datos desde Firestore...");
+      diaryData = docSnap.data();
+      // ... (resto de la lógica de `loadDiaryFromFirestore` sin cambios) ...
+    } else {
+      console.log("Nuevo usuario, creando datos iniciales.");
+      const ownerName = prompt("¡Bienvenido! ¿Cómo te llamas?", "Usuario");
+      diaryData = {
+          ownerName: ownerName || "Usuario",
+          settings: { theme: 'pastel', showMotto: true, password: null },
+          // ... resto de la estructura inicial ...
+      };
+      await setDoc(docRef, diaryData); // Nueva sintaxis
+    }
+    
+    screens.welcome.classList.remove('active');
+    startDiary(); 
+  }
+
+  // --- LÓGICA DE GUARDADO DE DATOS (ACTUALIZADA) ---
+  const saveCurrentEntryData = async (key, value) => {
+    if (!currentUser) return;
+
+    if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
+    diaryData.entries[currentDate][key] = value;
+    
+    const fieldPath = `entries.${currentDate}.${key}`;
+    const docRef = doc(db, 'users', currentUser.uid); // Nueva sintaxis
+    
+    try {
+        await updateDoc(docRef, { [fieldPath]: value }); // Nueva sintaxis
+        console.log(`Dato guardado: ${fieldPath}`);
+    } catch (error) {
+        console.error("Error guardando datos:", error);
+        await setDoc(docRef, diaryData, { merge: true }); // Nueva sintaxis para crear/fusionar
+    }
+    
+    calendarInstance?.redraw();
+  };
+
+  // --- PEGA AQUÍ EL RESTO DE TUS FUNCIONES Y EVENT LISTENERS ---
+  // Por ejemplo:
+  // const startDiary = () => { ... };
+  // const destroyInstances = () => { ... };
+  // const initCalendar = () => { ... };
+  // ... y todos los document.getElementById(...).addEventListener(...)
+  //
+  // ¡IMPORTANTE! Asegúrate de que todo el código JS de tu diario
+  // esté dentro de este bloque <script type="module">.
+
+</script>
+</body> ```
+
+---
+### ## Resumen de los Cambios Clave
+
+Para que entiendas qué ha cambiado:
+
+1.  **Tipo de Script:** Ahora usamos `<script type="module">`. Esto nos permite usar `import` para cargar solo las partes de Firebase que necesitamos, haciendo la app más eficiente.
+2.  **Inicialización:** Las funciones ahora se importan y se llaman directamente.
+    * **Antes:** `firebase.initializeApp(config)`
+    * **Ahora:** `initializeApp(config)`
+3.  **Acceso a Servicios:** Ya no usamos `firebase.firestore()`, sino que obtenemos el servicio a partir de la app inicializada.
+    * **Antes:** `const db = firebase.firestore()`
+    * **Ahora:** `const db = getFirestore(app)`
+4.  **Llamadas a Funciones:** Las funciones para interactuar con la base de datos ahora reciben la instancia `db` como primer argumento.
+    * **Antes:** `db.collection('users').doc(userId)`
+    * **Ahora:** `doc(db, 'users', userId)`
+    * **Antes:** `docRef.get()`
+    * **Ahora:** `getDoc(docRef)`
+
+Estás en el camino correcto. ¡Este es el método moderno y recomendado por Google para usar Firebase! Solo tienes que asegurarte de que **toda la lógica de JavaScript de tu diario esté dentro de este único bloque `<script type="module">`**.
+</html>
