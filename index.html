@@ -208,7 +208,7 @@
       color: white;
     }
 
-    /* Navegación inferior FIJA - CORREGIDO */
+    /* Navegación inferior FIJA */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -242,6 +242,7 @@
       transition: all var(--transition-speed);
       border-radius: 12px;
       min-width: 60px;
+      flex: 1;
     }
 
     .nav-item.active {
@@ -255,7 +256,7 @@
 
     /* Contenido principal con padding para navegación */
     .main-content {
-      padding: 20px var(--container-px) 100px;
+      padding: 20px var(--container-px) 120px; /* Aumentado padding inferior */
       max-width: 100%;
       overflow-x: hidden;
     }
@@ -481,6 +482,39 @@
       cursor: pointer;
     }
 
+    /* Estilos para el nuevo slider de hábitos */
+    .habit-item {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .habit-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .habit-title {
+        font-weight: 600;
+    }
+    .habit-category {
+        font-size: 0.8em;
+        color: var(--text-secondary);
+        background-color: var(--bg-primary);
+        padding: 2px 8px;
+        border-radius: 8px;
+    }
+    .habit-slider {
+        width: 100%;
+    }
+    .habit-subcategory-label {
+        text-align: center;
+        margin-top: 8px;
+        font-size: 0.9em;
+        color: var(--accent-primary);
+        font-weight: 500;
+        min-height: 1.2em;
+    }
+
     /* Botones móviles */
     .btn-primary {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
@@ -509,7 +543,7 @@
     .modal {
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(5px);
-      z-index: 1000;
+      z-index: 2000;
     }
 
     .modal-content {
@@ -588,7 +622,7 @@
       }
       
       .main-content {
-        padding: 16px 16px 100px;
+        padding: 16px 16px 120px;
       }
       
       .mobile-header {
@@ -752,7 +786,7 @@
       font-weight: 600;
     }
 
-    .form-group input, .form-group select {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 12px;
       border: 2px solid var(--border-color);
@@ -828,6 +862,7 @@
   </style>
 </head>
 <body class="theme-pastel">
+  <!-- PANTALLA DE BIENVENIDA -->
   <div id="welcome-screen" class="screen active">
     <div class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
       <div class="widget" style="text-align: center; max-width: 400px;">
@@ -848,6 +883,7 @@
     </div>
   </div>
 
+  <!-- PANTALLA DE NOMBRE -->
   <div id="name-prompt-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-back-name">←</button>
@@ -866,6 +902,7 @@
     </div>
   </div>
 
+  <!-- PANTALLA PRINCIPAL DEL DIARIO -->
   <div id="main-diary-screen" class="screen">
     <div class="mobile-header">
       <h1 id="diary-owner-name">Mi Diario</h1>
@@ -909,10 +946,7 @@
       <div class="accordion">
         <div class="accordion-header">Hábitos de Hoy</div>
         <div class="accordion-content">
-          <ul class="touch-list" id="habits-list"></ul>
-          <button class="btn-primary" id="manage-habits-btn" style="margin-top: 16px;">
-            <span>📋</span> Gestionar Hábitos
-          </button>
+          <div id="habits-list"></div>
         </div>
       </div>
 
@@ -938,6 +972,42 @@
     </div>
   </div>
 
+  <!-- PANTALLA DE HÁBITOS (NUEVO) -->
+  <div id="habitos-screen" class="screen">
+    <div class="mobile-header">
+      <button class="icon-button" id="btn-habitos-back">←</button>
+      <h1>Hábitos</h1>
+      <div style="width: 44px;"></div>
+    </div>
+    <div class="main-content">
+        <div class="widget">
+            <h2>Mis Hábitos</h2>
+            <div id="habits-management-list">
+                <p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>
+            </div>
+        </div>
+        <div class="widget">
+            <h2>Agregar Nuevo Hábito</h2>
+            <div class="form-group">
+                <label for="new-habit-name">Nombre del Hábito:</label>
+                <input type="text" id="new-habit-name" placeholder="Ej: Rutina de mañana">
+            </div>
+            <div class="form-group">
+                <label for="new-habit-category">Categoría:</label>
+                <input type="text" id="new-habit-category" placeholder="Ej: Bienestar, Productividad">
+            </div>
+            <div class="form-group">
+                <label for="new-habit-subcategories">Subcategorías (separadas por coma):</label>
+                <textarea id="new-habit-subcategories" rows="3" placeholder="Ej: Tender la cama, Meditar, Beber agua"></textarea>
+            </div>
+            <button class="btn-primary" id="btn-add-habit">
+                <span>➕</span> Agregar Hábito
+            </button>
+        </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA DE CALENDARIO -->
   <div id="calendar-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-calendar-back">←</button>
@@ -959,6 +1029,7 @@
     </div>
   </div>
 
+  <!-- PANTALLA DE GASTOS -->
   <div id="expenses-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-expenses-back">←</button>
@@ -1081,7 +1152,8 @@
       </div>
     </div>
   </div>
-
+  
+  <!-- PANTALLA DE ESTADÍSTICAS -->
   <div id="stats-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-stats-back">←</button>
@@ -1203,6 +1275,7 @@
     </div>
   </div>
 
+  <!-- MODAL DE AJUSTES -->
   <div id="settings-modal" class="modal screen">
     <div class="modal-content">
       <button class="close-btn">&times;</button>
@@ -1242,28 +1315,30 @@
     </div>
   </div>
 
-  <div id="habits-modal" class="modal screen">
+  <!-- MODAL PARA EDITAR HÁBITO (NUEVO) -->
+  <div id="edit-habit-modal" class="modal screen">
     <div class="modal-content">
-      <button class="close-btn">&times;</button>
-      <h2 style="margin-bottom: 24px;">Gestionar Hábitos</h2>
-      
-      <div class="widget" style="margin-bottom: 16px;">
-        <h3>Mis Hábitos</h3>
-        <div id="habits-management-list">
-          <p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>
+        <button class="close-btn">&times;</button>
+        <h2 style="margin-bottom: 24px;">Editar Hábito</h2>
+        <div class="widget">
+            <div class="form-group">
+                <label for="edit-habit-name">Nombre del Hábito:</label>
+                <input type="text" id="edit-habit-name">
+            </div>
+            <div class="form-group">
+                <label for="edit-habit-category">Categoría:</label>
+                <input type="text" id="edit-habit-category">
+            </div>
+            <div class="form-group">
+                <label for="edit-habit-subcategories">Subcategorías (separadas por coma):</label>
+                <textarea id="edit-habit-subcategories" rows="3"></textarea>
+            </div>
+            <button class="btn-primary" id="btn-save-habit">Guardar Cambios</button>
         </div>
-      </div>
-      
-      <div class="widget">
-        <h3>Agregar Nuevo Hábito</h3>
-        <div style="display: flex; gap: 10px;">
-          <input type="text" id="new-habit-input" placeholder="Descripción del hábito" style="flex-grow: 1; padding: 12px; border: 2px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); color: var(--text-primary);">
-          <button class="btn-primary" id="btn-add-habit" style="min-width: auto; padding: 12px;">+</button>
-        </div>
-      </div>
     </div>
   </div>
 
+  <!-- MODAL PARA EDITAR CUENTA -->
   <div id="edit-account-modal" class="modal screen">
     <div class="modal-content">
       <button class="close-btn">&times;</button>
@@ -1287,10 +1362,15 @@
 
   <div id="toast" class="toast"></div>
 
+  <!-- MENÚ DE NAVEGACIÓN INFERIOR (ACTUALIZADO) -->
   <nav class="bottom-nav">
     <button class="nav-item active" data-screen="diario">
       <span class="nav-icon">📔</span>
       <span>Diario</span>
+    </button>
+    <button class="nav-item" data-screen="habitos">
+      <span class="nav-icon">📋</span>
+      <span>Hábitos</span>
     </button>
     <button class="nav-item" data-screen="gastos">
       <span class="nav-icon">💰</span>
@@ -1307,7 +1387,6 @@
     // Variables globales
     let diaryData = {};
     let currentDate = new Date().toISOString().split('T')[0];
-    let currentScreen = 'diario';
     let calendarInstance = null;
     let emotionChartInstance = null;
     let expensesChartInstance = null;
@@ -1316,8 +1395,8 @@
     let balanceChartInstance = null;
     let currentStatsPeriod = 'week';
     let editingAccountId = null;
+    let editingHabitId = null;
 
-    
     // Datos de configuración
     const EMOTIONS = [
       {e:'😄', n:'Alegría', v:2}, {e:'😊', n:'Calma', v:1}, {e:'😐', n:'Neutral', v:0},
@@ -1336,7 +1415,6 @@
       setupAccordions();
 
       if (loadDataFromLocalStorage()) {
-        // Si hay datos, vamos directo al diario
         document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
         document.body.className = `theme-${diaryData.settings.theme || 'pastel'}`;
         document.querySelector('.bottom-nav').classList.add('visible');
@@ -1344,28 +1422,23 @@
         switchBottomNav('diario');
         loadEntryForDate(currentDate);
 
-        // Actualiza todas las vistas con los datos cargados
         updateHabitsList();
         updateHabitsManagementList();
         updateExpenses();
-
         showToast(`¡Bienvenido/a de nuevo, ${diaryData.ownerName}!`);
       } else {
-        // Si no hay datos, mostramos la pantalla de bienvenida
         showScreen('welcome-screen');
       }
     }
 
     // Configurar event listeners
     function setupEventListeners() {
-      // Navegación entre pantallas
       document.getElementById('btn-new-diary').addEventListener('click', () => showScreen('name-prompt-screen'));
       document.getElementById('btn-open-diary').addEventListener('click', () => document.getElementById('import-file-input').click());
       document.getElementById('btn-confirm-name').addEventListener('click', createNewDiary);
       document.getElementById('btn-back-name').addEventListener('click', () => showScreen('welcome-screen'));
       document.getElementById('btn-reset-diary').addEventListener('click', resetDiary);
       
-      // Navegación inferior
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', (e) => {
           const screen = e.currentTarget.dataset.screen;
@@ -1373,19 +1446,17 @@
         });
       });
       
-      // Botones de retroceso
       document.getElementById('btn-calendar-back').addEventListener('click', () => switchBottomNav('diario'));
+      document.getElementById('btn-habitos-back').addEventListener('click', () => switchBottomNav('diario'));
       document.getElementById('btn-stats-back').addEventListener('click', () => switchBottomNav('diario'));
       document.getElementById('btn-expenses-back').addEventListener('click', () => switchBottomNav('diario'));
       document.getElementById('btn-calendar-header').addEventListener('click', () => switchBottomNav('calendario'));
       
-      // Gestión de emociones
       document.getElementById('emotion-intensity').addEventListener('input', (e) => {
         document.getElementById('intensity-value').textContent = e.target.value;
         saveEmotionData();
       });
       
-      // Bienestar físico
       document.getElementById('physical-activity').addEventListener('input', (e) => {
         document.getElementById('physical-activity-value').textContent = e.target.value;
         saveWellbeingData();
@@ -1396,84 +1467,62 @@
         saveWellbeingData();
       });
       
-      // Editor
       document.getElementById('editor').addEventListener('input', debounce(saveEntryText, 500));
       
-      // Botones de acción
       document.getElementById('btn-save').addEventListener('click', exportDiary);
       document.getElementById('btn-settings').addEventListener('click', () => showModal('settings-modal'));
-      document.getElementById('manage-habits-btn').addEventListener('click', () => showModal('habits-modal'));
       
-      // Configuración
       document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
       
-      // Gestión de hábitos
       document.getElementById('btn-add-habit').addEventListener('click', addNewHabit);
+      document.getElementById('btn-save-habit').addEventListener('click', saveHabitChanges);
       
-      // Gastos
       document.getElementById('btn-add-transaction').addEventListener('click', addNewTransaction);
       document.getElementById('btn-add-account').addEventListener('click', addNewAccount);
       document.getElementById('btn-transfer').addEventListener('click', transferBetweenAccounts);
       document.getElementById('transaction-recurring').addEventListener('change', toggleRecurringOptions);
       document.getElementById('btn-save-account').addEventListener('click', saveAccountChanges);
       
-      // Pestañas de estadísticas
       document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', (e) => {
-          const tabId = e.currentTarget.dataset.tab;
-          switchTab(tabId);
-        });
+        tab.addEventListener('click', (e) => switchTab(e.currentTarget.dataset.tab));
       });
       
-      // Filtros de tiempo
       document.querySelectorAll('.time-filter').forEach(filter => {
-        filter.addEventListener('click', (e) => {
-          const period = e.currentTarget.dataset.period;
-          switchTimeFilter(period);
-        });
+        filter.addEventListener('click', (e) => switchTimeFilter(e.currentTarget.dataset.period));
       });
       
-      // Cerrar modales
       document.querySelectorAll('.close-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.target.closest('.modal').classList.remove('active');
-        });
+        btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active'));
       });
       
-      // Importación de archivos
       document.getElementById('import-file-input').addEventListener('change', handleFileImport);
     }
 
-    // Configurar acordeones
     function setupAccordions() {
       document.querySelectorAll('.accordion-header').forEach(header => {
         header.addEventListener('click', () => {
           header.classList.toggle('active');
-          const content = header.nextElementSibling;
-          content.classList.toggle('active');
+          header.nextElementSibling.classList.toggle('active');
         });
       });
     }
 
-    // Renderizar selector de emociones
     function renderEmotionSelector() {
       const container = document.getElementById('emotion-selector');
       container.innerHTML = EMOTIONS.map(emotion => `
-        <div class="emotion-emoji" data-name="${emotion.n}" title="${emotion.n}">
-          ${emotion.e}
-        </div>
+        <div class="emotion-emoji" data-name="${emotion.n}" title="${emotion.n}">${emotion.e}</div>
       `).join('');
       
       container.addEventListener('click', (e) => {
-        if (e.target.classList.contains('emotion-emoji')) {
+        const target = e.target.closest('.emotion-emoji');
+        if (target) {
           document.querySelectorAll('.emotion-emoji').forEach(el => el.classList.remove('selected'));
-          e.target.classList.add('selected');
+          target.classList.add('selected');
           saveEmotionData();
         }
       });
     }
 
-    // Configurar editor
     function setupEditor() {
       const editor = document.getElementById('editor');
       const toolbar = document.querySelector('.editor-toolbar');
@@ -1491,10 +1540,7 @@
         }
       });
       
-      emojiPicker.innerHTML = EMOJI_LIST.map(emoji => `
-        <span style="font-size: 1.5rem; cursor: pointer; text-align: center;">${emoji}</span>
-      `).join('');
-      
+      emojiPicker.innerHTML = EMOJI_LIST.map(emoji => `<span style="font-size: 1.5rem; cursor: pointer; text-align: center;">${emoji}</span>`).join('');
       emojiPicker.addEventListener('click', (e) => {
         if (e.target.tagName === 'SPAN') {
           editor.focus();
@@ -1503,107 +1549,78 @@
       });
     }
 
-    // Navegación por pestañas inferiores
     function switchBottomNav(screen) {
-      currentScreen = screen;
-      
-      // Actualizar estado activo de los botones de navegación
       document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.toggle('active', item.dataset.screen === screen);
       });
       
-      const mainScreens = ['main-diary-screen', 'calendar-screen', 'expenses-screen', 'stats-screen'];
+      const mainScreens = ['main-diary-screen', 'habitos-screen', 'calendar-screen', 'expenses-screen', 'stats-screen'];
       mainScreens.forEach(screenId => {
         const screenEl = document.getElementById(screenId);
-        if (screenEl) {
-          screenEl.classList.remove('active');
-        }
+        if (screenEl) screenEl.classList.remove('active');
       });
 
-      // Mostrar la pantalla correspondiente
-      if (screen === 'diario') {
-        document.getElementById('main-diary-screen').classList.add('active');
-      } else if (screen === 'calendario') {
-        document.getElementById('calendar-screen').classList.add('active');
-        initCalendar();
-      } else if (screen === 'estadisticas') {
-        document.getElementById('stats-screen').classList.add('active');
-        updateStats();
+      let screenIdToShow = '';
+      if (screen === 'diario') screenIdToShow = 'main-diary-screen';
+      else if (screen === 'habitos') {
+        screenIdToShow = 'habitos-screen';
+        updateHabitsManagementList();
       } else if (screen === 'gastos') {
-        document.getElementById('expenses-screen').classList.add('active');
+        screenIdToShow = 'expenses-screen';
         updateExpenses();
+      } else if (screen === 'estadisticas') {
+        screenIdToShow = 'stats-screen';
+        updateStats();
+      } else if (screen === 'calendario') {
+        screenIdToShow = 'calendar-screen';
+        initCalendar();
       }
+      
+      const targetScreen = document.getElementById(screenIdToShow);
+      if(targetScreen) targetScreen.classList.add('active');
     }
 
-    // Cambiar pestañas en estadísticas
     function switchTab(tabId) {
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.tab === tabId);
-      });
-      
-      document.querySelectorAll('.tab-content').forEach(content => {
-        content.style.display = 'none';
-      });
-      
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabId));
+      document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
       document.getElementById(`${tabId}-tab`).style.display = 'block';
-      
-      if (tabId === 'finanzas') {
-        updateFinanceCharts();
-      } else if (tabId === 'bienestar') {
-        updateWellbeingChart();
-      }
+      if (tabId === 'finanzas') updateFinanceCharts();
+      else if (tabId === 'bienestar') updateWellbeingChart();
     }
 
-    // Cambiar filtro de tiempo
     function switchTimeFilter(period) {
       currentStatsPeriod = period;
-      
-      document.querySelectorAll('.time-filter').forEach(filter => {
-        filter.classList.toggle('active', filter.dataset.period === period);
-      });
-      
+      document.querySelectorAll('.time-filter').forEach(filter => filter.classList.toggle('active', filter.dataset.period === period));
       updateStats();
     }
 
-    // Inicializar calendario
     function initCalendar() {
-      if (calendarInstance) {
-        calendarInstance.destroy();
-      }
-      
+      if (calendarInstance) calendarInstance.destroy();
       calendarInstance = flatpickr("#calendar", {
         inline: true,
         defaultDate: currentDate,
-        onChange: function(selectedDates, dateStr) {
+        onChange: (selectedDates, dateStr) => {
           currentDate = dateStr;
           loadEntryForDate(currentDate);
           updateDaySummary(dateStr);
         },
-        onDayCreate: function(dObj, dStr, fp, dayElem) {
+        onDayCreate: (dObj, dStr, fp, dayElem) => {
           const date = dayElem.dateObj.toISOString().split('T')[0];
-          if (diaryData.entries[date] && (
-            diaryData.entries[date].emotion || 
-            diaryData.entries[date].text || 
-            diaryData.entries[date].completedHabits
-          )) {
+          if (diaryData.entries[date] && Object.keys(diaryData.entries[date]).length > 0) {
             dayElem.classList.add("has-entry");
           }
         }
       });
-      
       updateDaySummary(currentDate);
     }
 
-    // Cargar entrada para una fecha específica
     function loadEntryForDate(date) {
       const entry = diaryData.entries[date] || {};
       
       document.querySelectorAll('.emotion-emoji.selected').forEach(el => el.classList.remove('selected'));
       if (entry.emotion) {
         const emotionElement = document.querySelector(`.emotion-emoji[data-name="${entry.emotion.name}"]`);
-        if (emotionElement) {
-          emotionElement.classList.add('selected');
-        }
+        if (emotionElement) emotionElement.classList.add('selected');
         document.getElementById('emotion-intensity').value = entry.emotion.intensity;
         document.getElementById('intensity-value').textContent = entry.emotion.intensity;
       } else {
@@ -1612,7 +1629,6 @@
       }
       
       document.getElementById('editor').innerHTML = entry.text || '';
-      
       document.getElementById('physical-activity').value = entry.physicalActivity || 5;
       document.getElementById('physical-activity-value').textContent = entry.physicalActivity || 5;
       document.getElementById('water-intake').value = entry.waterIntake || 0;
@@ -1621,44 +1637,29 @@
       updateHabitsList();
       
       const dateObj = new Date(date + 'T12:00:00');
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const dateString = dateObj.toLocaleDateString('es-ES', options);
+      const dateString = dateObj.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       document.getElementById('emotion-date-label').textContent = `Cómo te sentiste el ${dateString}`;
     }
 
-    // Actualizar resumen del día
     function updateDaySummary(date) {
       const summaryElement = document.getElementById('day-summary');
       const entry = diaryData.entries[date];
       
-      if (entry && (entry.emotion || entry.text || entry.completedHabits)) {
+      if (entry && Object.keys(entry).length > 0) {
         let html = '';
-        
         if (entry.emotion) {
           const emotion = EMOTIONS.find(e => e.n === entry.emotion.name);
           html += `<p><strong>Emoción:</strong> ${emotion.e} ${entry.emotion.name} (Intensidad: ${entry.emotion.intensity}/10)</p>`;
         }
-        
-        if (entry.physicalActivity) {
-          html += `<p><strong>Actividad física:</strong> ${entry.physicalActivity}/10</p>`;
-        }
-        
-        if (entry.waterIntake) {
-          html += `<p><strong>Vasos de agua:</strong> ${entry.waterIntake}</p>`;
-        }
-        
-        if (entry.text) {
-          const preview = entry.text.replace(/<[^>]*>/g, '').substring(0, 100) + '...';
-          html += `<p><strong>Entrada:</strong> ${preview}</p>`;
-        }
-        
+        if (entry.physicalActivity) html += `<p><strong>Actividad física:</strong> ${entry.physicalActivity}/10</p>`;
+        if (entry.waterIntake) html += `<p><strong>Vasos de agua:</strong> ${entry.waterIntake}</p>`;
+        if (entry.text) html += `<p><strong>Entrada:</strong> ${entry.text.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>`;
         summaryElement.innerHTML = html;
       } else {
         summaryElement.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay datos para este día</p>';
       }
     }
 
-    // Actualizar estadísticas
     function updateStats() {
       const entriesWithEmotions = getEntriesForPeriod(currentStatsPeriod).filter(entry => entry.emotion);
       const emotionChartCanvas = document.getElementById('emotion-chart');
@@ -1669,33 +1670,20 @@
         document.getElementById('main-emotion').textContent = 'N/A';
         emotionChartCanvas.style.display = 'none';
         noDataMessage.style.display = 'block';
-
-        if (emotionChartInstance) {
-          emotionChartInstance.destroy();
-          emotionChartInstance = null;
-        }
-        
+        if (emotionChartInstance) { emotionChartInstance.destroy(); emotionChartInstance = null; }
       } else {
         emotionChartCanvas.style.display = 'block';
         noDataMessage.style.display = 'none';
-
         const totalScore = entriesWithEmotions.reduce((sum, entry) => {
           const emotion = EMOTIONS.find(e => e.n === entry.emotion.name);
           return sum + (emotion.v * entry.emotion.intensity);
         }, 0);
-
-        const avgScore = (totalScore / entriesWithEmotions.length).toFixed(1);
-        document.getElementById('wellness-index').textContent = avgScore;
-
-        const emotionCounts = {};
-        entriesWithEmotions.forEach(entry => {
-          emotionCounts[entry.emotion.name] = (emotionCounts[entry.emotion.name] || 0) + 1;
-        });
-
-        const mainEmotion = Object.keys(emotionCounts).reduce((a, b) =>
-          emotionCounts[a] > emotionCounts[b] ? a : b, '--'
-        );
-        document.getElementById('main-emotion').textContent = mainEmotion;
+        document.getElementById('wellness-index').textContent = (totalScore / entriesWithEmotions.length).toFixed(1);
+        const emotionCounts = entriesWithEmotions.reduce((acc, entry) => {
+          acc[entry.emotion.name] = (acc[entry.emotion.name] || 0) + 1;
+          return acc;
+        }, {});
+        document.getElementById('main-emotion').textContent = Object.keys(emotionCounts).reduce((a, b) => emotionCounts[a] > emotionCounts[b] ? a : b, '--');
         updateEmotionChart();
       }
 
@@ -1705,500 +1693,223 @@
       updateFinanceCharts();
     }
 
-    // Obtener entradas para el período seleccionado
     function getEntriesForPeriod(period) {
       const now = new Date();
       let startDate = new Date();
-      
-      switch(period) {
-        case 'week':
-          startDate.setDate(now.getDate() - 7);
-          break;
-        case 'month':
-          startDate.setMonth(now.getMonth() - 1);
-          break;
-        case 'year':
-          startDate.setFullYear(now.getFullYear() - 1);
-          break;
-        case 'all':
-          startDate = new Date(0);
-          break;
-      }
-      
-      return Object.entries(diaryData.entries)
-        .filter(([date]) => new Date(date) >= startDate)
-        .map(([date, entry]) => ({ date, ...entry }));
+      if (period === 'week') startDate.setDate(now.getDate() - 7);
+      else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
+      else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
+      else if (period === 'all') startDate = new Date(0);
+      return Object.entries(diaryData.entries).filter(([date]) => new Date(date) >= startDate).map(([date, entry]) => ({ date, ...entry }));
     }
 
-    // Obtener transacciones para el período seleccionado
     function getTransactionsForPeriod(period) {
       const now = new Date();
       let startDate = new Date();
-      
-      switch(period) {
-        case 'week':
-          startDate.setDate(now.getDate() - 7);
-          break;
-        case 'month':
-          startDate.setMonth(now.getMonth() - 1);
-          break;
-        case 'year':
-          startDate.setFullYear(now.getFullYear() - 1);
-          break;
-        case 'all':
-          startDate = new Date(0);
-          break;
-      }
-      
-      return (diaryData.transactions || []).filter(transaction => 
-        new Date(transaction.date) >= startDate
-      );
+      if (period === 'week') startDate.setDate(now.getDate() - 7);
+      else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
+      else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
+      else if (period === 'all') startDate = new Date(0);
+      return (diaryData.transactions || []).filter(t => new Date(t.date) >= startDate);
+    }
+    
+    function updateChart(chartInstance, elementId, config) {
+        const ctx = document.getElementById(elementId)?.getContext('2d');
+        if (!ctx) return null;
+        if (chartInstance) chartInstance.destroy();
+        return new Chart(ctx, config);
     }
 
-    // Actualizar gráfico de emociones
     function updateEmotionChart() {
-      const ctx = document.getElementById('emotion-chart').getContext('2d');
-      
-      if (emotionChartInstance) {
-        emotionChartInstance.destroy();
-      }
-      
-      const entries = getEntriesForPeriod(currentStatsPeriod)
-        .filter(entry => entry.emotion)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-      
-      const labels = entries.map(entry => {
-        const date = new Date(entry.date);
-        return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-      });
-      
-      const data = entries.map(entry => {
-        const emotion = EMOTIONS.find(e => e.n === entry.emotion.name);
-        return emotion.v * entry.emotion.intensity;
-      });
-      
-      emotionChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Índice de Bienestar',
-            data: data,
-            borderColor: getComputedStyle(document.body).getPropertyValue('--accent-primary'),
-            backgroundColor: 'rgba(99, 179, 237, 0.1)',
-            tension: 0.4,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              min: -20,
-              max: 20,
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            },
-            x: {
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary') }
-            }
-          }
-        }
+      const entries = getEntriesForPeriod(currentStatsPeriod).filter(e => e.emotion).sort((a, b) => new Date(a.date) - new Date(b.date));
+      const labels = entries.map(e => new Date(e.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }));
+      const data = entries.map(e => EMOTIONS.find(em => em.n === e.emotion.name).v * e.emotion.intensity);
+      emotionChartInstance = updateChart(emotionChartInstance, 'emotion-chart', {
+        type: 'line', data: { labels, datasets: [{ label: 'Índice de Bienestar', data, borderColor: 'var(--accent-primary)', backgroundColor: 'rgba(99, 179, 237, 0.1)', tension: 0.4, fill: true }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -20, max: 20 }, x: {} } }
       });
     }
 
-    // Actualizar gráfico de distribución de balance
     function updateBalanceDistributionChart() {
-      const ctx = document.getElementById('balance-distribution-chart').getContext('2d');
-
-      if (balanceChartInstance) {
-        balanceChartInstance.destroy();
-      }
-
-      const accountsWithBalance = (diaryData.accounts || []).filter(account => account.balance > 0);
-      const labels = accountsWithBalance.map(account => account.name);
-      const data = accountsWithBalance.map(account => account.balance);
-
-      balanceChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Balance',
-            data: data,
-            backgroundColor: ['#63b3ed', '#68d391', '#f6ad55', '#fc8181', '#e94560', '#9b59b6', '#3498db', '#f1c40f', '#e74c3c', '#34495e'],
-            borderColor: getComputedStyle(document.body).getPropertyValue('--bg-secondary'),
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary') }
-            }
-          }
-        }
-      });
-    }
-
-    // Actualizar estadísticas de hábitos
-    function updateHabitsStats() {
-      const habitsList = document.getElementById('habits-stats-list');
-      
-      if (diaryData.habits && diaryData.habits.length > 0) {
-        const entries = getEntriesForPeriod(currentStatsPeriod);
-        const habitStats = diaryData.habits.map(habit => {
-          const completedCount = entries.filter(entry => 
-            entry.completedHabits && entry.completedHabits.includes(habit.id)
-          ).length;
-          const totalDays = entries.length || 1;
-          const percentage = Math.round((completedCount / totalDays) * 100);
-          return { ...habit, percentage };
+        const accounts = (diaryData.accounts || []).filter(a => a.balance > 0);
+        balanceChartInstance = updateChart(balanceChartInstance, 'balance-distribution-chart', {
+            type: 'doughnut', data: { labels: accounts.map(a => a.name), datasets: [{ data: accounts.map(a => a.balance), backgroundColor: ['#63b3ed', '#68d391', '#f6ad55', '#fc8181', '#e94560'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
         });
-        
-        habitStats.sort((a, b) => b.percentage - a.percentage);
-        
-        habitsList.innerHTML = habitStats.map(habit => `
-          <li>
-            <span>${habit.text}</span>
-            <span style="color: var(--accent-primary); font-weight: 600;">${habit.percentage}%</span>
-          </li>
-        `).join('');
-      } else {
-        habitsList.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay hábitos registrados</li>';
-      }
     }
 
-    // Actualizar estadísticas de bienestar
-    function updateWellbeingStats() {
+    function updateHabitsStats() {
+      const list = document.getElementById('habits-stats-list');
+      if (!diaryData.habits || diaryData.habits.length === 0) {
+        list.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay hábitos registrados</li>';
+        return;
+      }
       const entries = getEntriesForPeriod(currentStatsPeriod);
-      const entriesWithActivity = entries.filter(entry => entry.physicalActivity);
-      const entriesWithWater = entries.filter(entry => entry.waterIntake);
-      
-      const avgActivity = entriesWithActivity.length > 0
-        ? (entriesWithActivity.reduce((sum, entry) => sum + entry.physicalActivity, 0) / entriesWithActivity.length).toFixed(1)
-        : '--';
-      document.getElementById('avg-activity').textContent = avgActivity;
-      
-      const avgWater = entriesWithWater.length > 0
-        ? (entriesWithWater.reduce((sum, entry) => sum + entry.waterIntake, 0) / entriesWithWater.length).toFixed(1)
-        : '--';
-      document.getElementById('avg-water').textContent = avgWater;
-      
-      updateWellbeingChart();
+      const habitStats = diaryData.habits.map(habit => {
+        const completedCount = entries.filter(e => e.habitsProgress && e.habitsProgress[habit.id] === habit.subcategories.length).length;
+        return { ...habit, percentage: Math.round((completedCount / (entries.length || 1)) * 100) };
+      }).sort((a, b) => b.percentage - a.percentage);
+      list.innerHTML = habitStats.map(h => `<li><span>${h.text}</span><span style="color: var(--accent-primary); font-weight: 600;">${h.percentage}%</span></li>`).join('');
     }
 
-    // Actualizar gráfico de bienestar
+    function updateWellbeingStats() {
+        const entries = getEntriesForPeriod(currentStatsPeriod);
+        const activityEntries = entries.filter(e => e.physicalActivity);
+        const waterEntries = entries.filter(e => e.waterIntake);
+        document.getElementById('avg-activity').textContent = activityEntries.length ? (activityEntries.reduce((sum, e) => sum + e.physicalActivity, 0) / activityEntries.length).toFixed(1) : '--';
+        document.getElementById('avg-water').textContent = waterEntries.length ? (waterEntries.reduce((sum, e) => sum + e.waterIntake, 0) / waterEntries.length).toFixed(1) : '--';
+        updateWellbeingChart();
+    }
+
     function updateWellbeingChart() {
-      const ctx = document.getElementById('wellbeing-chart').getContext('2d');
-      
-      if (wellbeingChartInstance) {
-        wellbeingChartInstance.destroy();
-      }
-      
-      const entries = getEntriesForPeriod(currentStatsPeriod)
-        .filter(entry => entry.physicalActivity || entry.waterIntake)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-      
-      const labels = entries.map(entry => new Date(entry.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }));
-      const activityData = entries.map(entry => entry.physicalActivity || null);
-      const waterData = entries.map(entry => entry.waterIntake || null);
-      
-      wellbeingChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
+      const entries = getEntriesForPeriod(currentStatsPeriod).filter(e => e.physicalActivity || e.waterIntake).sort((a, b) => new Date(a.date) - new Date(b.date));
+      wellbeingChartInstance = updateChart(wellbeingChartInstance, 'wellbeing-chart', {
+        type: 'line', data: {
+          labels: entries.map(e => new Date(e.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })),
           datasets: [
-            {
-              label: 'Actividad Física',
-              data: activityData,
-              borderColor: getComputedStyle(document.body).getPropertyValue('--accent-primary'),
-              tension: 0.4,
-              yAxisID: 'y'
-            },
-            {
-              label: 'Vasos de Agua',
-              data: waterData,
-              borderColor: getComputedStyle(document.body).getPropertyValue('--success-color'),
-              tension: 0.4,
-              yAxisID: 'y1'
-            }
+            { label: 'Actividad Física', data: entries.map(e => e.physicalActivity || null), borderColor: 'var(--accent-primary)', yAxisID: 'y' },
+            { label: 'Vasos de Agua', data: entries.map(e => e.waterIntake || null), borderColor: 'var(--success-color)', yAxisID: 'y1' }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              type: 'linear',
-              position: 'left',
-              min: 0,
-              max: 10,
-              title: { display: true, text: 'Actividad Física', color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            },
-            y1: {
-              type: 'linear',
-              position: 'right',
-              min: 0,
-              max: 12,
-              title: { display: true, text: 'Vasos de Agua', color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { drawOnChartArea: false }
-            },
-            x: {
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary') }
-            }
-          }
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: {
+            y: { type: 'linear', position: 'left', min: 0, max: 10, title: { display: true, text: 'Actividad' } },
+            y1: { type: 'linear', position: 'right', min: 0, max: 12, title: { display: true, text: 'Agua' }, grid: { drawOnChartArea: false } }
+        } }
       });
     }
 
-    // Actualizar estadísticas financieras
     function updateFinanceStats() {
       const transactions = getTransactionsForPeriod(currentStatsPeriod);
-      
-      const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
-      const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
-      
-      document.getElementById('total-income').textContent = `$${totalIncome.toFixed(2)}`;
-      document.getElementById('total-expenses').textContent = `$${totalExpenses.toFixed(2)}`;
-      
+      document.getElementById('total-income').textContent = `$${transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
+      document.getElementById('total-expenses').textContent = `$${transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
       updateFinanceCharts();
     }
 
-    // Actualizar gráficos financieros
     function updateFinanceCharts() {
       updateExpensesChart();
       updateFinanceTrendChart();
       updateBalanceDistributionChart();
     }
 
-    // Actualizar gráfico de distribución de gastos
     function updateExpensesChart() {
-      const ctx = document.getElementById('expenses-chart').getContext('2d');
-      
-      if (expensesChartInstance) {
-        expensesChartInstance.destroy();
-      }
-      
-      const transactions = getTransactionsForPeriod(currentStatsPeriod).filter(t => t.type === 'expense');
-      const categories = {};
-      transactions.forEach(transaction => {
-        const category = transaction.description.split(' ')[0] || 'Otros';
-        categories[category] = (categories[category] || 0) + transaction.amount;
-      });
-      
-      expensesChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: Object.keys(categories),
-          datasets: [{
-            data: Object.values(categories),
-            backgroundColor: ['#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#e74c3c', '#9b59b6', '#1abc9c', '#34495e', '#7f8c8d', '#2c3e50']
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary') }
-            }
-          }
-        }
+      const expenses = getTransactionsForPeriod(currentStatsPeriod).filter(t => t.type === 'expense');
+      const categories = expenses.reduce((acc, t) => {
+        const cat = t.description.split(' ')[0] || 'Otros';
+        acc[cat] = (acc[cat] || 0) + t.amount;
+        return acc;
+      }, {});
+      expensesChartInstance = updateChart(expensesChartInstance, 'expenses-chart', {
+        type: 'doughnut', data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
       });
     }
-
-    // Actualizar gráfico de tendencia financiera
+    
     function updateFinanceTrendChart() {
-      const ctx = document.getElementById('finance-trend-chart').getContext('2d');
-      
-      if (financeTrendChartInstance) {
-        financeTrendChartInstance.destroy();
-      }
-      
-      const transactions = getTransactionsForPeriod(currentStatsPeriod).sort((a, b) => new Date(a.date) - new Date(b.date));
-      const dailyData = {};
-      transactions.forEach(transaction => {
-        if (!dailyData[transaction.date]) {
-          dailyData[transaction.date] = { income: 0, expense: 0 };
-        }
-        dailyData[transaction.date][transaction.type] += transaction.amount;
-      });
-      
+      const transactions = getTransactionsForPeriod(currentStatsPeriod).sort((a,b) => new Date(a.date) - new Date(b.date));
+      const dailyData = transactions.reduce((acc, t) => {
+        if (!acc[t.date]) acc[t.date] = { income: 0, expense: 0 };
+        acc[t.date][t.type] += t.amount;
+        return acc;
+      }, {});
       const dates = Object.keys(dailyData).sort();
-      const incomeData = dates.map(date => dailyData[date].income);
-      const expenseData = dates.map(date => dailyData[date].expense);
-      const dateLabels = dates.map(date => new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }));
-      
-      financeTrendChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: dateLabels,
+      financeTrendChartInstance = updateChart(financeTrendChartInstance, 'finance-trend-chart', {
+        type: 'bar', data: {
+          labels: dates.map(d => new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })),
           datasets: [
-            {
-              label: 'Ingresos',
-              data: incomeData,
-              backgroundColor: 'rgba(40, 167, 69, 0.7)'
-            },
-            {
-              label: 'Gastos',
-              data: expenseData,
-              backgroundColor: 'rgba(220, 53, 69, 0.7)'
-            }
+            { label: 'Ingresos', data: dates.map(d => dailyData[d].income), backgroundColor: 'rgba(40, 167, 69, 0.7)' },
+            { label: 'Gastos', data: dates.map(d => dailyData[d].expense), backgroundColor: 'rgba(220, 53, 69, 0.7)' }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            },
-            y: {
-              ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
-              grid: { color: getComputedStyle(document.body).getPropertyValue('--border-color') }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: { color: getComputedStyle(document.body).getPropertyValue('--text-primary') }
-            }
-          }
-        }
+        options: { responsive: true, maintainAspectRatio: false }
       });
     }
 
-    // Actualizar pantalla de gastos
     function updateExpenses() {
       updateAccountsList();
       updateTransactionsList();
-      
-      const totalBalance = (diaryData.accounts || []).reduce((sum, account) => sum + account.balance, 0);
+      const totalBalance = (diaryData.accounts || []).reduce((sum, acc) => sum + acc.balance, 0);
       document.getElementById('total-balance').textContent = `$${totalBalance.toFixed(2)}`;
-      
-      const mainAccount = (diaryData.accounts || []).find(account => account.isDefault) || (diaryData.accounts || [])[0];
+      const mainAccount = (diaryData.accounts || []).find(acc => acc.isDefault) || (diaryData.accounts || [])[0];
       if (mainAccount) {
         document.getElementById('main-account-balance').textContent = `$${mainAccount.balance.toFixed(2)}`;
         document.getElementById('main-account-name').textContent = mainAccount.name;
       }
     }
 
-    // Actualizar lista de cuentas
     function updateAccountsList() {
-      const accountsList = document.getElementById('accounts-list');
-      const transactionAccountSelect = document.getElementById('transaction-account');
-      const transferFromSelect = document.getElementById('transfer-from');
-      const transferToSelect = document.getElementById('transfer-to');
+      const list = document.getElementById('accounts-list');
+      const transactionAcc = document.getElementById('transaction-account'), transFrom = document.getElementById('transfer-from'), transTo = document.getElementById('transfer-to');
       
-      if (diaryData.accounts && diaryData.accounts.length > 0) {
-        accountsList.innerHTML = diaryData.accounts.map(account => `
-          <div class="account-item ${account.isDefault ? 'principal' : ''}">
-            <div>
-              <div style="font-weight: 600;">${account.name} ${account.isDefault ? '(Principal)' : ''}</div>
-              <div class="account-balance">$${account.balance.toFixed(2)}</div>
-            </div>
-            <div class="account-actions">
-              <button class="btn-small btn-secondary" data-id="${account.id}" data-action="edit">Editar</button>
-              ${!account.isDefault ? `<button class="btn-small btn-danger" data-id="${account.id}" data-action="delete">Eliminar</button>` : ''}
-              ${!account.isDefault ? `<button class="btn-small btn-success" data-id="${account.id}" data-action="set-default">Principal</button>` : `<button class="btn-small btn-disabled" disabled>Principal</button>`}
-            </div>
-          </div>
-        `).join('');
-        
-        accountsList.querySelectorAll('.btn-small:not(:disabled)').forEach(button => {
-          button.addEventListener('click', function() {
-            const accountId = parseInt(this.dataset.id);
-            const action = this.dataset.action;
-            if (action === 'delete') deleteAccount(accountId);
-            else if (action === 'set-default') setDefaultAccount(accountId);
-            else if (action === 'edit') editAccount(accountId);
-          });
-        });
-        
-        const accountOptions = diaryData.accounts.map(account => `<option value="${account.id}">${account.name}</option>`).join('');
-        transactionAccountSelect.innerHTML = accountOptions;
-        transferFromSelect.innerHTML = '<option value="">Desde cuenta...</option>' + accountOptions;
-        transferToSelect.innerHTML = '<option value="">Hacia cuenta...</option>' + accountOptions;
-      } else {
-        accountsList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay cuentas registradas</p>';
-        transactionAccountSelect.innerHTML = '<option value="">No hay cuentas</option>';
-        transferFromSelect.innerHTML = '<option value="">No hay cuentas</option>';
-        transferToSelect.innerHTML = '<option value="">No hay cuentas</option>';
-      }
-    }
-
-    // Actualizar lista de transacciones
-    function updateTransactionsList() {
-      const transactionsList = document.getElementById('transactions-list');
-      
-      if (diaryData.transactions && diaryData.transactions.length > 0) {
-        const recentTransactions = [...diaryData.transactions]
-          .sort((a, b) => new Date(b.date) - new Date(a.date))
-          .slice(0, 10);
-        
-        transactionsList.innerHTML = recentTransactions.map(transaction => {
-          const account = (diaryData.accounts || []).find(a => a.id === transaction.accountId);
-          return `
-            <li>
-              <div style="flex-grow: 1;">
-                <div style="font-weight: 600;">${transaction.description}</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                  ${account ? account.name : 'Cuenta eliminada'} • ${new Date(transaction.date).toLocaleDateString('es-ES')}
-                  ${transaction.recurring !== 'none' ? ' • 🔄' : ''}
-                </div>
-              </div>
-              <div style="color: ${transaction.type === 'income' ? 'var(--success-color)' : 'var(--error-color)'}; font-weight: 600;">
-                ${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toFixed(2)}
-              </div>
-            </li>
-          `;
-        }).join('');
-      } else {
-        transactionsList.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay transacciones registradas</li>';
-      }
-    }
-
-    // Mostrar pantalla
-    function showScreen(screenName) {
-      document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-      });
-      document.getElementById(screenName).classList.add('active');
-    }
-
-    // Mostrar modal
-    function showModal(modalName) {
-      document.getElementById(modalName).classList.add('active');
-    }
-
-    // Crear nuevo diario
-    function createNewDiary() {
-      const name = document.getElementById('owner-name-input').value.trim();
-      if (!name) {
-        showToast('Por favor, introduce tu nombre');
+      if (!diaryData.accounts || diaryData.accounts.length === 0) {
+        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay cuentas</p>';
+        [transactionAcc, transFrom, transTo].forEach(s => s.innerHTML = '<option value="">No hay cuentas</option>');
         return;
       }
+
+      list.innerHTML = diaryData.accounts.map(acc => `
+        <div class="account-item ${acc.isDefault ? 'principal' : ''}">
+          <div>
+            <div style="font-weight: 600;">${acc.name} ${acc.isDefault ? '(Principal)' : ''}</div>
+            <div class="account-balance">$${acc.balance.toFixed(2)}</div>
+          </div>
+          <div class="account-actions">
+            <button class="btn-small btn-secondary" data-id="${acc.id}" data-action="edit">Editar</button>
+            <button class="btn-small ${acc.isDefault ? 'btn-disabled" disabled' : 'btn-success" data-action="set-default"'}" data-id="${acc.id}">${acc.isDefault ? 'Principal' : 'Hacer Principal'}</button>
+            ${!acc.isDefault ? `<button class="btn-small btn-danger" data-id="${acc.id}" data-action="delete">Eliminar</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      list.querySelectorAll('button[data-action]').forEach(btn => btn.addEventListener('click', e => {
+        const id = parseInt(e.target.dataset.id);
+        const action = e.target.dataset.action;
+        if (action === 'edit') editAccount(id);
+        else if (action === 'set-default') setDefaultAccount(id);
+        else if (action === 'delete') deleteAccount(id);
+      }));
+
+      const options = diaryData.accounts.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join('');
+      transactionAcc.innerHTML = options;
+      transFrom.innerHTML = '<option value="">Desde...</option>' + options;
+      transTo.innerHTML = '<option value="">Hacia...</option>' + options;
+    }
+
+    function updateTransactionsList() {
+      const list = document.getElementById('transactions-list');
+      if (!diaryData.transactions || diaryData.transactions.length === 0) {
+        list.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay transacciones</li>';
+        return;
+      }
+      const recent = [...diaryData.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
+      list.innerHTML = recent.map(t => {
+        const acc = (diaryData.accounts || []).find(a => a.id === t.accountId);
+        return `
+          <li>
+            <div style="flex-grow: 1;">
+              <div style="font-weight: 600;">${t.description}</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">${acc ? acc.name : ''} • ${new Date(t.date).toLocaleDateString('es-ES')} ${t.recurring !== 'none' ? '• 🔄' : ''}</div>
+            </div>
+            <div style="color: ${t.type === 'income' ? 'var(--success-color)' : 'var(--error-color)'}; font-weight: 600;">
+              ${t.type === 'income' ? '+' : '-'}$${t.amount.toFixed(2)}
+            </div>
+          </li>`;
+      }).join('');
+    }
+
+    function showScreen(screenName) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const screenEl = document.getElementById(screenName);
+      if (screenEl) screenEl.classList.add('active');
+    }
+
+    function showModal(modalName) {
+      const modalEl = document.getElementById(modalName);
+      if(modalEl) modalEl.classList.add('active');
+    }
+
+    function createNewDiary() {
+      const name = document.getElementById('owner-name-input').value.trim();
+      if (!name) return showToast('Por favor, introduce tu nombre');
       
       diaryData = {
         ownerName: name,
@@ -2216,22 +1927,18 @@
       document.querySelector('.bottom-nav').classList.add('visible');
     }
 
-    // Guardar datos de emociones
     function saveEmotionData() {
-      const selectedEmotion = document.querySelector('.emotion-emoji.selected');
-      const intensity = document.getElementById('emotion-intensity').value;
-      
-      if (selectedEmotion) {
+      const selected = document.querySelector('.emotion-emoji.selected');
+      if (selected) {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
         diaryData.entries[currentDate].emotion = {
-          name: selectedEmotion.dataset.name,
-          intensity: parseInt(intensity)
+          name: selected.dataset.name,
+          intensity: parseInt(document.getElementById('emotion-intensity').value)
         };
         saveDataToLocalStorage();
       }
     }
     
-    // Guardar datos de bienestar
     function saveWellbeingData() {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
         diaryData.entries[currentDate].physicalActivity = parseInt(document.getElementById('physical-activity').value);
@@ -2239,197 +1946,227 @@
         saveDataToLocalStorage();
     }
 
-
-    // Guardar texto de entrada
     function saveEntryText() {
-      const text = document.getElementById('editor').innerHTML;
       if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
-      diaryData.entries[currentDate].text = text;
+      diaryData.entries[currentDate].text = document.getElementById('editor').innerHTML;
       saveDataToLocalStorage();
     }
 
-    // Guardar configuración
     function saveSettings() {
       const name = document.getElementById('diary-name-input').value.trim();
       const theme = document.getElementById('theme-selector').value;
-      const password = document.getElementById('password-input').value.trim() || null;
-      
       if (name) {
         diaryData.ownerName = name;
         document.getElementById('diary-owner-name').textContent = `Diario de ${name}`;
       }
-      
       diaryData.settings.theme = theme;
-      diaryData.settings.password = password;
+      diaryData.settings.password = document.getElementById('password-input').value.trim() || null;
       document.body.className = `theme-${theme}`;
-      
       showToast('Configuración guardada');
       document.getElementById('settings-modal').classList.remove('active');
       saveDataToLocalStorage();
     }
 
-    // Agregar nuevo hábito
     function addNewHabit() {
-      const habitInput = document.getElementById('new-habit-input');
-      const habitText = habitInput.value.trim();
-      
-      if (!habitText) {
-        showToast('Por favor, escribe un hábito');
-        return;
-      }
-      
-      if (!diaryData.habits) diaryData.habits = [];
-      
-      diaryData.habits.push({ id: Date.now(), text: habitText, frequency: 'daily' });
-      habitInput.value = '';
-      
-      updateHabitsList();
-      updateHabitsManagementList();
-      showToast('Hábito agregado');
-      saveDataToLocalStorage();
+        const name = document.getElementById('new-habit-name').value.trim();
+        const category = document.getElementById('new-habit-category').value.trim();
+        const subcategoriesRaw = document.getElementById('new-habit-subcategories').value.trim();
+        if (!name) return showToast('El nombre del hábito es obligatorio');
+        
+        const subcategories = subcategoriesRaw ? subcategoriesRaw.split(',').map(s => s.trim()).filter(s => s) : [];
+        if (subcategories.length === 0) subcategories.push(name); // Si no hay subcategorías, la tarea es el hábito mismo.
+        
+        if (!diaryData.habits) diaryData.habits = [];
+        diaryData.habits.push({ id: Date.now(), text: name, category, subcategories });
+        
+        document.getElementById('new-habit-name').value = '';
+        document.getElementById('new-habit-category').value = '';
+        document.getElementById('new-habit-subcategories').value = '';
+        
+        updateHabitsList();
+        updateHabitsManagementList();
+        showToast('Hábito agregado');
+        saveDataToLocalStorage();
     }
 
-    // Actualizar lista de hábitos del día
-    function updateHabitsList() {
-      const habitsList = document.getElementById('habits-list');
-      
-      if (diaryData.habits && diaryData.habits.length > 0) {
-        const completedHabits = (diaryData.entries[currentDate] || {}).completedHabits || [];
-        habitsList.innerHTML = diaryData.habits.map(habit => `
-          <li>
-            <input type="checkbox" id="habit-${habit.id}" data-id="${habit.id}" ${completedHabits.includes(habit.id) ? 'checked' : ''}>
-            <label for="habit-${habit.id}">${habit.text}</label>
-          </li>
-        `).join('');
+    function editHabit(habitId) {
+        const habit = diaryData.habits.find(h => h.id === habitId);
+        if (!habit) return;
+        editingHabitId = habitId;
+        document.getElementById('edit-habit-name').value = habit.text;
+        document.getElementById('edit-habit-category').value = habit.category || '';
+        document.getElementById('edit-habit-subcategories').value = habit.subcategories.join(', ');
+        showModal('edit-habit-modal');
+    }
+
+    function saveHabitChanges() {
+        if (!editingHabitId) return;
+        const habit = diaryData.habits.find(h => h.id === editingHabitId);
+        if (!habit) return;
+
+        const name = document.getElementById('edit-habit-name').value.trim();
+        if (!name) return showToast('El nombre no puede estar vacío');
         
-        habitsList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-          checkbox.addEventListener('change', function() {
-            const habitId = parseInt(this.dataset.id);
-            if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
-            if (!diaryData.entries[currentDate].completedHabits) diaryData.entries[currentDate].completedHabits = [];
-            
-            const habitIndex = diaryData.entries[currentDate].completedHabits.indexOf(habitId);
-            if (this.checked && habitIndex === -1) {
-              diaryData.entries[currentDate].completedHabits.push(habitId);
-            } else if (!this.checked && habitIndex > -1) {
-              diaryData.entries[currentDate].completedHabits.splice(habitIndex, 1);
+        habit.text = name;
+        habit.category = document.getElementById('edit-habit-category').value.trim();
+        const subcategoriesRaw = document.getElementById('edit-habit-subcategories').value.trim();
+        habit.subcategories = subcategoriesRaw ? subcategoriesRaw.split(',').map(s => s.trim()).filter(s => s) : [name];
+        
+        document.getElementById('edit-habit-modal').classList.remove('active');
+        updateHabitsManagementList();
+        updateHabitsList();
+        showToast('Hábito actualizado');
+        editingHabitId = null;
+        saveDataToLocalStorage();
+    }
+
+    function deleteHabit(habitId) {
+        diaryData.habits = diaryData.habits.filter(h => h.id !== habitId);
+        // También limpiar el progreso de este hábito en todas las entradas
+        Object.values(diaryData.entries).forEach(entry => {
+            if (entry.habitsProgress && entry.habitsProgress[habitId]) {
+                delete entry.habitsProgress[habitId];
             }
-            saveDataToLocalStorage();
-          });
         });
-      } else {
-        habitsList.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay hábitos registrados</li>';
-      }
+        updateHabitsList();
+        updateHabitsManagementList();
+        showToast('Hábito eliminado');
+        saveDataToLocalStorage();
     }
 
-    // Actualizar lista de gestión de hábitos
+
+    function updateHabitsList() {
+        const habitsContainer = document.getElementById('habits-list');
+        if (!diaryData.habits || diaryData.habits.length === 0) {
+            habitsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados. Ve a la sección de Hábitos para agregar.</p>';
+            return;
+        }
+
+        const progress = (diaryData.entries[currentDate] || {}).habitsProgress || {};
+
+        habitsContainer.innerHTML = diaryData.habits.map(habit => {
+            const steps = habit.subcategories.length;
+            const currentStep = progress[habit.id] || 0;
+            const subcategoryText = currentStep > 0 ? habit.subcategories[currentStep - 1] : "Sin empezar";
+            return `
+                <div class="habit-item">
+                    <div class="habit-item-header">
+                        <span class="habit-title">${habit.text}</span>
+                        ${habit.category ? `<span class="habit-category">${habit.category}</span>` : ''}
+                    </div>
+                    <input type="range" class="habit-slider" data-id="${habit.id}" min="0" max="${steps}" step="1" value="${currentStep}">
+                    <div class="habit-subcategory-label" id="label-habit-${habit.id}">${subcategoryText} (${currentStep}/${steps})</div>
+                </div>
+            `;
+        }).join('');
+
+        habitsContainer.querySelectorAll('.habit-slider').forEach(slider => {
+            slider.addEventListener('input', e => {
+                const habitId = e.target.dataset.id;
+                const value = parseInt(e.target.value);
+                const habit = diaryData.habits.find(h => h.id == habitId);
+                const label = document.getElementById(`label-habit-${habitId}`);
+
+                if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
+                if (!diaryData.entries[currentDate].habitsProgress) diaryData.entries[currentDate].habitsProgress = {};
+                diaryData.entries[currentDate].habitsProgress[habitId] = value;
+
+                const subcategoryText = value > 0 ? habit.subcategories[value - 1] : "Sin empezar";
+                label.textContent = `${subcategoryText} (${value}/${habit.subcategories.length})`;
+            });
+            slider.addEventListener('change', () => saveDataToLocalStorage());
+        });
+    }
+
     function updateHabitsManagementList() {
-      const managementList = document.getElementById('habits-management-list');
-      
-      if (diaryData.habits && diaryData.habits.length > 0) {
+        const managementList = document.getElementById('habits-management-list');
+        if (!diaryData.habits || diaryData.habits.length === 0) {
+            managementList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>';
+            return;
+        }
+
         managementList.innerHTML = diaryData.habits.map(habit => `
-          <div class="account-item">
-            <span>${habit.text}</span>
-            <button class="btn-small btn-danger" data-id="${habit.id}">Eliminar</button>
-          </div>
+            <div class="account-item">
+                <div>
+                    <span style="font-weight: 600;">${habit.text}</span>
+                    <div style="font-size: 0.8em; color: var(--text-secondary);">${habit.category || 'Sin categoría'}</div>
+                </div>
+                <div class="account-actions">
+                  <button class="btn-small btn-secondary" data-id="${habit.id}" data-action="edit">Editar</button>
+                  <button class="btn-small btn-danger" data-id="${habit.id}" data-action="delete">Eliminar</button>
+                </div>
+            </div>
         `).join('');
-        
-        managementList.querySelectorAll('.btn-danger').forEach(button => {
-          button.addEventListener('click', function() {
-            const habitId = parseInt(this.dataset.id);
-            diaryData.habits = diaryData.habits.filter(h => h.id !== habitId);
-            updateHabitsList();
-            updateHabitsManagementList();
-            showToast('Hábito eliminado');
-            saveDataToLocalStorage();
-          });
+
+        managementList.querySelectorAll('button[data-action]').forEach(button => {
+            button.addEventListener('click', function() {
+                const habitId = parseInt(this.dataset.id);
+                const action = this.dataset.action;
+                if (action === 'delete') deleteHabit(habitId);
+                else if (action === 'edit') editHabit(habitId);
+            });
         });
-      } else {
-        managementList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>';
-      }
     }
 
-    // Agregar nueva transacción
+
     function addNewTransaction() {
       const type = document.getElementById('transaction-type').value;
       const amount = parseFloat(document.getElementById('transaction-amount').value);
       const description = document.getElementById('transaction-description').value.trim();
       const accountId = parseInt(document.getElementById('transaction-account').value);
       const recurring = document.getElementById('transaction-recurring').value;
-      const startDate = document.getElementById('recurring-start-date').value;
       
-      if (isNaN(amount) || amount <= 0 || !description || isNaN(accountId)) {
-        showToast('Por favor, completa todos los campos obligatorios');
-        return;
-      }
-      
+      if (isNaN(amount) || amount <= 0 || !description || isNaN(accountId)) return showToast('Completa todos los campos');
       const account = diaryData.accounts.find(a => a.id === accountId);
       if (!account) return showToast('Cuenta no válida');
       
-      if (type === 'income') account.balance += amount;
-      else account.balance -= amount;
+      if (type === 'income') account.balance += amount; else account.balance -= amount;
       
       const newTransaction = { id: Date.now(), type, amount, description, accountId, date: currentDate, recurring };
-      if (recurring !== 'none' && startDate) {
-        newTransaction.recurringStart = startDate;
+      if (recurring !== 'none' && document.getElementById('recurring-start-date').value) {
+        newTransaction.recurringStart = document.getElementById('recurring-start-date').value;
         newTransaction.recurringEnd = document.getElementById('recurring-end-date').value || null;
       }
       
       if (!diaryData.transactions) diaryData.transactions = [];
       diaryData.transactions.push(newTransaction);
-      
       document.getElementById('transaction-amount').value = '';
       document.getElementById('transaction-description').value = '';
       toggleRecurringOptions(true);
-      
       updateExpenses();
       showToast('Transacción agregada');
       saveDataToLocalStorage();
     }
 
-    // Agregar nueva cuenta
     function addNewAccount() {
       const name = document.getElementById('new-account-name').value.trim();
-      const balance = parseFloat(document.getElementById('new-account-balance').value) || 0;
+      if (!name) return showToast('Ingresa un nombre para la cuenta');
       
-      if (!name) return showToast('Por favor, escribe un nombre para la cuenta');
-      
-      diaryData.accounts.push({ id: Date.now(), name, balance, isDefault: false });
-      
+      diaryData.accounts.push({ id: Date.now(), name, balance: parseFloat(document.getElementById('new-account-balance').value) || 0, isDefault: false });
       document.getElementById('new-account-name').value = '';
       document.getElementById('new-account-balance').value = '0';
-      
       updateExpenses();
       showToast('Cuenta agregada');
       saveDataToLocalStorage();
     }
 
-    // Editar cuenta
     function editAccount(accountId) {
       const account = diaryData.accounts.find(a => a.id === accountId);
       if (!account) return;
-      
       editingAccountId = accountId;
       document.getElementById('edit-account-name').value = account.name;
       document.getElementById('edit-account-balance').value = account.balance;
       showModal('edit-account-modal');
     }
 
-    // Guardar cambios de cuenta
     function saveAccountChanges() {
       if (!editingAccountId) return;
       const account = diaryData.accounts.find(a => a.id === editingAccountId);
-      if (!account) return;
-      
       const newName = document.getElementById('edit-account-name').value.trim();
       const newBalance = parseFloat(document.getElementById('edit-account-balance').value);
+      if (!account || !newName || isNaN(newBalance)) return showToast('Datos inválidos');
       
-      if (!newName) return showToast('El nombre no puede estar vacío');
-      if (isNaN(newBalance)) return showToast('El saldo debe ser válido');
-      
-      account.name = newName;
-      account.balance = newBalance;
-      
+      account.name = newName; account.balance = newBalance;
       document.getElementById('edit-account-modal').classList.remove('active');
       updateExpenses();
       showToast('Cuenta actualizada');
@@ -2437,82 +2174,54 @@
       saveDataToLocalStorage();
     }
 
-    // Transferir entre cuentas
     function transferBetweenAccounts() {
-      const fromAccountId = parseInt(document.getElementById('transfer-from').value);
-      const toAccountId = parseInt(document.getElementById('transfer-to').value);
+      const fromId = parseInt(document.getElementById('transfer-from').value);
+      const toId = parseInt(document.getElementById('transfer-to').value);
       const amount = parseFloat(document.getElementById('transfer-amount').value);
       
-      if (isNaN(fromAccountId) || isNaN(toAccountId) || isNaN(amount) || amount <= 0) return showToast('Por favor, completa todos los campos');
-      if (fromAccountId === toAccountId) return showToast('No puedes transferir a la misma cuenta');
+      if (isNaN(fromId) || isNaN(toId) || isNaN(amount) || amount <= 0 || fromId === toId) return showToast('Datos de transferencia inválidos');
+      const fromAcc = diaryData.accounts.find(a => a.id === fromId), toAcc = diaryData.accounts.find(a => a.id === toId);
+      if (!fromAcc || !toAcc || fromAcc.balance < amount) return showToast('Fondos insuficientes o cuenta no válida');
       
-      const fromAccount = diaryData.accounts.find(a => a.id === fromAccountId);
-      const toAccount = diaryData.accounts.find(a => a.id === toAccountId);
-      
-      if (!fromAccount || !toAccount) return showToast('Cuentas no válidas');
-      if (fromAccount.balance < amount) return showToast('Saldo insuficiente');
-      
-      fromAccount.balance -= amount;
-      toAccount.balance += amount;
-      
-      diaryData.transactions.push({ id: Date.now(), type: 'transfer', amount, description: `Transferencia a ${toAccount.name}`, accountId: fromAccountId, date: currentDate, recurring: 'none' });
-      
+      fromAcc.balance -= amount; toAcc.balance += amount;
+      diaryData.transactions.push({ id: Date.now(), type: 'transfer', amount, description: `Transferencia a ${toAcc.name}`, accountId: fromId, date: currentDate, recurring: 'none' });
       document.getElementById('transfer-amount').value = '';
       updateExpenses();
       showToast('Transferencia realizada');
       saveDataToLocalStorage();
     }
 
-    // Eliminar cuenta
     function deleteAccount(accountId) {
       const account = diaryData.accounts.find(a => a.id === accountId);
       if (!account || account.isDefault) return showToast('No puedes eliminar la cuenta principal');
-      
-      if (account.balance > 0 && !confirm(`La cuenta "${account.name}" tiene saldo. ¿Seguro que quieres eliminarla?`)) {
-        return;
-      }
+      if (account.balance > 0 && !confirm(`La cuenta "${account.name}" tiene saldo. ¿Seguro que quieres eliminarla?`)) return;
       
       const defaultAccount = diaryData.accounts.find(a => a.isDefault);
-      if (defaultAccount) {
-        diaryData.transactions.forEach(t => { if (t.accountId === accountId) t.accountId = defaultAccount.id; });
-      }
-      
+      if (defaultAccount) diaryData.transactions.forEach(t => { if (t.accountId === accountId) t.accountId = defaultAccount.id; });
       diaryData.accounts = diaryData.accounts.filter(a => a.id !== accountId);
       updateExpenses();
       showToast('Cuenta eliminada');
       saveDataToLocalStorage();
     }
 
-    // Establecer cuenta principal
     function setDefaultAccount(accountId) {
-      diaryData.accounts.forEach(account => account.isDefault = (account.id === accountId));
+      diaryData.accounts.forEach(acc => acc.isDefault = (acc.id === accountId));
       updateExpenses();
       showToast('Cuenta principal actualizada');
       saveDataToLocalStorage();
     }
 
-    // Mostrar/ocultar opciones recurrentes
     function toggleRecurringOptions(reset = false) {
-      const recurringSelect = document.getElementById('transaction-recurring');
-      const options = document.getElementById('recurring-options');
-      
+      const select = document.getElementById('transaction-recurring'), options = document.getElementById('recurring-options');
       if (reset) {
-          recurringSelect.value = 'none';
-          document.getElementById('recurring-start-date').value = '';
-          document.getElementById('recurring-end-date').value = '';
+        select.value = 'none';
+        document.getElementById('recurring-start-date').value = '';
+        document.getElementById('recurring-end-date').value = '';
       }
-
-      if (recurringSelect.value !== 'none') {
-        options.style.display = 'block';
-        if (!document.getElementById('recurring-start-date').value) {
-          document.getElementById('recurring-start-date').value = currentDate;
-        }
-      } else {
-        options.style.display = 'none';
-      }
+      options.style.display = select.value !== 'none' ? 'block' : 'none';
+      if (select.value !== 'none' && !document.getElementById('recurring-start-date').value) document.getElementById('recurring-start-date').value = currentDate;
     }
 
-    // Exportar diario
     function exportDiary() {
       if (!diaryData.ownerName) return showToast('No hay diario para exportar');
       
@@ -2523,7 +2232,7 @@
     ${diaryData.settings.password ? `<password>${diaryData.settings.password}</password>` : ''}
   </settings>
   <habits>
-    ${(diaryData.habits || []).map(h => `<habit id="${h.id}" frequency="${h.frequency}">${h.text}</habit>`).join('')}
+    ${(diaryData.habits || []).map(h => `<habit id="${h.id}" text="${h.text}" category="${h.category || ''}"><subcategories>${h.subcategories.map(s => `<subcat>${s}</subcat>`).join('')}</subcategories></habit>`).join('')}
   </habits>
   <accounts>
     ${(diaryData.accounts || []).map(a => `<account id="${a.id}" name="${a.name}" balance="${a.balance}" isDefault="${a.isDefault}"/>`).join('')}
@@ -2535,56 +2244,41 @@
       ${entry.text ? `<content><![CDATA[${entry.text}]]></content>` : ''}
       ${entry.physicalActivity ? `<physicalActivity>${entry.physicalActivity}</physicalActivity>` : ''}
       ${entry.waterIntake ? `<waterIntake>${entry.waterIntake}</waterIntake>` : ''}
-      ${(entry.completedHabits || []).length > 0 ? `<completedHabits>${entry.completedHabits.map(id => `<habitId>${id}</habitId>`).join('')}</completedHabits>` : ''}
+      ${entry.habitsProgress ? `<habitsProgress>${Object.entries(entry.habitsProgress).map(([id,p]) => `<habit id="${id}" progress="${p}"/>`).join('')}</habitsProgress>` : ''}
     </entry>`).join('')}
   </entries>
   <transactions>
-    ${(diaryData.transactions || []).map(t => `
-    <transaction id="${t.id}" type="${t.type}" amount="${t.amount}" accountId="${t.accountId}" date="${t.date}" recurring="${t.recurring}">
-      <description>${t.description}</description>
-      ${t.recurringStart ? `<recurringStart>${t.recurringStart}</recurringStart>` : ''}
-      ${t.recurringEnd ? `<recurringEnd>${t.recurringEnd}</recurringEnd>` : ''}
-    </transaction>`).join('')}
+    ${(diaryData.transactions || []).map(t => `<transaction id="${t.id}" type="${t.type}" amount="${t.amount}" accountId="${t.accountId}" date="${t.date}" recurring="${t.recurring}"><description>${t.description}</description></transaction>`).join('')}
   </transactions>
 </diary>`;
       
       const blob = new Blob([xmlData], { type: 'application/xml' });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
+      a.href = URL.createObjectURL(blob);
       a.download = `diario_${diaryData.ownerName.replace(/ /g, '_')}.xml`;
       a.click();
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(a.href);
       showToast('Diario exportado correctamente');
     }
 
-    // Manejar importación de archivos
     function handleFileImport(e) {
       const file = e.target.files[0];
       if (!file) return;
       
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function(event) {
         try {
           const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(e.target.result, 'application/xml');
-          
+          const xmlDoc = parser.parseFromString(event.target.result, 'application/xml');
           if (xmlDoc.querySelector('parsererror')) throw new Error('XML parsing error');
-          
-          const owner = xmlDoc.querySelector('diary').getAttribute('owner');
-          const theme = xmlDoc.querySelector('settings > theme')?.textContent || 'pastel';
-          const passwordNode = xmlDoc.querySelector('settings > password');
-          
-          // En una implementación real, aquí se manejaría la contraseña
-          if (passwordNode?.textContent) return showToast('Diario protegido con contraseña no soportado aún');
 
           diaryData = {
-            ownerName: owner,
-            settings: { theme, password: null },
-            habits: Array.from(xmlDoc.querySelectorAll('habits > habit')).map(h => ({ id: parseInt(h.getAttribute('id')), text: h.textContent, frequency: h.getAttribute('frequency') || 'daily' })),
+            ownerName: xmlDoc.querySelector('diary').getAttribute('owner'),
+            settings: { theme: xmlDoc.querySelector('settings > theme')?.textContent || 'pastel', password: null },
+            habits: Array.from(xmlDoc.querySelectorAll('habits > habit')).map(h => ({ id: parseInt(h.getAttribute('id')), text: h.getAttribute('text'), category: h.getAttribute('category'), subcategories: Array.from(h.querySelectorAll('subcat')).map(s => s.textContent) })),
             accounts: Array.from(xmlDoc.querySelectorAll('accounts > account')).map(a => ({ id: parseInt(a.getAttribute('id')), name: a.getAttribute('name'), balance: parseFloat(a.getAttribute('balance')), isDefault: a.getAttribute('isDefault') === 'true' })),
             entries: {},
-            transactions: Array.from(xmlDoc.querySelectorAll('transactions > transaction')).map(t => ({ id: parseInt(t.getAttribute('id')), type: t.getAttribute('type'), amount: parseFloat(t.getAttribute('amount')), accountId: parseInt(t.getAttribute('accountId')), date: t.getAttribute('date'), recurring: t.getAttribute('recurring'), description: t.querySelector('description').textContent, recurringStart: t.querySelector('recurringStart')?.textContent, recurringEnd: t.querySelector('recurringEnd')?.textContent }))
+            transactions: Array.from(xmlDoc.querySelectorAll('transactions > transaction')).map(t => ({ id: parseInt(t.getAttribute('id')), type: t.getAttribute('type'), amount: parseFloat(t.getAttribute('amount')), accountId: parseInt(t.getAttribute('accountId')), date: t.getAttribute('date'), recurring: t.getAttribute('recurring'), description: t.querySelector('description').textContent }))
           };
 
           Array.from(xmlDoc.querySelectorAll('entries > entry')).forEach(entryNode => {
@@ -2592,21 +2286,23 @@
               const entry = {};
               const emotionNode = entryNode.querySelector('emotion');
               if (emotionNode) entry.emotion = { name: emotionNode.getAttribute('name'), intensity: parseInt(emotionNode.getAttribute('intensity')) };
-              const contentNode = entryNode.querySelector('content');
-              if (contentNode) entry.text = contentNode.textContent;
-              const physicalActivityNode = entryNode.querySelector('physicalActivity');
-              if (physicalActivityNode) entry.physicalActivity = parseInt(physicalActivityNode.textContent);
-              const waterIntakeNode = entryNode.querySelector('waterIntake');
-              if (waterIntakeNode) entry.waterIntake = parseInt(waterIntakeNode.textContent);
-              const completedHabitsNode = entryNode.querySelector('completedHabits');
-              if (completedHabitsNode) entry.completedHabits = Array.from(completedHabitsNode.querySelectorAll('habitId')).map(idNode => parseInt(idNode.textContent));
+              entryNode.querySelector('content') && (entry.text = entryNode.querySelector('content').textContent);
+              entryNode.querySelector('physicalActivity') && (entry.physicalActivity = parseInt(entryNode.querySelector('physicalActivity').textContent));
+              entryNode.querySelector('waterIntake') && (entry.waterIntake = parseInt(entryNode.querySelector('waterIntake').textContent));
+              const habitsNode = entryNode.querySelector('habitsProgress');
+              if (habitsNode) {
+                  entry.habitsProgress = Array.from(habitsNode.querySelectorAll('habit')).reduce((acc, h) => {
+                      acc[h.getAttribute('id')] = parseInt(h.getAttribute('progress'));
+                      return acc;
+                  }, {});
+              }
               diaryData.entries[date] = entry;
           });
           
-          document.getElementById('diary-owner-name').textContent = `Diario de ${owner}`;
-          document.body.className = `theme-${theme}`;
-          document.getElementById('theme-selector').value = theme;
-          document.getElementById('diary-name-input').value = owner;
+          document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
+          document.body.className = `theme-${diaryData.settings.theme}`;
+          document.getElementById('theme-selector').value = diaryData.settings.theme;
+          document.getElementById('diary-name-input').value = diaryData.ownerName;
           
           showScreen('main-diary-screen');
           switchBottomNav('diario');
@@ -2617,61 +2313,69 @@
           saveDataToLocalStorage();
 
         } catch (error) {
-          console.error('Error al importar el archivo:', error);
-          showToast('Error al importar el archivo. ¿Es un XML válido?');
+          console.error('Error al importar:', error);
+          showToast('Error al importar el archivo.');
         }
       };
       reader.readAsText(file);
       e.target.value = '';
     }
 
-    // Mostrar toast
     function showToast(message, duration = 3000) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
       toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, duration);
+      setTimeout(() => toast.classList.remove('show'), duration);
     }
 
-    // Debounce para optimización
     function debounce(func, wait) {
       let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
+      return function(...args) {
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(() => func.apply(this, args), wait);
       };
     }
 
-    // Resetear el diario
     function resetDiary() {
-      if (confirm('¿Estás seguro de que quieres resetear tu diario? Se borrará TODO. Esta acción no se puede deshacer.')) {
+      if (confirm('¿Estás seguro? Se borrará TODO. Esta acción no se puede deshacer.')) {
         localStorage.removeItem('diarioMojiData');
         location.reload();
       }
     }
 
-    // Guardar en localStorage
     function saveDataToLocalStorage() {
       if (diaryData && diaryData.ownerName) {
         localStorage.setItem('diarioMojiData', JSON.stringify(diaryData));
       }
     }
 
-    // Cargar desde localStorage
     function loadDataFromLocalStorage() {
       const savedData = localStorage.getItem('diarioMojiData');
       if (savedData) {
         diaryData = JSON.parse(savedData);
+        // Migración de datos viejos de hábitos si es necesario
+        if (diaryData.habits && diaryData.habits.length > 0 && !diaryData.habits[0].subcategories) {
+            diaryData.habits.forEach(h => {
+                if (!h.subcategories) h.subcategories = [h.text];
+            });
+            Object.values(diaryData.entries).forEach(entry => {
+                if (entry.completedHabits) {
+                    entry.habitsProgress = {};
+                    entry.completedHabits.forEach(habitId => {
+                        const habit = diaryData.habits.find(h => h.id === habitId);
+                        if(habit) entry.habitsProgress[habitId] = habit.subcategories.length;
+                    });
+                    delete entry.completedHabits;
+                }
+            });
+            showToast("Datos de hábitos actualizados al nuevo formato.");
+            saveDataToLocalStorage();
+        }
         return true;
       }
       return false;
     }
 
-    // Inicializar la aplicación
     initApp();
   });
   </script>
