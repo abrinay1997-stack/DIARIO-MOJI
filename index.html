@@ -18,1023 +18,297 @@
       --transition-speed: 0.3s;
       --border-radius: 16px;
       --shadow: 0 2px 12px rgba(0,0,0,0.08);
-      --shadow-hover: 0 4px 20px rgba(0,0,0,0.12);
       --container-px: 16px;
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 16px);
     }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
-      font-family: var(--font-family);
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.5;
-      font-size: 16px;
-      overflow-x: hidden;
-      touch-action: manipulation;
+      font-family: var(--font-family); margin: 0; padding: 0;
+      background-color: var(--bg-primary); color: var(--text-primary);
+      line-height: 1.5; font-size: 16px; overflow-x: hidden; touch-action: manipulation;
     }
-
-    /* Temas optimizados para móvil */
     body.theme-pastel {
-      --bg-primary: #fdf6f7;
-      --bg-secondary: #ffffff;
-      --text-primary: #2d2d2d;
-      --text-secondary: #666666;
-      --accent-primary: #e89595;
-      --accent-secondary: #9cb6c9;
-      --border-color: #e4d8dc;
-      --success-color: #4caf50;
-      --warning-color: #ff9800;
-      --error-color: #f44336;
-      --card-shadow: 0 2px 12px rgba(232, 149, 149, 0.1);
+      --bg-primary: #fdf6f7; --bg-secondary: #ffffff; --text-primary: #2d2d2d; --text-secondary: #666666;
+      --accent-primary: #e89595; --accent-secondary: #9cb6c9; --border-color: #e4d8dc;
+      --success-color: #4caf50; --warning-color: #ff9800; --error-color: #f44336;
     }
-
     body.theme-cream {
-      --bg-primary: #fdfaf2;
-      --bg-secondary: #ffffff;
-      --text-primary: #3c3c3c;
-      --text-secondary: #666666;
-      --accent-primary: #c89f68;
-      --accent-secondary: #a8bba2;
-      --border-color: #e7e2d9;
-      --success-color: #4caf50;
-      --warning-color: #ff9800;
-      --error-color: #f44336;
-      --card-shadow: 0 2px 12px rgba(200, 159, 104, 0.1);
+      --bg-primary: #fdfaf2; --bg-secondary: #ffffff; --text-primary: #3c3c3c; --text-secondary: #666666;
+      --accent-primary: #c89f68; --accent-secondary: #a8bba2; --border-color: #e7e2d9;
+      --success-color: #4caf50; --warning-color: #ff9800; --error-color: #f44336;
     }
-
     body.theme-light {
-      --bg-primary: #f8fafc;
-      --bg-secondary: #ffffff;
-      --text-primary: #1a202c;
-      --text-secondary: #4a5568;
-      --accent-primary: #3182ce;
-      --accent-secondary: #38a169;
-      --border-color: #e2e8f0;
-      --success-color: #38a169;
-      --warning-color: #ed8936;
-      --error-color: #e53e3e;
-      --card-shadow: 0 2px 12px rgba(49, 130, 206, 0.1);
+      --bg-primary: #f8fafc; --bg-secondary: #ffffff; --text-primary: #1a202c; --text-secondary: #4a5568;
+      --accent-primary: #3182ce; --accent-secondary: #38a169; --border-color: #e2e8f0;
+      --success-color: #38a169; --warning-color: #ed8936; --error-color: #e53e3e;
     }
-
     body.theme-dark {
-      --bg-primary: #0f0f18;
-      --bg-secondary: #1a1a2e;
-      --text-primary: #f0f0f0;
-      --text-secondary: #a0a0b0;
-      --accent-primary: #63b3ed;
-      --accent-secondary: #68d391;
-      --border-color: #2d3748;
-      --success-color: #68d391;
-      --warning-color: #f6ad55;
-      --error-color: #fc8181;
-      --card-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      --bg-primary: #0f0f18; --bg-secondary: #1a1a2e; --text-primary: #f0f0f0; --text-secondary: #a0a0b0;
+      --accent-primary: #63b3ed; --accent-secondary: #68d391; --border-color: #2d3748;
+      --success-color: #68d391; --warning-color: #f6ad55; --error-color: #fc8181;
     }
-
-    body.theme-vibrant {
-      --bg-primary: #0f0f23;
-      --bg-secondary: #1a1a2e;
-      --text-primary: #ffffff;
-      --text-secondary: #c0c0c0;
-      --accent-primary: #e94560;
-      --accent-secondary: #f39c12;
-      --border-color: #333366;
-      --success-color: #27ae60;
-      --warning-color: #f39c12;
-      --error-color: #e74c3c;
-      --card-shadow: 0 2px 12px rgba(233, 69, 96, 0.2);
-    }
-
-    body.theme-forest {
-      --bg-primary: #f0f5f0;
-      --bg-secondary: #ffffff;
-      --text-primary: #2d4a2d;
-      --text-secondary: #5a6e5a;
-      --accent-primary: #4a7c59;
-      --accent-secondary: #6a994e;
-      --border-color: #d8e0d8;
-      --success-color: #4caf50;
-      --warning-color: #ff9800;
-      --error-color: #f44336;
-      --card-shadow: 0 2px 12px rgba(74, 124, 89, 0.1);
-    }
-
-    body.theme-ocean {
-      --bg-primary: #eef7f9;
-      --bg-secondary: #ffffff;
-      --text-primary: #1e3a4a;
-      --text-secondary: #5b8ea7;
-      --accent-primary: #3a8a9e;
-      --accent-secondary: #5b8ea7;
-      --border-color: #d1e3e8;
-      --success-color: #4caf50;
-      --warning-color: #ff9800;
-      --error-color: #f44336;
-      --card-shadow: 0 2px 12px rgba(58, 138, 158, 0.1);
-    }
-
-    /* Pantallas */
     .screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--bg-primary);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      z-index: 1;
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: var(--bg-primary); overflow-y: auto; -webkit-overflow-scrolling: touch;
+      z-index: 1; opacity: 0; transition: opacity 0.3s; pointer-events: none;
     }
-
-    .screen.active {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 10;
-    }
-
-    /* Header móvil optimizado */
+    .screen.active { opacity: 1; pointer-events: auto; z-index: 10; }
     .mobile-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg-secondary);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 12px var(--container-px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-height: 60px;
+      position: sticky; top: 0; z-index: 100; background: var(--bg-secondary);
+      backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color);
+      padding: 12px var(--container-px); display: flex; justify-content: space-between;
+      align-items: center; min-height: 60px;
     }
-
-    .mobile-header h1 {
-      margin: 0;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--accent-primary);
+    .mobile-header h1 { margin: 0; font-size: 1.3rem; font-weight: 700; color: var(--accent-primary); }
+    .header-actions { display: flex; gap: 8px; }
+    .btn-header {
+      padding: 10px 14px; background: var(--bg-primary); border: 1px solid var(--border-color);
+      border-radius: 10px; cursor: pointer; transition: all var(--transition-speed);
+      font-weight: 600; min-height: 44px; display: flex; align-items: center; justify-content: center;
     }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-    }
-
     .icon-button {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: all var(--transition-speed);
+      width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; background: var(--bg-primary); border: 1px solid var(--border-color);
+      font-size: 1.2rem; cursor: pointer; transition: all var(--transition-speed);
     }
-
-    .icon-button:active {
-      transform: scale(0.95);
-      background: var(--accent-primary);
-      color: white;
-    }
-
-    /* Navegación inferior FIJA */
+    .icon-button:active, .btn-header:active { transform: scale(0.95); background: var(--accent-primary); color: white; }
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
-      display: none; /* Oculto por defecto */
-      justify-content: space-around;
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color); display: none; justify-content: space-around;
       padding: 8px var(--container-px) calc(8px + var(--safe-area-inset-bottom));
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      transform: translateZ(0);
+      z-index: 1000; backdrop-filter: blur(10px); transform: translateZ(0);
     }
-    
-    .bottom-nav.visible {
-      display: flex; /* Se muestra al añadir la clase 'visible' */
-    }
-
+    .bottom-nav.visible { display: flex; }
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 12px;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all var(--transition-speed);
-      border-radius: 12px;
-      min-width: 60px;
-      flex: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 12px;
+      background: none; border: none; color: var(--text-secondary); font-size: 0.75rem;
+      cursor: pointer; transition: all var(--transition-speed); border-radius: 12px; min-width: 60px; flex: 1;
     }
-
-    .nav-item.active {
-      color: var(--accent-primary);
-      background: var(--bg-primary);
-    }
-
-    .nav-icon {
-      font-size: 1.3rem;
-    }
-
-    /* Contenido principal con padding para navegación */
-    .main-content {
-      padding: 20px var(--container-px) 120px; /* Aumentado padding inferior */
-      max-width: 100%;
-      overflow-x: hidden;
-    }
-
-    /* Widgets móviles */
+    .nav-item.active { color: var(--accent-primary); background: var(--bg-primary); }
+    .nav-icon { font-size: 1.3rem; }
+    .main-content { padding: 20px var(--container-px) 120px; max-width: 100%; overflow-x: hidden; }
     .widget {
-      background: var(--bg-secondary);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow);
-      transition: all var(--transition-speed);
+      background: var(--bg-secondary); border-radius: var(--border-radius); padding: 20px;
+      margin-bottom: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow);
     }
-
-    .widget:active {
-      transform: scale(0.98);
-    }
-
     .widget h2 {
-      margin: 0 0 16px 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 8px;
+      margin: 0 0 16px 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary);
+      border-bottom: 2px solid var(--border-color); padding-bottom: 8px;
     }
-
-    /* Selector de emociones mejorado para móvil */
-    .emotion-selector {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
+    .emotion-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); gap: 12px; margin-bottom: 20px; }
     .emotion-emoji {
-      font-size: 2rem;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      filter: grayscale(80%) brightness(0.8);
-      opacity: 0.7;
-      padding: 8px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: var(--bg-primary);
-      aspect-ratio: 1;
+      font-size: 2rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: grayscale(80%) brightness(0.8); opacity: 0.7; padding: 8px; border-radius: 50%;
+      display: flex; justify-content: center; align-items: center; background: var(--bg-primary); aspect-ratio: 1;
     }
-
     .emotion-emoji.selected {
-      filter: grayscale(0%) brightness(1);
-      opacity: 1;
-      transform: scale(1.15);
+      filter: grayscale(0%) brightness(1); opacity: 1; transform: scale(1.15);
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
-
-    /* Slider de intensidad mejorado */
-    .intensity-slider-container {
-      background: var(--bg-primary);
-      padding: 16px;
-      border-radius: var(--border-radius);
-      margin-top: 16px;
-    }
-
-    #emotion-intensity {
-      width: 100%;
-      height: 8px;
-      border-radius: 4px;
+    .intensity-slider-container { background: var(--bg-primary); padding: 16px; border-radius: var(--border-radius); margin-top: 16px; }
+    input[type="range"] {
+      width: 100%; height: 8px; border-radius: 4px; outline: none; -webkit-appearance: none; margin: 8px 0;
       background: linear-gradient(to right, var(--error-color), var(--warning-color), var(--success-color));
-      outline: none;
-      -webkit-appearance: none;
-      margin: 8px 0;
     }
-
-    #emotion-intensity::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      cursor: pointer;
-      border: 2px solid var(--accent-primary);
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3); cursor: pointer; border: 2px solid var(--accent-primary);
     }
-
-    /* Acordeones para secciones desplegables */
-    .accordion {
-      margin-bottom: 16px;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
-
+    .accordion { margin-bottom: 16px; border-radius: var(--border-radius); overflow: hidden; border: 1px solid var(--border-color); }
     .accordion-header {
-      background: var(--bg-secondary);
-      padding: 16px 20px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      transition: all var(--transition-speed);
+      background: var(--bg-secondary); padding: 16px 20px; cursor: pointer; display: flex;
+      justify-content: space-between; align-items: center; font-weight: 600; transition: background-color var(--transition-speed);
     }
-
-    .accordion-header:active {
-      background: var(--bg-primary);
-    }
-
-    .accordion-header::after {
-      content: '▼';
-      font-size: 0.8rem;
-      transition: transform var(--transition-speed);
-    }
-
-    .accordion-header.active::after {
-      transform: rotate(180deg);
-    }
-
-    .accordion-content {
-      background: var(--bg-primary);
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--transition-speed);
-    }
-
-    .accordion-content.active {
-      max-height: 1000px;
-      padding: 20px;
-    }
-
-    /* Editor moderno */
-    .editor-container {
-      border: 2px solid var(--border-color);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      background: var(--bg-primary);
-    }
-
-    .editor-toolbar {
-      display: flex;
-      overflow-x: auto;
-      gap: 8px;
-      padding: 12px;
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-
-    .editor-toolbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .editor-toolbar button {
-      padding: 10px 14px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all var(--transition-speed);
-      font-weight: 600;
-      min-width: 44px;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .editor-toolbar button:active {
-      background: var(--accent-primary);
-      color: white;
-      transform: scale(0.95);
-    }
-
-    #editor {
-      min-height: 200px;
-      padding: 16px;
-      font-size: 16px;
-      line-height: 1.6;
-      outline: none;
-    }
-
-    #editor:empty:before {
-      content: attr(placeholder);
-      color: var(--text-secondary);
-    }
-
-    /* Listas táctiles */
-    .touch-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      max-height: 200px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .touch-list li {
-      display: flex;
-      align-items: center;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border-color);
-      transition: background-color var(--transition-speed);
-      min-height: 52px;
-    }
-
-    .touch-list li:active {
-      background-color: var(--bg-primary);
-    }
-
-    .touch-list input {
-      margin-right: 14px;
-      transform: scale(1.3);
-      min-width: 20px;
-      min-height: 20px;
-    }
-
-    .touch-list label {
-      flex-grow: 1;
-      cursor: pointer;
-    }
-
-    /* Estilos para el nuevo slider de hábitos */
-    .habit-item {
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .habit-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    .habit-title {
-        font-weight: 600;
-    }
-    .habit-category {
-        font-size: 0.8em;
-        color: var(--text-secondary);
-        background-color: var(--bg-primary);
-        padding: 2px 8px;
-        border-radius: 8px;
-    }
-    .habit-slider {
-        width: 100%;
-    }
-    .habit-subcategory-label {
-        text-align: center;
-        margin-top: 8px;
-        font-size: 0.9em;
-        color: var(--accent-primary);
-        font-weight: 500;
-        min-height: 1.2em;
-    }
-
-    /* Botones móviles */
+    .accordion-header::after { content: '▼'; font-size: 0.8rem; transition: transform var(--transition-speed); }
+    .accordion-header.active::after { transform: rotate(180deg); }
+    .accordion-content { background: var(--bg-primary); max-height: 0; overflow: hidden; transition: max-height var(--transition-speed); }
+    .accordion-content.active { max-height: 1000px; padding: 20px; }
+    .editor-container { border: 2px solid var(--border-color); border-radius: var(--border-radius); overflow: hidden; background: var(--bg-primary); }
+    #editor { min-height: 200px; padding: 16px; font-size: 16px; line-height: 1.6; outline: none; }
+    #editor:empty:before { content: attr(placeholder); color: var(--text-secondary); }
+    .touch-list { list-style: none; padding: 0; margin: 0; }
+    .touch-list li { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); min-height: 52px; }
+    .habit-item { padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+    .habit-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .habit-title { font-weight: 600; }
+    .habit-category { font-size: 0.8em; color: var(--text-secondary); background-color: var(--bg-primary); padding: 2px 8px; border-radius: 8px; }
+    .habit-subcategory-label { text-align: center; margin-top: 8px; font-size: 0.9em; color: var(--accent-primary); font-weight: 500; min-height: 1.2em; }
     .btn-primary {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: white;
-      border: none;
-      padding: 16px 24px;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      transition: all var(--transition-speed);
-      font-weight: 600;
-      font-size: 1rem;
-      width: 100%;
-      min-height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      color: white; border: none; padding: 16px 24px; border-radius: var(--border-radius);
+      cursor: pointer; transition: all var(--transition-speed); font-weight: 600; font-size: 1rem;
+      width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    /* Modales móviles */
-    .modal {
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      z-index: 2000;
-    }
-
+    .btn-primary:active { transform: scale(0.98); }
+    .modal { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 2000; }
     .modal-content {
-      background: var(--bg-secondary);
-      margin: 20px;
-      border-radius: var(--border-radius);
-      padding: 20px;
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      position: relative;
-      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--bg-secondary); margin: 20px; border-radius: var(--border-radius); padding: 20px;
+      max-height: calc(100vh - 100px); overflow-y: auto; -webkit-overflow-scrolling: touch;
+      position: relative; animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
+    @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--bg-primary);
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      z-index: 1;
+      position: absolute; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%;
+      background: var(--bg-primary); border: none; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.2rem; color: var(--text-secondary); z-index: 1;
     }
-
-    /* Pestañas móviles */
-    .tabs {
-      display: flex;
-      flex-wrap: wrap; 
-      gap: 8px;
-      margin-bottom: 20px;
-      justify-content: center;
-    }
-
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
     .tab {
-      padding: 12px 20px;
-      background: var(--bg-primary);
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all var(--transition-speed);
-      white-space: nowrap;
-      font-weight: 600;
-      color: var(--text-secondary);
-      min-height: 44px;
+      padding: 12px 20px; background: var(--bg-primary); border: none; border-radius: 12px; cursor: pointer;
+      transition: all var(--transition-speed); white-space: nowrap; font-weight: 600; color: var(--text-secondary); min-height: 44px;
     }
-
-    .tab.active {
-      background: var(--accent-primary);
-      color: white;
-    }
-
-    /* Mejoras de accesibilidad móvil */
-    @media (max-width: 480px) {
-      .widget {
-        padding: 16px;
-        margin-bottom: 12px;
-      }
-      
-      .main-content {
-        padding: 16px 16px 120px;
-      }
-      
-      .mobile-header {
-        padding: 12px 16px;
-      }
-    }
-
-    /* Soporte para dispositivos muy pequeños */
-    @media (max-width: 360px) {
-      :root {
-        --container-px: 12px;
-      }
-      
-      .emotion-selector {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-      }
-      
-      .emotion-emoji {
-        font-size: 1.8rem;
-      }
-    }
-
-    /* Estados de carga */
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .skeleton {
-      background: linear-gradient(90deg, var(--bg-primary) 25%, var(--border-color) 50%, var(--bg-primary) 75%);
-      background-size: 200% 100%;
-      animation: loading 1.5s infinite;
-      border-radius: var(--border-radius);
-    }
-
-    @keyframes loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* Toast móvil */
+    .tab.active { background: var(--accent-primary); color: white; }
     .toast {
-      position: fixed;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      padding: 12px 20px;
-      border-radius: var(--border-radius);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      z-index: 10000;
-      transition: all 0.3s ease;
-      border: 1px solid var(--border-color);
-      max-width: 90%;
-      text-align: center;
-      opacity: 0;
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: var(--bg-secondary); color: var(--text-primary); padding: 12px 20px;
+      border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 10000;
+      transition: all 0.3s ease; border: 1px solid var(--border-color); max-width: 90%; text-align: center; opacity: 0;
     }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    /* Calendario mejorado */
-    .calendar-container {
-      background: var(--bg-primary);
-      border-radius: var(--border-radius);
-      padding: 16px;
-    }
-
-    .flatpickr-calendar {
-      border-radius: var(--border-radius) !important;
-      box-shadow: var(--shadow) !important;
-      width: 100% !important;
-    }
-
-    .flatpickr-day {
-      min-height: 40px !important;
-      min-width: 40px !important;
-      line-height: 40px !important;
-    }
-
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .flatpickr-day.has-entry {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
-      color: white !important;
-      border-radius: 50% !important;
-      font-weight: 600 !important;
+      color: white !important; border-radius: 50% !important; border: none !important;
     }
-
-    .flatpickr-day.today {
-      border: 2px solid var(--accent-primary) !important;
-    }
-
-    /* Gestión de cuentas */
-    .account-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .account-item.principal {
-      background-color: var(--bg-primary);
-      border-radius: var(--border-radius);
-      padding: 14px;
-      margin: 8px 0;
-      border: 2px solid var(--accent-primary);
-    }
-
-    .account-balance {
-      font-weight: 600;
-      color: var(--accent-primary);
-    }
-
-    .account-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-small {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .btn-danger {
-      background: var(--error-color);
-      color: white;
-    }
-
-    .btn-success {
-      background: var(--success-color);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-disabled {
-      background: var(--border-color);
-      color: var(--text-secondary);
-      cursor: not-allowed;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
+    .flatpickr-day.all-habits-done { background: linear-gradient(135deg, #FFD700, #F0C000) !important; color: #333 !important; font-weight: bold !important; }
+    .flatpickr-day.today { border: 2px solid var(--accent-primary) !important; }
+    .account-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+    .account-item.principal { background-color: var(--bg-primary); border-radius: var(--border-radius); padding: 14px; margin: 8px 0; border: 2px solid var(--accent-primary); }
+    .account-balance { font-weight: 600; color: var(--accent-primary); }
+    .account-actions { display: flex; gap: 8px; }
+    .btn-small { padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+    .btn-danger { background: var(--error-color); color: white; }
+    .btn-success { background: var(--success-color); color: white; }
+    .btn-secondary { background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); }
+    .btn-disabled { background: var(--border-color); color: var(--text-secondary); cursor: not-allowed; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
     .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid var(--border-color);
-      border-radius: var(--border-radius);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-size: 1rem;
+      width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: var(--border-radius);
+      background: var(--bg-primary); color: var(--text-primary); font-size: 1rem;
     }
-
-    .recurring-options {
-      background: var(--bg-primary);
-      padding: 16px;
-      border-radius: var(--border-radius);
-      margin-top: 16px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    
-    .stat-card {
-      background: var(--bg-primary);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .stat-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 10px 0;
-    }
-    
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* Filtros de tiempo */
-    .time-filters {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-    }
-
+    .stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 600px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+    .stat-card { background: var(--bg-primary); border-radius: var(--border-radius); padding: 20px; text-align: center; }
+    .stat-value { font-size: 2.5rem; font-weight: 700; margin: 10px 0; }
+    .stat-label { color: var(--text-secondary); font-size: 0.9rem; }
+    .time-filters { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 8px; }
     .time-filter {
-      padding: 10px 16px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      white-space: nowrap;
+      padding: 10px 16px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 20px;
+      cursor: pointer; font-size: 0.9rem; font-weight: 600; white-space: nowrap;
     }
-
-    .time-filter.active {
-      background: var(--accent-primary);
-      color: white;
-      border-color: var(--accent-primary);
-    }
-
-    /* Gráficos */
-    .chart-container {
-      height: 300px;
-      position: relative;
-      margin: 16px 0;
-    }
+    .time-filter.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+    .chart-container { height: 300px; position: relative; margin: 16px 0; }
   </style>
 </head>
 <body class="theme-pastel">
-  <!-- PANTALLA DE BIENVENIDA -->
+
   <div id="welcome-screen" class="screen active">
     <div class="main-content" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
       <div class="widget" style="text-align: center; max-width: 400px;">
         <h1 style="font-size: 2.5rem; margin-bottom: 16px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📔 DIARIO MOJI</h1>
-        <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">
-          Tu espacio personal para reflexionar y crecer
-        </p>
+        <p style="color: var(--text-secondary); margin-bottom: 32px; font-size: 1.1rem;">Tu espacio personal para reflexionar y crecer</p>
         <div style="display: flex; flex-direction: column; gap: 16px;">
-          <button class="btn-primary" id="btn-new-diary">
-            <span>📝</span> Crear Nuevo Diario
-          </button>
-          <button class="btn-primary" id="btn-open-diary">
-            <span>📂</span> Abrir Diario Existente
-          </button>
+          <button class="btn-primary" id="btn-new-diary"><span>📝</span> Crear Nuevo Diario</button>
+          <button class="btn-primary" id="btn-open-diary"><span>📂</span> Abrir Diario Existente</button>
         </div>
         <input type="file" id="import-file-input" accept=".xml" style="display: none;">
       </div>
     </div>
   </div>
 
-  <!-- PANTALLA DE NOMBRE -->
   <div id="name-prompt-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-back-name">←</button>
       <h1>Nuevo Diario</h1>
-      <div style="width: 44px;"></div> </div>
+      <div style="width: 44px;"></div>
+    </div>
     <div class="main-content">
       <div class="widget" style="text-align: center;">
         <h2>¿Cómo te llamas?</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 24px;">
-          Este nombre se usará como título de tu diario
-        </p>
-        <input type="text" id="owner-name-input" placeholder="Escribe tu nombre..." 
-               style="width: 100%; padding: 16px; border: 2px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); color: var(--text-primary); font-size: 1.1rem; margin-bottom: 24px;">
+        <input type="text" id="owner-name-input" placeholder="Escribe tu nombre..." style="width: 100%; padding: 16px; border-radius: var(--border-radius); font-size: 1.1rem; margin-bottom: 24px;">
         <button class="btn-primary" id="btn-confirm-name">Continuar</button>
       </div>
     </div>
   </div>
 
-  <!-- PANTALLA PRINCIPAL DEL DIARIO -->
   <div id="main-diary-screen" class="screen">
     <div class="mobile-header">
       <h1 id="diary-owner-name">Mi Diario</h1>
-      <button class="icon-button" id="btn-calendar-header">📅</button>
       <div class="header-actions">
-        <button class="icon-button" id="btn-save" title="Guardar">💾</button>
+        <button class="icon-button" id="btn-calendar-header">📅</button>
         <button class="icon-button" id="btn-settings" title="Ajustes">⚙️</button>
       </div>
     </div>
-
     <div class="main-content">
       <div class="widget">
         <h2 id="emotion-date-label">Cómo te sientes hoy</h2>
-        <div class="emotion-selector" id="emotion-selector">
-          </div>
+        <div class="emotion-selector" id="emotion-selector"></div>
         <div class="intensity-slider-container">
-          <label for="emotion-intensity" style="display: block; margin-bottom: 8px; font-weight: 600;">
-            Intensidad: <span id="intensity-value">5</span>/10
-          </label>
+          <label for="emotion-intensity">Intensidad: <span id="intensity-value">5</span>/10</label>
           <input type="range" id="emotion-intensity" min="1" max="10" value="5">
         </div>
       </div>
-
       <div class="accordion">
         <div class="accordion-header">Mi Entrada de Hoy</div>
         <div class="accordion-content">
           <div class="editor-container">
-            <div class="editor-toolbar">
-              <button data-command="bold" title="Negrita"><b>B</b></button>
-              <button data-command="italic" title="Cursiva"><i>I</i></button>
-              <button data-command="underline" title="Subrayado"><u>U</u></button>
-              <button data-command="insertUnorderedList" title="Lista">•</button>
-              <button id="btn-emoji" title="Emojis">😀</button>
-            </div>
-            <div id="emoji-picker" style="display: none; background: var(--bg-primary); padding: 16px; border-radius: var(--border-radius); margin-bottom: 16px; grid-template-columns: repeat(6, 1fr); gap: 8px;"></div>
             <div id="editor" contenteditable="true" placeholder="Escribe sobre tu día..."></div>
           </div>
         </div>
       </div>
-
-      <div class="accordion">
-        <div class="accordion-header">Hábitos de Hoy</div>
-        <div class="accordion-content">
-          <div id="habits-list"></div>
-        </div>
-      </div>
-
       <div class="accordion">
         <div class="accordion-header">Mi Bienestar</div>
         <div class="accordion-content">
-          <div style="display: flex; flex-direction: column; gap: 20px;">
-            <div>
-              <label for="physical-activity" style="display: block; margin-bottom: 8px; font-weight: 600;">
-                Actividad Física: <span id="physical-activity-value">5</span>/10
-              </label>
-              <input type="range" id="physical-activity" min="1" max="10" value="5" style="width: 100%;">
-            </div>
-            <div>
-              <label for="water-intake" style="display: block; margin-bottom: 8px; font-weight: 600;">
-                Vasos de Agua: <span id="water-intake-value">0</span>
-              </label>
-              <input type="range" id="water-intake" min="0" max="12" value="0" style="width: 100%;">
-            </div>
+          <div>
+            <label for="physical-activity">Actividad Física: <span id="physical-activity-value">5</span>/10</label>
+            <input type="range" id="physical-activity" min="1" max="10" value="5">
+          </div>
+          <div style="margin-top:20px;">
+            <label for="water-intake">Vasos de Agua: <span id="water-intake-value">0</span></label>
+            <input type="range" id="water-intake" min="0" max="12" value="0">
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PANTALLA DE HÁBITOS (NUEVO) -->
   <div id="habitos-screen" class="screen">
     <div class="mobile-header">
-      <button class="icon-button" id="btn-habitos-back">←</button>
-      <h1>Hábitos</h1>
       <div style="width: 44px;"></div>
+      <h1>Hábitos</h1>
+      <div class="header-actions">
+          <button class="btn-header" id="btn-manage-habits" style="font-size: 0.8rem; padding: 0 12px;">Mis Hábitos</button>
+          <button class="icon-button" id="btn-show-add-habit-modal">+</button>
+      </div>
     </div>
     <div class="main-content">
         <div class="widget">
-            <h2>Mis Hábitos</h2>
-            <div id="habits-management-list">
-                <p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>
-            </div>
-        </div>
-        <div class="widget">
-            <h2>Agregar Nuevo Hábito</h2>
-            <div class="form-group">
-                <label for="new-habit-name">Nombre del Hábito:</label>
-                <input type="text" id="new-habit-name" placeholder="Ej: Rutina de mañana">
-            </div>
-            <div class="form-group">
-                <label for="new-habit-category">Categoría:</label>
-                <input type="text" id="new-habit-category" placeholder="Ej: Bienestar, Productividad">
-            </div>
-            <div class="form-group">
-                <label for="new-habit-subcategories">Subcategorías (separadas por coma):</label>
-                <textarea id="new-habit-subcategories" rows="3" placeholder="Ej: Tender la cama, Meditar, Beber agua"></textarea>
-            </div>
-            <button class="btn-primary" id="btn-add-habit">
-                <span>➕</span> Agregar Hábito
-            </button>
+            <h2 id="habits-date-label">Hábitos de Hoy</h2>
+            <div id="habits-list-sliders"></div>
         </div>
     </div>
   </div>
 
-  <!-- PANTALLA DE CALENDARIO -->
   <div id="calendar-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-calendar-back">←</button>
       <h1>Calendario</h1>
-      <div style="width: 44px;"></div> </div>
+      <div style="width: 44px;"></div>
+    </div>
     <div class="main-content">
       <div class="widget">
-        <h2>Selecciona una fecha</h2>
-        <div class="calendar-container">
-          <div id="calendar"></div>
-        </div>
-      </div>
-      <div class="widget">
-        <h2>Resumen del día</h2>
-        <div id="day-summary">
-          <p style="text-align: center; color: var(--text-secondary);">Selecciona una fecha para ver el resumen</p>
-        </div>
+        <div id="calendar"></div>
       </div>
     </div>
   </div>
 
-  <!-- PANTALLA DE GASTOS -->
   <div id="expenses-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-expenses-back">←</button>
       <h1>Gastos</h1>
-      <div style="width: 44px;"></div> </div>
+      <div style="width: 44px;"></div>
+    </div>
     <div class="main-content">
       <div class="widget">
         <h2>Resumen Financiero</h2>
@@ -1042,108 +316,39 @@
           <div class="stat-card">
             <div class="stat-label">Balance Total</div>
             <div class="stat-value" id="total-balance">$0</div>
-            <div class="stat-label">Todas las cuentas</div>
           </div>
           <div class="stat-card">
-            <div class="stat-label">Cuenta Principal</div>
-            <div class="stat-value" id="main-account-balance">$0</div>
             <div class="stat-label" id="main-account-name">Cuenta Principal</div>
+            <div class="stat-value" id="main-account-balance">$0</div>
           </div>
         </div>
       </div>
-      
       <div class="accordion">
         <div class="accordion-header">Registrar Transacción</div>
         <div class="accordion-content">
-          <div class="form-group">
-            <label for="transaction-type">Tipo:</label>
-            <select id="transaction-type">
-              <option value="expense">Gasto</option>
-              <option value="income">Ingreso</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="transaction-amount">Monto:</label>
-            <input type="number" id="transaction-amount" step="0.01" placeholder="0.00">
-          </div>
-          
-          <div class="form-group">
-            <label for="transaction-description">Descripción:</label>
-            <input type="text" id="transaction-description" placeholder="Descripción de la transacción">
-          </div>
-          
-          <div class="form-group">
-            <label for="transaction-account">Cuenta:</label>
-            <select id="transaction-account"></select>
-          </div>
-          
-          <div class="form-group">
-            <label for="transaction-recurring">¿Es recurrente?</label>
-            <select id="transaction-recurring">
-              <option value="none">No</option>
-              <option value="daily">Diario</option>
-              <option value="weekly">Semanal</option>
-              <option value="monthly">Mensual</option>
-              <option value="yearly">Anual</option>
-            </select>
-          </div>
-          
-          <div id="recurring-options" class="recurring-options" style="display: none;">
-            <div class="form-group">
-              <label for="recurring-start-date">Fecha de inicio:</label>
-              <input type="date" id="recurring-start-date">
-            </div>
-            <div class="form-group">
-              <label for="recurring-end-date">Fecha de fin (opcional):</label>
-              <input type="date" id="recurring-end-date">
-            </div>
-          </div>
-          
+          <div class="form-group"><label for="transaction-type">Tipo:</label><select id="transaction-type"><option value="expense">Gasto</option><option value="income">Ingreso</option></select></div>
+          <div class="form-group"><label for="transaction-amount">Monto:</label><input type="number" id="transaction-amount" step="0.01" placeholder="0.00"></div>
+          <div class="form-group"><label for="transaction-description">Descripción:</label><input type="text" id="transaction-description"></div>
+          <div class="form-group"><label for="transaction-account">Cuenta:</label><select id="transaction-account"></select></div>
           <button class="btn-primary" id="btn-add-transaction">Agregar Transacción</button>
         </div>
       </div>
-      
       <div class="accordion">
         <div class="accordion-header">Gestión de Cuentas</div>
         <div class="accordion-content">
-          <div id="accounts-list">
-            <p style="text-align: center; color: var(--text-secondary);">No hay cuentas registradas</p>
-          </div>
-          
-          <div class="form-group" style="margin-top: 20px;">
-            <label for="new-account-name">Nueva Cuenta:</label>
-            <input type="text" id="new-account-name" placeholder="Nombre de la cuenta">
-          </div>
-          
-          <div class="form-group">
-            <label for="new-account-balance">Saldo inicial:</label>
-            <input type="number" id="new-account-balance" step="0.01" value="0">
-          </div>
-          
+          <div id="accounts-list"></div>
+          <h3 style="margin-top: 24px;">Agregar Nueva Cuenta</h3>
+          <div class="form-group"><label for="new-account-name">Nombre:</label><input type="text" id="new-account-name"></div>
+          <div class="form-group"><label for="new-account-balance">Saldo inicial:</label><input type="number" id="new-account-balance" step="0.01" value="0"></div>
           <button class="btn-primary" id="btn-add-account">Agregar Cuenta</button>
-          
-          <div class="form-group" style="margin-top: 20px;">
-            <label for="transfer-from">Transferencia entre cuentas:</label>
-            <select id="transfer-from">
-              <option value="">Desde cuenta...</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <select id="transfer-to">
-              <option value="">Hacia cuenta...</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <input type="number" id="transfer-amount" step="0.01" placeholder="Monto a transferir">
-          </div>
-          
+
+          <h3 style="margin-top: 24px;">Transferencia entre Cuentas</h3>
+          <div class="form-group"><label for="transfer-from">Desde:</label><select id="transfer-from"></select></div>
+          <div class="form-group"><label for="transfer-to">Hacia:</label><select id="transfer-to"></select></div>
+          <div class="form-group"><label for="transfer-amount">Monto:</label><input type="number" id="transfer-amount" step="0.01" placeholder="0.00"></div>
           <button class="btn-primary" id="btn-transfer">Realizar Transferencia</button>
         </div>
       </div>
-      
       <div class="accordion">
         <div class="accordion-header">Últimas Transacciones</div>
         <div class="accordion-content">
@@ -1153,12 +358,12 @@
     </div>
   </div>
   
-  <!-- PANTALLA DE ESTADÍSTICAS -->
   <div id="stats-screen" class="screen">
     <div class="mobile-header">
       <button class="icon-button" id="btn-stats-back">←</button>
       <h1>Estadísticas</h1>
-      <div style="width: 44px;"></div> </div>
+      <div style="width: 44px;"></div>
+    </div>
     <div class="main-content">
       <div class="time-filters">
         <button class="time-filter active" data-period="week">Semana</button>
@@ -1166,88 +371,40 @@
         <button class="time-filter" data-period="year">Año</button>
         <button class="time-filter" data-period="all">Todo</button>
       </div>
-      
       <div class="tabs">
         <button class="tab active" data-tab="emociones">Emociones</button>
         <button class="tab" data-tab="finanzas">Finanzas</button>
         <button class="tab" data-tab="habitos">Hábitos</button>
         <button class="tab" data-tab="bienestar">Bienestar</button>
       </div>
-      
       <div id="emociones-tab" class="tab-content">
         <div class="widget">
           <h2>Resumen Emocional</h2>
           <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-label">Índice de Bienestar</div>
-              <div class="stat-value" id="wellness-index">--</div>
-              <div class="stat-label">Promedio del período</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Emoción Principal</div>
-              <div class="stat-value" id="main-emotion">--</div>
-              <div class="stat-label">Más frecuente</div>
-            </div>
+            <div class="stat-card"><div class="stat-label">Índice de Bienestar</div><div class="stat-value" id="wellness-index">--</div></div>
+            <div class="stat-card"><div class="stat-label">Emoción Principal</div><div class="stat-value" id="main-emotion">--</div></div>
           </div>
         </div>
-        
-        <div class="widget">
-          <h2>Evolución Emocional</h2>
-          <div class="chart-container">
-            <canvas id="emotion-chart"></canvas>
-            <div id="emotion-chart-no-data" style="display: none; text-align: center; color: var(--text-secondary); padding: 2em;">
-              No hay datos para mostrar el gráfico.
-            </div>
-          </div>
-        </div>
+        <div class="widget"><h2>Evolución Emocional</h2><div class="chart-container"><canvas id="emotion-chart"></canvas></div></div>
       </div>
-      
       <div id="finanzas-tab" class="tab-content" style="display: none;">
         <div class="widget">
           <h2>Resumen Financiero</h2>
           <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-label">Ingresos</div>
-              <div class="stat-value" id="total-income">$0</div>
-              <div class="stat-label">Total del período</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Gastos</div>
-              <div class="stat-value" id="total-expenses">$0</div>
-              <div class="stat-label">Total del período</div>
-            </div>
+            <div class="stat-card"><div class="stat-label">Ingresos</div><div class="stat-value" id="total-income">$0</div></div>
+            <div class="stat-card"><div class="stat-label">Gastos</div><div class="stat-value" id="total-expenses">$0</div></div>
           </div>
         </div>
-
-        <div class="widget">
-          <h2>Distribución del Balance Total</h2>
-          <div class="chart-container">
-            <canvas id="balance-distribution-chart"></canvas>
-          </div>
-        </div>
-
-        <div class="widget">
-          <h2>Distribución de Gastos</h2>
-          <div class="chart-container">
-            <canvas id="expenses-chart"></canvas>
-          </div>
-        </div>
-        
-        <div class="widget">
-          <h2>Evolución Financiera</h2>
-          <div class="chart-container">
-            <canvas id="finance-trend-chart"></canvas>
-          </div>
-        </div>
+        <div class="widget"><h2>Distribución del Balance Total</h2><div class="chart-container"><canvas id="balance-distribution-chart"></canvas></div></div>
+        <div class="widget"><h2>Distribución de Gastos</h2><div class="chart-container"><canvas id="expenses-chart"></canvas></div></div>
       </div>
-      
       <div id="habitos-tab" class="tab-content" style="display: none;">
         <div class="widget">
-          <h2>Hábitos más Cumplidos</h2>
-          <ul class="touch-list" id="habits-stats-list"></ul>
+            <h2>Resumen de Hábitos</h2>
+            <div class="stats-grid"><div class="stat-card"><div class="stat-label">Promedio de Hábitos Completados</div><div class="stat-value" id="avg-habits-completed">--</div><div class="stat-label">Por día</div></div></div>
         </div>
+        <div class="widget"><h2>Rendimiento por Hábito</h2><ul class="touch-list" id="habits-stats-list"></ul></div>
       </div>
-      
       <div id="bienestar-tab" class="tab-content" style="display: none;">
         <div class="widget">
           <h2>Estadísticas de Bienestar</h2>
@@ -1264,156 +421,86 @@
             </div>
           </div>
         </div>
-        
-        <div class="widget">
-          <h2>Evolución del Bienestar</h2>
-          <div class="chart-container">
-            <canvas id="wellbeing-chart"></canvas>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DE AJUSTES -->
   <div id="settings-modal" class="modal screen">
     <div class="modal-content">
       <button class="close-btn">&times;</button>
-      <h2 style="margin-bottom: 24px;">Ajustes</h2>
-      
-      <div class="widget" style="margin-bottom: 16px;">
-        <h3>Nombre del Diario</h3>
-        <input type="text" id="diary-name-input" placeholder="Nombre del diario" 
-               style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); color: var(--text-primary);">
-      </div>
-      
-      <div class="widget" style="margin-bottom: 16px;">
-        <h3>Tema Visual</h3>
-        <select id="theme-selector" style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); color: var(--text-primary);">
-          <option value="pastel">Pastel</option>
-          <option value="cream">Crema</option>
-          <option value="light">Claro</option>
-          <option value="dark">Oscuro</option>
-          <option value="vibrant">Vibrante</option>
-          <option value="forest">Bosque</option>
-          <option value="ocean">Océano</option>
-        </select>
-      </div>
-      
-      <div class="widget" style="margin-bottom: 16px;">
-        <h3>Seguridad</h3>
-        <input type="password" id="password-input" placeholder="Contraseña opcional" 
-               style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-primary); color: var(--text-primary); margin-bottom: 12px;">
-        <small style="color: var(--text-secondary);">Se guarda en el archivo XML</small>
-      </div>
-      
-      <button class="btn-primary" id="btn-save-settings" style="margin-top: 16px;">Guardar Cambios</button>
-
-      <button class="btn-primary btn-danger" id="btn-reset-diary" style="margin-top: 12px; background: var(--error-color);">
-        Resetear Diario
-      </button>
+      <h2>Ajustes</h2>
+      <div class="form-group"><label>Nombre del Diario</label><input type="text" id="diary-name-input"></div>
+      <div class="form-group"><label>Tema Visual</label><select id="theme-selector"><option value="pastel">Pastel</option><option value="cream">Crema</option><option value="light">Claro</option><option value="dark">Oscuro</option></select></div>
+      <button class="btn-primary" id="btn-save-settings">Guardar Cambios</button>
+      <button class="btn-primary" id="btn-export-diary" style="margin-top: 12px; background: var(--accent-secondary);">Exportar Diario</button>
+      <button class="btn-primary btn-danger" id="btn-reset-diary" style="margin-top: 12px;">Resetear Diario</button>
     </div>
   </div>
-
-  <!-- MODAL PARA EDITAR HÁBITO (NUEVO) -->
+  <div id="add-habit-modal" class="modal screen">
+    <div class="modal-content">
+      <button class="close-btn">&times;</button>
+      <h2>Agregar Hábito</h2>
+      <div class="form-group"><label for="new-habit-name">Nombre:</label><input type="text" id="new-habit-name" placeholder="Ej: Rutina de mañana"></div>
+      <div class="form-group"><label for="new-habit-category">Categoría:</label><input type="text" id="new-habit-category" placeholder="Ej: Bienestar"></div>
+      <div class="form-group"><label for="new-habit-subcategories">Subcategorías (separadas por coma):</label><textarea id="new-habit-subcategories" rows="3" placeholder="Ej: Tender la cama, Meditar"></textarea></div>
+      <button class="btn-primary" id="btn-add-habit">Agregar Hábito</button>
+    </div>
+  </div>
+  <div id="manage-habits-modal" class="modal screen">
+    <div class="modal-content">
+      <button class="close-btn">&times;</button>
+      <h2>Mis Hábitos</h2>
+      <div id="habits-management-list"></div>
+    </div>
+  </div>
   <div id="edit-habit-modal" class="modal screen">
     <div class="modal-content">
-        <button class="close-btn">&times;</button>
-        <h2 style="margin-bottom: 24px;">Editar Hábito</h2>
-        <div class="widget">
-            <div class="form-group">
-                <label for="edit-habit-name">Nombre del Hábito:</label>
-                <input type="text" id="edit-habit-name">
-            </div>
-            <div class="form-group">
-                <label for="edit-habit-category">Categoría:</label>
-                <input type="text" id="edit-habit-category">
-            </div>
-            <div class="form-group">
-                <label for="edit-habit-subcategories">Subcategorías (separadas por coma):</label>
-                <textarea id="edit-habit-subcategories" rows="3"></textarea>
-            </div>
-            <button class="btn-primary" id="btn-save-habit">Guardar Cambios</button>
-        </div>
+      <button class="close-btn">&times;</button>
+      <h2>Editar Hábito</h2>
+      <div class="form-group"><label for="edit-habit-name">Nombre:</label><input type="text" id="edit-habit-name"></div>
+      <div class="form-group"><label for="edit-habit-category">Categoría:</label><input type="text" id="edit-habit-category"></div>
+      <div class="form-group"><label for="edit-habit-subcategories">Subcategorías:</label><textarea id="edit-habit-subcategories" rows="3"></textarea></div>
+      <button class="btn-primary" id="btn-save-habit">Guardar Cambios</button>
     </div>
   </div>
-
-  <!-- MODAL PARA EDITAR CUENTA -->
   <div id="edit-account-modal" class="modal screen">
     <div class="modal-content">
       <button class="close-btn">&times;</button>
-      <h2 style="margin-bottom: 24px;">Editar Cuenta</h2>
-      
-      <div class="widget">
-        <div class="form-group">
-          <label for="edit-account-name">Nombre de la cuenta:</label>
-          <input type="text" id="edit-account-name" placeholder="Nombre de la cuenta">
-        </div>
-        
-        <div class="form-group">
-          <label for="edit-account-balance">Saldo actual:</label>
-          <input type="number" id="edit-account-balance" step="0.01" placeholder="0.00">
-        </div>
-        
-        <button class="btn-primary" id="btn-save-account">Guardar Cambios</button>
-      </div>
+      <h2>Editar Cuenta</h2>
+      <div class="form-group"><label for="edit-account-name">Nombre:</label><input type="text" id="edit-account-name"></div>
+      <div class="form-group"><label for="edit-account-balance">Saldo:</label><input type="number" id="edit-account-balance" step="0.01"></div>
+      <button class="btn-primary" id="btn-save-account">Guardar Cambios</button>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
-  <!-- MENÚ DE NAVEGACIÓN INFERIOR (ACTUALIZADO) -->
   <nav class="bottom-nav">
-    <button class="nav-item active" data-screen="diario">
-      <span class="nav-icon">📔</span>
-      <span>Diario</span>
-    </button>
-    <button class="nav-item" data-screen="habitos">
-      <span class="nav-icon">📋</span>
-      <span>Hábitos</span>
-    </button>
-    <button class="nav-item" data-screen="gastos">
-      <span class="nav-icon">💰</span>
-      <span>Gastos</span>
-    </button>
-    <button class="nav-item" data-screen="estadisticas">
-      <span class="nav-icon">📊</span>
-      <span>Estadísticas</span>
-    </button>
+    <button class="nav-item active" data-screen="diario"><span class="nav-icon">📔</span><span>Diario</span></button>
+    <button class="nav-item" data-screen="habitos"><span class="nav-icon">📋</span><span>Hábitos</span></button>
+    <button class="nav-item" data-screen="gastos"><span class="nav-icon">💰</span><span>Gastos</span></button>
+    <button class="nav-item" data-screen="estadisticas"><span class="nav-icon">📊</span><span>Estadísticas</span></button>
   </nav>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Variables globales
     let diaryData = {};
     let currentDate = new Date().toISOString().split('T')[0];
-    let calendarInstance = null;
-    let emotionChartInstance = null;
-    let expensesChartInstance = null;
-    let financeTrendChartInstance = null;
-    let wellbeingChartInstance = null;
-    let balanceChartInstance = null;
-    let currentStatsPeriod = 'week';
-    let editingAccountId = null;
-    let editingHabitId = null;
+    let calendarInstance, emotionChartInstance, expensesChartInstance, balanceChartInstance;
+    let editingAccountId, editingHabitId;
 
-    // Datos de configuración
+    const ALL_SCREENS = ['welcome-screen', 'name-prompt-screen', 'main-diary-screen', 'habitos-screen', 'calendar-screen', 'expenses-screen', 'stats-screen'];
     const EMOTIONS = [
-      {e:'😄', n:'Alegría', v:2}, {e:'😊', n:'Calma', v:1}, {e:'😐', n:'Neutral', v:0},
-      {e:'😟', n:'Ansiedad', v:-1}, {e:'😭', n:'Tristeza', v:-2}, {e:'😠', n:'Enojo', v:-2},
-      {e:'😱', n:'Miedo', v:-1}, {e:'😍', n:'Amor', v:2}, {e:'🤔', n:'Reflexión', v:0},
-      {e:'😴', n:'Cansancio', v:-1}
+        {e:'😄', n:'Alegría', v:2}, {e:'😊', n:'Calma', v:1}, {e:'😐', n:'Neutral', v:0},
+        {e:'😟', n:'Ansiedad', v:-1}, {e:'😭', n:'Tristeza', v:-2}, {e:'😠', n:'Enojo', v:-2},
+        {e:'😱', n:'Miedo', v:-1}, {e:'😍', n:'Amor', v:2}, {e:'🤔', n:'Reflexión', v:0},
+        {e:'😴', n:'Cansancio', v:-1}
     ];
-
-    const EMOJI_LIST = ['😀', '😂', '😊', '😍', '🤔', '😢', '😠', '👍', '👎', '❤️', '🔥', '🎉', '✨', '💡', '🙏'];
-
-    // Inicialización de la aplicación
+    
     function initApp() {
       setupEventListeners();
       renderEmotionSelector();
-      setupEditor();
       setupAccordions();
-
       if (loadDataFromLocalStorage()) {
         document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
         document.body.className = `theme-${diaryData.settings.theme || 'pastel'}`;
@@ -1421,735 +508,287 @@
         showScreen('main-diary-screen');
         switchBottomNav('diario');
         loadEntryForDate(currentDate);
-
-        updateHabitsList();
-        updateHabitsManagementList();
-        updateExpenses();
         showToast(`¡Bienvenido/a de nuevo, ${diaryData.ownerName}!`);
       } else {
         showScreen('welcome-screen');
       }
     }
 
-    // Configurar event listeners
     function setupEventListeners() {
       document.getElementById('btn-new-diary').addEventListener('click', () => showScreen('name-prompt-screen'));
-      document.getElementById('btn-open-diary').addEventListener('click', () => document.getElementById('import-file-input').click());
       document.getElementById('btn-confirm-name').addEventListener('click', createNewDiary);
-      document.getElementById('btn-back-name').addEventListener('click', () => showScreen('welcome-screen'));
-      document.getElementById('btn-reset-diary').addEventListener('click', resetDiary);
-      
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          const screen = e.currentTarget.dataset.screen;
-          switchBottomNav(screen);
-        });
+
+      document.querySelector('.bottom-nav').addEventListener('click', (e) => {
+          const navButton = e.target.closest('.nav-item');
+          if (navButton && navButton.dataset.screen) {
+              switchBottomNav(navButton.dataset.screen);
+          }
       });
       
-      document.getElementById('btn-calendar-back').addEventListener('click', () => switchBottomNav('diario'));
-      document.getElementById('btn-habitos-back').addEventListener('click', () => switchBottomNav('diario'));
-      document.getElementById('btn-stats-back').addEventListener('click', () => switchBottomNav('diario'));
-      document.getElementById('btn-expenses-back').addEventListener('click', () => switchBottomNav('diario'));
+      ['btn-calendar-back', 'btn-expenses-back', 'btn-stats-back'].forEach(id => document.getElementById(id).addEventListener('click', () => switchBottomNav('diario')));
       document.getElementById('btn-calendar-header').addEventListener('click', () => switchBottomNav('calendario'));
-      
-      document.getElementById('emotion-intensity').addEventListener('input', (e) => {
-        document.getElementById('intensity-value').textContent = e.target.value;
-        saveEmotionData();
-      });
-      
-      document.getElementById('physical-activity').addEventListener('input', (e) => {
-        document.getElementById('physical-activity-value').textContent = e.target.value;
-        saveWellbeingData();
-      });
-      
-      document.getElementById('water-intake').addEventListener('input', (e) => {
-        document.getElementById('water-intake-value').textContent = e.target.value;
-        saveWellbeingData();
-      });
-      
+      document.getElementById('emotion-intensity').addEventListener('input', (e) => { document.getElementById('intensity-value').textContent = e.target.value; saveEmotionData(); });
+      document.getElementById('physical-activity').addEventListener('input', (e) => { document.getElementById('physical-activity-value').textContent = e.target.value; saveWellbeingData(); });
+      document.getElementById('water-intake').addEventListener('input', (e) => { document.getElementById('water-intake-value').textContent = e.target.value; saveWellbeingData(); });
       document.getElementById('editor').addEventListener('input', debounce(saveEntryText, 500));
-      
-      document.getElementById('btn-save').addEventListener('click', exportDiary);
-      document.getElementById('btn-settings').addEventListener('click', () => showModal('settings-modal'));
-      
-      document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
-      
+      document.getElementById('btn-show-add-habit-modal').addEventListener('click', () => showModal('add-habit-modal'));
+      document.getElementById('btn-manage-habits').addEventListener('click', () => { updateHabitsManagementList(); showModal('manage-habits-modal'); });
       document.getElementById('btn-add-habit').addEventListener('click', addNewHabit);
       document.getElementById('btn-save-habit').addEventListener('click', saveHabitChanges);
-      
       document.getElementById('btn-add-transaction').addEventListener('click', addNewTransaction);
       document.getElementById('btn-add-account').addEventListener('click', addNewAccount);
-      document.getElementById('btn-transfer').addEventListener('click', transferBetweenAccounts);
-      document.getElementById('transaction-recurring').addEventListener('change', toggleRecurringOptions);
       document.getElementById('btn-save-account').addEventListener('click', saveAccountChanges);
-      
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', (e) => switchTab(e.currentTarget.dataset.tab));
-      });
-      
-      document.querySelectorAll('.time-filter').forEach(filter => {
-        filter.addEventListener('click', (e) => switchTimeFilter(e.currentTarget.dataset.period));
-      });
-      
-      document.querySelectorAll('.close-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active'));
-      });
-      
-      document.getElementById('import-file-input').addEventListener('change', handleFileImport);
+      document.getElementById('btn-transfer').addEventListener('click', transferBetweenAccounts);
+      document.getElementById('btn-settings').addEventListener('click', () => showModal('settings-modal'));
+      document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
+      document.getElementById('btn-export-diary').addEventListener('click', exportDiary);
+      document.getElementById('btn-reset-diary').addEventListener('click', resetDiary);
+      document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active')));
+      document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', (e) => switchTab(e.currentTarget.dataset.tab)));
+      document.querySelectorAll('.time-filter').forEach(filter => filter.addEventListener('click', (e) => switchTimeFilter(e.currentTarget.dataset.period)));
     }
 
+    function showScreen(screenIdToShow) { ALL_SCREENS.forEach(id => document.getElementById(id)?.classList.toggle('active', id === screenIdToShow)); }
+    function switchBottomNav(screenName) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.toggle('active', item.dataset.screen === screenName));
+      const screenMap = { diario: 'main-diary-screen', habitos: 'habitos-screen', gastos: 'expenses-screen', estadisticas: 'stats-screen', calendario: 'calendar-screen' };
+      showScreen(screenMap[screenName]);
+      if (screenName === 'gastos') updateExpenses();
+      else if (screenName === 'estadisticas') updateStats();
+      else if (screenName === 'calendario') initCalendar();
+      else if (screenName === 'habitos') updateHabitsScreen();
+    }
+    function showModal(modalId) { document.getElementById(modalId)?.classList.add('active'); }
     function setupAccordions() {
-      document.querySelectorAll('.accordion-header').forEach(header => {
-        header.addEventListener('click', () => {
-          header.classList.toggle('active');
-          header.nextElementSibling.classList.toggle('active');
-        });
-      });
+      document.querySelectorAll('.accordion-header').forEach(h => h.addEventListener('click', () => { h.classList.toggle('active'); h.nextElementSibling.classList.toggle('active'); }));
     }
-
     function renderEmotionSelector() {
       const container = document.getElementById('emotion-selector');
-      container.innerHTML = EMOTIONS.map(emotion => `
-        <div class="emotion-emoji" data-name="${emotion.n}" title="${emotion.n}">${emotion.e}</div>
-      `).join('');
-      
+      container.innerHTML = EMOTIONS.map(e => `<div class="emotion-emoji" data-name="${e.n}" title="${e.n}">${e.e}</div>`).join('');
       container.addEventListener('click', (e) => {
         const target = e.target.closest('.emotion-emoji');
         if (target) {
-          document.querySelectorAll('.emotion-emoji').forEach(el => el.classList.remove('selected'));
+          container.querySelectorAll('.emotion-emoji.selected').forEach(el => el.classList.remove('selected'));
           target.classList.add('selected');
           saveEmotionData();
         }
       });
     }
-
-    function setupEditor() {
-      const editor = document.getElementById('editor');
-      const toolbar = document.querySelector('.editor-toolbar');
-      const emojiPicker = document.getElementById('emoji-picker');
-      
-      toolbar.addEventListener('click', (e) => {
-        const button = e.target.closest('button');
-        if (button) {
-          if (button.id === 'btn-emoji') {
-            emojiPicker.style.display = emojiPicker.style.display === 'grid' ? 'none' : 'grid';
-          } else {
-            document.execCommand(button.dataset.command, false, null);
-            editor.focus();
-          }
-        }
-      });
-      
-      emojiPicker.innerHTML = EMOJI_LIST.map(emoji => `<span style="font-size: 1.5rem; cursor: pointer; text-align: center;">${emoji}</span>`).join('');
-      emojiPicker.addEventListener('click', (e) => {
-        if (e.target.tagName === 'SPAN') {
-          editor.focus();
-          document.execCommand('insertText', false, e.target.textContent);
-        }
-      });
+    function updateHabitsScreen() {
+        const dateObj = new Date(currentDate + 'T12:00:00');
+        document.getElementById('habits-date-label').textContent = `Hábitos del ${dateObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric' })}`;
+        updateHabitsListSliders();
     }
-
-    function switchBottomNav(screen) {
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.screen === screen);
-      });
-      
-      const mainScreens = ['main-diary-screen', 'habitos-screen', 'calendar-screen', 'expenses-screen', 'stats-screen'];
-      mainScreens.forEach(screenId => {
-        const screenEl = document.getElementById(screenId);
-        if (screenEl) screenEl.classList.remove('active');
-      });
-
-      let screenIdToShow = '';
-      if (screen === 'diario') screenIdToShow = 'main-diary-screen';
-      else if (screen === 'habitos') {
-        screenIdToShow = 'habitos-screen';
-        updateHabitsManagementList();
-      } else if (screen === 'gastos') {
-        screenIdToShow = 'expenses-screen';
-        updateExpenses();
-      } else if (screen === 'estadisticas') {
-        screenIdToShow = 'stats-screen';
-        updateStats();
-      } else if (screen === 'calendario') {
-        screenIdToShow = 'calendar-screen';
-        initCalendar();
-      }
-      
-      const targetScreen = document.getElementById(screenIdToShow);
-      if(targetScreen) targetScreen.classList.add('active');
+    function createNewDiary() {
+      const name = document.getElementById('owner-name-input').value.trim();
+      if (!name) return showToast('Por favor, introduce tu nombre');
+      diaryData = {
+        ownerName: name, settings: { theme: 'pastel' }, entries: {}, habits: [],
+        accounts: [{ id: Date.now(), name: 'Cuenta Principal', balance: 0, isDefault: true }], transactions: []
+      };
+      document.getElementById('diary-owner-name').textContent = `Diario de ${name}`;
+      showScreen('main-diary-screen');
+      document.querySelector('.bottom-nav').classList.add('visible');
+      saveDataToLocalStorage();
+      showToast(`¡Bienvenido/a, ${name}!`);
     }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabId));
-      document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-      document.getElementById(`${tabId}-tab`).style.display = 'block';
-      if (tabId === 'finanzas') updateFinanceCharts();
-      else if (tabId === 'bienestar') updateWellbeingChart();
-    }
-
-    function switchTimeFilter(period) {
-      currentStatsPeriod = period;
-      document.querySelectorAll('.time-filter').forEach(filter => filter.classList.toggle('active', filter.dataset.period === period));
-      updateStats();
-    }
-
-    function initCalendar() {
-      if (calendarInstance) calendarInstance.destroy();
-      calendarInstance = flatpickr("#calendar", {
-        inline: true,
-        defaultDate: currentDate,
-        onChange: (selectedDates, dateStr) => {
-          currentDate = dateStr;
-          loadEntryForDate(currentDate);
-          updateDaySummary(dateStr);
-        },
-        onDayCreate: (dObj, dStr, fp, dayElem) => {
-          const date = dayElem.dateObj.toISOString().split('T')[0];
-          if (diaryData.entries[date] && Object.keys(diaryData.entries[date]).length > 0) {
-            dayElem.classList.add("has-entry");
-          }
-        }
-      });
-      updateDaySummary(currentDate);
-    }
-
     function loadEntryForDate(date) {
+      currentDate = date;
       const entry = diaryData.entries[date] || {};
-      
-      document.querySelectorAll('.emotion-emoji.selected').forEach(el => el.classList.remove('selected'));
+      document.querySelector('.emotion-emoji.selected')?.classList.remove('selected');
       if (entry.emotion) {
-        const emotionElement = document.querySelector(`.emotion-emoji[data-name="${entry.emotion.name}"]`);
-        if (emotionElement) emotionElement.classList.add('selected');
+        document.querySelector(`.emotion-emoji[data-name="${entry.emotion.name}"]`)?.classList.add('selected');
         document.getElementById('emotion-intensity').value = entry.emotion.intensity;
         document.getElementById('intensity-value').textContent = entry.emotion.intensity;
       } else {
         document.getElementById('emotion-intensity').value = 5;
         document.getElementById('intensity-value').textContent = 5;
       }
-      
       document.getElementById('editor').innerHTML = entry.text || '';
       document.getElementById('physical-activity').value = entry.physicalActivity || 5;
       document.getElementById('physical-activity-value').textContent = entry.physicalActivity || 5;
       document.getElementById('water-intake').value = entry.waterIntake || 0;
       document.getElementById('water-intake-value').textContent = entry.waterIntake || 0;
-      
-      updateHabitsList();
-      
       const dateObj = new Date(date + 'T12:00:00');
-      const dateString = dateObj.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      document.getElementById('emotion-date-label').textContent = `Cómo te sentiste el ${dateString}`;
+      document.getElementById('emotion-date-label').textContent = `Cómo te sentiste el ${dateObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}`;
+      if (document.getElementById('habitos-screen').classList.contains('active')) updateHabitsScreen();
     }
-
-    function updateDaySummary(date) {
-      const summaryElement = document.getElementById('day-summary');
-      const entry = diaryData.entries[date];
-      
-      if (entry && Object.keys(entry).length > 0) {
-        let html = '';
-        if (entry.emotion) {
-          const emotion = EMOTIONS.find(e => e.n === entry.emotion.name);
-          html += `<p><strong>Emoción:</strong> ${emotion.e} ${entry.emotion.name} (Intensidad: ${entry.emotion.intensity}/10)</p>`;
-        }
-        if (entry.physicalActivity) html += `<p><strong>Actividad física:</strong> ${entry.physicalActivity}/10</p>`;
-        if (entry.waterIntake) html += `<p><strong>Vasos de agua:</strong> ${entry.waterIntake}</p>`;
-        if (entry.text) html += `<p><strong>Entrada:</strong> ${entry.text.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>`;
-        summaryElement.innerHTML = html;
-      } else {
-        summaryElement.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay datos para este día</p>';
-      }
-    }
-
-    function updateStats() {
-      const entriesWithEmotions = getEntriesForPeriod(currentStatsPeriod).filter(entry => entry.emotion);
-      const emotionChartCanvas = document.getElementById('emotion-chart');
-      const noDataMessage = document.getElementById('emotion-chart-no-data');
-
-      if (entriesWithEmotions.length === 0) {
-        document.getElementById('wellness-index').textContent = 'N/A';
-        document.getElementById('main-emotion').textContent = 'N/A';
-        emotionChartCanvas.style.display = 'none';
-        noDataMessage.style.display = 'block';
-        if (emotionChartInstance) { emotionChartInstance.destroy(); emotionChartInstance = null; }
-      } else {
-        emotionChartCanvas.style.display = 'block';
-        noDataMessage.style.display = 'none';
-        const totalScore = entriesWithEmotions.reduce((sum, entry) => {
-          const emotion = EMOTIONS.find(e => e.n === entry.emotion.name);
-          return sum + (emotion.v * entry.emotion.intensity);
-        }, 0);
-        document.getElementById('wellness-index').textContent = (totalScore / entriesWithEmotions.length).toFixed(1);
-        const emotionCounts = entriesWithEmotions.reduce((acc, entry) => {
-          acc[entry.emotion.name] = (acc[entry.emotion.name] || 0) + 1;
-          return acc;
-        }, {});
-        document.getElementById('main-emotion').textContent = Object.keys(emotionCounts).reduce((a, b) => emotionCounts[a] > emotionCounts[b] ? a : b, '--');
-        updateEmotionChart();
-      }
-
-      updateHabitsStats();
-      updateWellbeingStats();
-      updateFinanceStats();
-      updateFinanceCharts();
-    }
-
-    function getEntriesForPeriod(period) {
-      const now = new Date();
-      let startDate = new Date();
-      if (period === 'week') startDate.setDate(now.getDate() - 7);
-      else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
-      else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
-      else if (period === 'all') startDate = new Date(0);
-      return Object.entries(diaryData.entries).filter(([date]) => new Date(date) >= startDate).map(([date, entry]) => ({ date, ...entry }));
-    }
-
-    function getTransactionsForPeriod(period) {
-      const now = new Date();
-      let startDate = new Date();
-      if (period === 'week') startDate.setDate(now.getDate() - 7);
-      else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
-      else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
-      else if (period === 'all') startDate = new Date(0);
-      return (diaryData.transactions || []).filter(t => new Date(t.date) >= startDate);
-    }
-    
-    function updateChart(chartInstance, elementId, config) {
-        const ctx = document.getElementById(elementId)?.getContext('2d');
-        if (!ctx) return null;
-        if (chartInstance) chartInstance.destroy();
-        return new Chart(ctx, config);
-    }
-
-    function updateEmotionChart() {
-      const entries = getEntriesForPeriod(currentStatsPeriod).filter(e => e.emotion).sort((a, b) => new Date(a.date) - new Date(b.date));
-      const labels = entries.map(e => new Date(e.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }));
-      const data = entries.map(e => EMOTIONS.find(em => em.n === e.emotion.name).v * e.emotion.intensity);
-      emotionChartInstance = updateChart(emotionChartInstance, 'emotion-chart', {
-        type: 'line', data: { labels, datasets: [{ label: 'Índice de Bienestar', data, borderColor: 'var(--accent-primary)', backgroundColor: 'rgba(99, 179, 237, 0.1)', tension: 0.4, fill: true }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: -20, max: 20 }, x: {} } }
-      });
-    }
-
-    function updateBalanceDistributionChart() {
-        const accounts = (diaryData.accounts || []).filter(a => a.balance > 0);
-        balanceChartInstance = updateChart(balanceChartInstance, 'balance-distribution-chart', {
-            type: 'doughnut', data: { labels: accounts.map(a => a.name), datasets: [{ data: accounts.map(a => a.balance), backgroundColor: ['#63b3ed', '#68d391', '#f6ad55', '#fc8181', '#e94560'] }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-        });
-    }
-
-    function updateHabitsStats() {
-      const list = document.getElementById('habits-stats-list');
-      if (!diaryData.habits || diaryData.habits.length === 0) {
-        list.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay hábitos registrados</li>';
-        return;
-      }
-      const entries = getEntriesForPeriod(currentStatsPeriod);
-      const habitStats = diaryData.habits.map(habit => {
-        const completedCount = entries.filter(e => e.habitsProgress && e.habitsProgress[habit.id] === habit.subcategories.length).length;
-        return { ...habit, percentage: Math.round((completedCount / (entries.length || 1)) * 100) };
-      }).sort((a, b) => b.percentage - a.percentage);
-      list.innerHTML = habitStats.map(h => `<li><span>${h.text}</span><span style="color: var(--accent-primary); font-weight: 600;">${h.percentage}%</span></li>`).join('');
-    }
-
-    function updateWellbeingStats() {
-        const entries = getEntriesForPeriod(currentStatsPeriod);
-        const activityEntries = entries.filter(e => e.physicalActivity);
-        const waterEntries = entries.filter(e => e.waterIntake);
-        document.getElementById('avg-activity').textContent = activityEntries.length ? (activityEntries.reduce((sum, e) => sum + e.physicalActivity, 0) / activityEntries.length).toFixed(1) : '--';
-        document.getElementById('avg-water').textContent = waterEntries.length ? (waterEntries.reduce((sum, e) => sum + e.waterIntake, 0) / waterEntries.length).toFixed(1) : '--';
-        updateWellbeingChart();
-    }
-
-    function updateWellbeingChart() {
-      const entries = getEntriesForPeriod(currentStatsPeriod).filter(e => e.physicalActivity || e.waterIntake).sort((a, b) => new Date(a.date) - new Date(b.date));
-      wellbeingChartInstance = updateChart(wellbeingChartInstance, 'wellbeing-chart', {
-        type: 'line', data: {
-          labels: entries.map(e => new Date(e.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })),
-          datasets: [
-            { label: 'Actividad Física', data: entries.map(e => e.physicalActivity || null), borderColor: 'var(--accent-primary)', yAxisID: 'y' },
-            { label: 'Vasos de Agua', data: entries.map(e => e.waterIntake || null), borderColor: 'var(--success-color)', yAxisID: 'y1' }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false, scales: {
-            y: { type: 'linear', position: 'left', min: 0, max: 10, title: { display: true, text: 'Actividad' } },
-            y1: { type: 'linear', position: 'right', min: 0, max: 12, title: { display: true, text: 'Agua' }, grid: { drawOnChartArea: false } }
-        } }
-      });
-    }
-
-    function updateFinanceStats() {
-      const transactions = getTransactionsForPeriod(currentStatsPeriod);
-      document.getElementById('total-income').textContent = `$${transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
-      document.getElementById('total-expenses').textContent = `$${transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
-      updateFinanceCharts();
-    }
-
-    function updateFinanceCharts() {
-      updateExpensesChart();
-      updateFinanceTrendChart();
-      updateBalanceDistributionChart();
-    }
-
-    function updateExpensesChart() {
-      const expenses = getTransactionsForPeriod(currentStatsPeriod).filter(t => t.type === 'expense');
-      const categories = expenses.reduce((acc, t) => {
-        const cat = t.description.split(' ')[0] || 'Otros';
-        acc[cat] = (acc[cat] || 0) + t.amount;
-        return acc;
-      }, {});
-      expensesChartInstance = updateChart(expensesChartInstance, 'expenses-chart', {
-        type: 'doughnut', data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6'] }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-      });
-    }
-    
-    function updateFinanceTrendChart() {
-      const transactions = getTransactionsForPeriod(currentStatsPeriod).sort((a,b) => new Date(a.date) - new Date(b.date));
-      const dailyData = transactions.reduce((acc, t) => {
-        if (!acc[t.date]) acc[t.date] = { income: 0, expense: 0 };
-        acc[t.date][t.type] += t.amount;
-        return acc;
-      }, {});
-      const dates = Object.keys(dailyData).sort();
-      financeTrendChartInstance = updateChart(financeTrendChartInstance, 'finance-trend-chart', {
-        type: 'bar', data: {
-          labels: dates.map(d => new Date(d).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })),
-          datasets: [
-            { label: 'Ingresos', data: dates.map(d => dailyData[d].income), backgroundColor: 'rgba(40, 167, 69, 0.7)' },
-            { label: 'Gastos', data: dates.map(d => dailyData[d].expense), backgroundColor: 'rgba(220, 53, 69, 0.7)' }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
-
-    function updateExpenses() {
-      updateAccountsList();
-      updateTransactionsList();
-      const totalBalance = (diaryData.accounts || []).reduce((sum, acc) => sum + acc.balance, 0);
-      document.getElementById('total-balance').textContent = `$${totalBalance.toFixed(2)}`;
-      const mainAccount = (diaryData.accounts || []).find(acc => acc.isDefault) || (diaryData.accounts || [])[0];
-      if (mainAccount) {
-        document.getElementById('main-account-balance').textContent = `$${mainAccount.balance.toFixed(2)}`;
-        document.getElementById('main-account-name').textContent = mainAccount.name;
-      }
-    }
-
-    function updateAccountsList() {
-      const list = document.getElementById('accounts-list');
-      const transactionAcc = document.getElementById('transaction-account'), transFrom = document.getElementById('transfer-from'), transTo = document.getElementById('transfer-to');
-      
-      if (!diaryData.accounts || diaryData.accounts.length === 0) {
-        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay cuentas</p>';
-        [transactionAcc, transFrom, transTo].forEach(s => s.innerHTML = '<option value="">No hay cuentas</option>');
-        return;
-      }
-
-      list.innerHTML = diaryData.accounts.map(acc => `
-        <div class="account-item ${acc.isDefault ? 'principal' : ''}">
-          <div>
-            <div style="font-weight: 600;">${acc.name} ${acc.isDefault ? '(Principal)' : ''}</div>
-            <div class="account-balance">$${acc.balance.toFixed(2)}</div>
-          </div>
-          <div class="account-actions">
-            <button class="btn-small btn-secondary" data-id="${acc.id}" data-action="edit">Editar</button>
-            <button class="btn-small ${acc.isDefault ? 'btn-disabled" disabled' : 'btn-success" data-action="set-default"'}" data-id="${acc.id}">${acc.isDefault ? 'Principal' : 'Hacer Principal'}</button>
-            ${!acc.isDefault ? `<button class="btn-small btn-danger" data-id="${acc.id}" data-action="delete">Eliminar</button>` : ''}
-          </div>
-        </div>
-      `).join('');
-
-      list.querySelectorAll('button[data-action]').forEach(btn => btn.addEventListener('click', e => {
-        const id = parseInt(e.target.dataset.id);
-        const action = e.target.dataset.action;
-        if (action === 'edit') editAccount(id);
-        else if (action === 'set-default') setDefaultAccount(id);
-        else if (action === 'delete') deleteAccount(id);
-      }));
-
-      const options = diaryData.accounts.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join('');
-      transactionAcc.innerHTML = options;
-      transFrom.innerHTML = '<option value="">Desde...</option>' + options;
-      transTo.innerHTML = '<option value="">Hacia...</option>' + options;
-    }
-
-    function updateTransactionsList() {
-      const list = document.getElementById('transactions-list');
-      if (!diaryData.transactions || diaryData.transactions.length === 0) {
-        list.innerHTML = '<li style="justify-content: center; color: var(--text-secondary);">No hay transacciones</li>';
-        return;
-      }
-      const recent = [...diaryData.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
-      list.innerHTML = recent.map(t => {
-        const acc = (diaryData.accounts || []).find(a => a.id === t.accountId);
-        return `
-          <li>
-            <div style="flex-grow: 1;">
-              <div style="font-weight: 600;">${t.description}</div>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">${acc ? acc.name : ''} • ${new Date(t.date).toLocaleDateString('es-ES')} ${t.recurring !== 'none' ? '• 🔄' : ''}</div>
-            </div>
-            <div style="color: ${t.type === 'income' ? 'var(--success-color)' : 'var(--error-color)'}; font-weight: 600;">
-              ${t.type === 'income' ? '+' : '-'}$${t.amount.toFixed(2)}
-            </div>
-          </li>`;
-      }).join('');
-    }
-
-    function showScreen(screenName) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      const screenEl = document.getElementById(screenName);
-      if (screenEl) screenEl.classList.add('active');
-    }
-
-    function showModal(modalName) {
-      const modalEl = document.getElementById(modalName);
-      if(modalEl) modalEl.classList.add('active');
-    }
-
-    function createNewDiary() {
-      const name = document.getElementById('owner-name-input').value.trim();
-      if (!name) return showToast('Por favor, introduce tu nombre');
-      
-      diaryData = {
-        ownerName: name,
-        settings: { theme: 'pastel', password: null },
-        entries: {},
-        habits: [],
-        accounts: [{ id: 1, name: 'Cuenta Principal', balance: 0, isDefault: true }],
-        transactions: []
-      };
-      
-      document.getElementById('diary-owner-name').textContent = `Diario de ${name}`;
-      showScreen('main-diary-screen');
-      switchBottomNav('diario');
-      showToast(`¡Bienvenido/a, ${name}!`);
-      document.querySelector('.bottom-nav').classList.add('visible');
-    }
-
     function saveEmotionData() {
       const selected = document.querySelector('.emotion-emoji.selected');
       if (selected) {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
-        diaryData.entries[currentDate].emotion = {
-          name: selected.dataset.name,
-          intensity: parseInt(document.getElementById('emotion-intensity').value)
-        };
+        diaryData.entries[currentDate].emotion = { name: selected.dataset.name, intensity: parseInt(document.getElementById('emotion-intensity').value) };
         saveDataToLocalStorage();
       }
     }
-    
     function saveWellbeingData() {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
         diaryData.entries[currentDate].physicalActivity = parseInt(document.getElementById('physical-activity').value);
         diaryData.entries[currentDate].waterIntake = parseInt(document.getElementById('water-intake').value);
         saveDataToLocalStorage();
     }
-
     function saveEntryText() {
       if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
       diaryData.entries[currentDate].text = document.getElementById('editor').innerHTML;
       saveDataToLocalStorage();
     }
-
     function saveSettings() {
       const name = document.getElementById('diary-name-input').value.trim();
-      const theme = document.getElementById('theme-selector').value;
-      if (name) {
-        diaryData.ownerName = name;
-        document.getElementById('diary-owner-name').textContent = `Diario de ${name}`;
-      }
-      diaryData.settings.theme = theme;
-      diaryData.settings.password = document.getElementById('password-input').value.trim() || null;
-      document.body.className = `theme-${theme}`;
-      showToast('Configuración guardada');
+      if (name) { diaryData.ownerName = name; document.getElementById('diary-owner-name').textContent = `Diario de ${name}`; }
+      diaryData.settings.theme = document.getElementById('theme-selector').value;
+      document.body.className = `theme-${diaryData.settings.theme}`;
       document.getElementById('settings-modal').classList.remove('active');
       saveDataToLocalStorage();
+      showToast('Configuración guardada');
     }
-
     function addNewHabit() {
         const name = document.getElementById('new-habit-name').value.trim();
-        const category = document.getElementById('new-habit-category').value.trim();
-        const subcategoriesRaw = document.getElementById('new-habit-subcategories').value.trim();
         if (!name) return showToast('El nombre del hábito es obligatorio');
-        
-        const subcategories = subcategoriesRaw ? subcategoriesRaw.split(',').map(s => s.trim()).filter(s => s) : [];
-        if (subcategories.length === 0) subcategories.push(name); // Si no hay subcategorías, la tarea es el hábito mismo.
-        
+        const subcategories = document.getElementById('new-habit-subcategories').value.trim().split(',').map(s => s.trim()).filter(Boolean);
         if (!diaryData.habits) diaryData.habits = [];
-        diaryData.habits.push({ id: Date.now(), text: name, category, subcategories });
-        
-        document.getElementById('new-habit-name').value = '';
-        document.getElementById('new-habit-category').value = '';
-        document.getElementById('new-habit-subcategories').value = '';
-        
-        updateHabitsList();
-        updateHabitsManagementList();
-        showToast('Hábito agregado');
+        diaryData.habits.push({ id: Date.now(), text: name, category: document.getElementById('new-habit-category').value.trim(), subcategories: subcategories.length > 0 ? subcategories : [name] });
+        ['new-habit-name', 'new-habit-category', 'new-habit-subcategories'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('add-habit-modal').classList.remove('active');
+        updateHabitsScreen();
         saveDataToLocalStorage();
+        showToast('Hábito agregado');
     }
-
     function editHabit(habitId) {
         const habit = diaryData.habits.find(h => h.id === habitId);
         if (!habit) return;
         editingHabitId = habitId;
+        document.getElementById('manage-habits-modal').classList.remove('active');
         document.getElementById('edit-habit-name').value = habit.text;
         document.getElementById('edit-habit-category').value = habit.category || '';
         document.getElementById('edit-habit-subcategories').value = habit.subcategories.join(', ');
         showModal('edit-habit-modal');
     }
-
     function saveHabitChanges() {
         if (!editingHabitId) return;
         const habit = diaryData.habits.find(h => h.id === editingHabitId);
-        if (!habit) return;
-
         const name = document.getElementById('edit-habit-name').value.trim();
-        if (!name) return showToast('El nombre no puede estar vacío');
-        
+        if (!habit || !name) return showToast('Datos inválidos');
         habit.text = name;
         habit.category = document.getElementById('edit-habit-category').value.trim();
-        const subcategoriesRaw = document.getElementById('edit-habit-subcategories').value.trim();
-        habit.subcategories = subcategoriesRaw ? subcategoriesRaw.split(',').map(s => s.trim()).filter(s => s) : [name];
-        
+        const subcategories = document.getElementById('edit-habit-subcategories').value.trim().split(',').map(s => s.trim()).filter(Boolean);
+        habit.subcategories = subcategories.length > 0 ? subcategories : [name];
         document.getElementById('edit-habit-modal').classList.remove('active');
-        updateHabitsManagementList();
-        updateHabitsList();
+        updateHabitsScreen();
+        saveDataToLocalStorage();
         showToast('Hábito actualizado');
         editingHabitId = null;
-        saveDataToLocalStorage();
     }
-
     function deleteHabit(habitId) {
         diaryData.habits = diaryData.habits.filter(h => h.id !== habitId);
-        // También limpiar el progreso de este hábito en todas las entradas
-        Object.values(diaryData.entries).forEach(entry => {
-            if (entry.habitsProgress && entry.habitsProgress[habitId]) {
-                delete entry.habitsProgress[habitId];
-            }
-        });
-        updateHabitsList();
+        Object.values(diaryData.entries).forEach(entry => { if (entry.habitsProgress?.[habitId]) delete entry.habitsProgress[habitId]; });
         updateHabitsManagementList();
-        showToast('Hábito eliminado');
+        updateHabitsScreen();
         saveDataToLocalStorage();
+        showToast('Hábito eliminado');
     }
-
-
-    function updateHabitsList() {
-        const habitsContainer = document.getElementById('habits-list');
-        if (!diaryData.habits || diaryData.habits.length === 0) {
-            habitsContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados. Ve a la sección de Hábitos para agregar.</p>';
-            return;
-        }
-
-        const progress = (diaryData.entries[currentDate] || {}).habitsProgress || {};
-
-        habitsContainer.innerHTML = diaryData.habits.map(habit => {
-            const steps = habit.subcategories.length;
-            const currentStep = progress[habit.id] || 0;
-            const subcategoryText = currentStep > 0 ? habit.subcategories[currentStep - 1] : "Sin empezar";
-            return `
-                <div class="habit-item">
-                    <div class="habit-item-header">
-                        <span class="habit-title">${habit.text}</span>
-                        ${habit.category ? `<span class="habit-category">${habit.category}</span>` : ''}
-                    </div>
-                    <input type="range" class="habit-slider" data-id="${habit.id}" min="0" max="${steps}" step="1" value="${currentStep}">
-                    <div class="habit-subcategory-label" id="label-habit-${habit.id}">${subcategoryText} (${currentStep}/${steps})</div>
-                </div>
-            `;
+    function updateHabitsListSliders() {
+        const container = document.getElementById('habits-list-sliders');
+        if (!diaryData.habits?.length) return container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Agrega tu primer hábito usando el botón "+".</p>';
+        const progress = diaryData.entries[currentDate]?.habitsProgress || {};
+        container.innerHTML = diaryData.habits.map(h => {
+            const steps = h.subcategories.length;
+            const currentStep = progress[h.id] || 0;
+            const subText = currentStep > 0 ? h.subcategories[currentStep - 1] : "Sin empezar";
+            return `<div class="habit-item"><div class="habit-item-header"><span class="habit-title">${h.text}</span>${h.category ? `<span class="habit-category">${h.category}</span>` : ''}</div><input type="range" class="habit-slider" data-id="${h.id}" min="0" max="${steps}" value="${currentStep}"><div class="habit-subcategory-label" id="label-habit-${h.id}">${subText} (${currentStep}/${steps})</div></div>`;
         }).join('');
-
-        habitsContainer.querySelectorAll('.habit-slider').forEach(slider => {
+        container.querySelectorAll('.habit-slider').forEach(slider => {
             slider.addEventListener('input', e => {
-                const habitId = e.target.dataset.id;
-                const value = parseInt(e.target.value);
-                const habit = diaryData.habits.find(h => h.id == habitId);
-                const label = document.getElementById(`label-habit-${habitId}`);
-
+                const id = e.target.dataset.id, value = parseInt(e.target.value), h = diaryData.habits.find(hb => hb.id == id);
                 if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
                 if (!diaryData.entries[currentDate].habitsProgress) diaryData.entries[currentDate].habitsProgress = {};
-                diaryData.entries[currentDate].habitsProgress[habitId] = value;
-
-                const subcategoryText = value > 0 ? habit.subcategories[value - 1] : "Sin empezar";
-                label.textContent = `${subcategoryText} (${value}/${habit.subcategories.length})`;
+                diaryData.entries[currentDate].habitsProgress[id] = value;
+                document.getElementById(`label-habit-${id}`).textContent = `${value > 0 ? h.subcategories[value - 1] : "Sin empezar"} (${value}/${h.subcategories.length})`;
             });
-            slider.addEventListener('change', () => saveDataToLocalStorage());
+            slider.addEventListener('change', saveDataToLocalStorage);
         });
     }
-
     function updateHabitsManagementList() {
-        const managementList = document.getElementById('habits-management-list');
-        if (!diaryData.habits || diaryData.habits.length === 0) {
-            managementList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados</p>';
-            return;
-        }
-
-        managementList.innerHTML = diaryData.habits.map(habit => `
-            <div class="account-item">
-                <div>
-                    <span style="font-weight: 600;">${habit.text}</span>
-                    <div style="font-size: 0.8em; color: var(--text-secondary);">${habit.category || 'Sin categoría'}</div>
-                </div>
-                <div class="account-actions">
-                  <button class="btn-small btn-secondary" data-id="${habit.id}" data-action="edit">Editar</button>
-                  <button class="btn-small btn-danger" data-id="${habit.id}" data-action="delete">Eliminar</button>
-                </div>
-            </div>
-        `).join('');
-
-        managementList.querySelectorAll('button[data-action]').forEach(button => {
-            button.addEventListener('click', function() {
-                const habitId = parseInt(this.dataset.id);
-                const action = this.dataset.action;
-                if (action === 'delete') deleteHabit(habitId);
-                else if (action === 'edit') editHabit(habitId);
-            });
-        });
+        const list = document.getElementById('habits-management-list');
+        if (!diaryData.habits?.length) return list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No hay hábitos registrados.</p>';
+        list.innerHTML = diaryData.habits.map(h => `<div class="account-item"><div><span style="font-weight: 600;">${h.text}</span><div style="font-size: 0.8em; color: var(--text-secondary);">${h.category || 'Sin categoría'}</div></div><div class="account-actions"><button class="btn-small btn-secondary" data-id="${h.id}" data-action="edit">Editar</button><button class="btn-small btn-danger" data-id="${h.id}" data-action="delete">Eliminar</button></div></div>`).join('');
+        list.querySelectorAll('button[data-action]').forEach(btn => btn.addEventListener('click', function() {
+            const id = parseInt(this.dataset.id);
+            if (this.dataset.action === 'delete') deleteHabit(id); else if (this.dataset.action === 'edit') editHabit(id);
+        }));
     }
-
-
+    
+    function updateExpenses() {
+      updateAccountsList();
+      updateTransactionsList();
+      const accounts = diaryData.accounts || [];
+      const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+      document.getElementById('total-balance').textContent = `$${totalBalance.toFixed(2)}`;
+      const mainAccount = accounts.find(acc => acc.isDefault) || accounts[0];
+      if (mainAccount) {
+        document.getElementById('main-account-balance').textContent = `$${mainAccount.balance.toFixed(2)}`;
+        document.getElementById('main-account-name').textContent = mainAccount.name;
+      }
+    }
+    function updateAccountsList() {
+        const list = document.getElementById('accounts-list');
+        const accounts = diaryData.accounts || [];
+        if (!accounts.length) return list.innerHTML = '<p>No hay cuentas</p>';
+        list.innerHTML = accounts.map(acc => `
+            <div class="account-item ${acc.isDefault ? 'principal' : ''}">
+                <div><div style="font-weight: 600;">${acc.name}</div><div class="account-balance">$${acc.balance.toFixed(2)}</div></div>
+                <div class="account-actions">
+                    <button class="btn-small btn-secondary" data-id="${acc.id}" data-action="edit">Editar</button>
+                    ${!acc.isDefault ? `<button class="btn-small btn-success" data-id="${acc.id}" data-action="set-default">Principal</button>` : ''}
+                    ${!acc.isDefault ? `<button class="btn-small btn-danger" data-id="${acc.id}" data-action="delete">Eliminar</button>` : ''}
+                </div>
+            </div>`).join('');
+        list.querySelectorAll('button[data-action]').forEach(btn => btn.addEventListener('click', function() {
+            const id = parseInt(this.dataset.id);
+            if (this.dataset.action === 'edit') editAccount(id);
+            else if (this.dataset.action === 'delete') deleteAccount(id);
+            else if (this.dataset.action === 'set-default') setDefaultAccount(id);
+        }));
+        const accountOptions = accounts.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join('');
+        document.getElementById('transaction-account').innerHTML = accountOptions;
+        document.getElementById('transfer-from').innerHTML = accountOptions;
+        document.getElementById('transfer-to').innerHTML = accountOptions;
+    }
+    function updateTransactionsList() {
+        const list = document.getElementById('transactions-list');
+        const transactions = diaryData.transactions || [];
+        if (!transactions.length) return list.innerHTML = '<li style="justify-content: center;">No hay transacciones</li>';
+        const recent = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 15);
+        list.innerHTML = recent.map(t => {
+            const accName = diaryData.accounts?.find(a => a.id === t.accountId)?.name || 'N/A';
+            return `<li><div style="flex-grow: 1;"><div>${t.description}</div><small>${accName} &bull; ${new Date(t.date).toLocaleDateString()}</small></div><div style="color:${t.type === 'income' ? 'var(--success-color)' : 'var(--error-color)'}">${t.type === 'income' ? '+' : '-'}$${t.amount.toFixed(2)}</div></li>`;
+        }).join('');
+    }
     function addNewTransaction() {
-      const type = document.getElementById('transaction-type').value;
       const amount = parseFloat(document.getElementById('transaction-amount').value);
       const description = document.getElementById('transaction-description').value.trim();
       const accountId = parseInt(document.getElementById('transaction-account').value);
-      const recurring = document.getElementById('transaction-recurring').value;
-      
-      if (isNaN(amount) || amount <= 0 || !description || isNaN(accountId)) return showToast('Completa todos los campos');
+      if (isNaN(amount) || !description || isNaN(accountId)) return showToast('Completa todos los campos');
       const account = diaryData.accounts.find(a => a.id === accountId);
-      if (!account) return showToast('Cuenta no válida');
-      
-      if (type === 'income') account.balance += amount; else account.balance -= amount;
-      
-      const newTransaction = { id: Date.now(), type, amount, description, accountId, date: currentDate, recurring };
-      if (recurring !== 'none' && document.getElementById('recurring-start-date').value) {
-        newTransaction.recurringStart = document.getElementById('recurring-start-date').value;
-        newTransaction.recurringEnd = document.getElementById('recurring-end-date').value || null;
-      }
-      
+      if (document.getElementById('transaction-type').value === 'income') account.balance += amount; else account.balance -= amount;
       if (!diaryData.transactions) diaryData.transactions = [];
-      diaryData.transactions.push(newTransaction);
+      diaryData.transactions.push({ id: Date.now(), type: document.getElementById('transaction-type').value, amount, description, accountId, date: currentDate });
       document.getElementById('transaction-amount').value = '';
       document.getElementById('transaction-description').value = '';
-      toggleRecurringOptions(true);
       updateExpenses();
-      showToast('Transacción agregada');
       saveDataToLocalStorage();
+      showToast('Transacción agregada');
     }
-
     function addNewAccount() {
       const name = document.getElementById('new-account-name').value.trim();
-      if (!name) return showToast('Ingresa un nombre para la cuenta');
-      
-      diaryData.accounts.push({ id: Date.now(), name, balance: parseFloat(document.getElementById('new-account-balance').value) || 0, isDefault: false });
+      if (!name) return showToast('Ingresa un nombre');
+      if (!diaryData.accounts) diaryData.accounts = [];
+      diaryData.accounts.push({ id: Date.now(), name, balance: parseFloat(document.getElementById('new-account-balance').value) || 0, isDefault: diaryData.accounts.length === 0 });
       document.getElementById('new-account-name').value = '';
       document.getElementById('new-account-balance').value = '0';
       updateExpenses();
-      showToast('Cuenta agregada');
       saveDataToLocalStorage();
+      showToast('Cuenta agregada');
     }
-
     function editAccount(accountId) {
       const account = diaryData.accounts.find(a => a.id === accountId);
       if (!account) return;
@@ -2158,217 +797,248 @@
       document.getElementById('edit-account-balance').value = account.balance;
       showModal('edit-account-modal');
     }
-
     function saveAccountChanges() {
       if (!editingAccountId) return;
       const account = diaryData.accounts.find(a => a.id === editingAccountId);
       const newName = document.getElementById('edit-account-name').value.trim();
-      const newBalance = parseFloat(document.getElementById('edit-account-balance').value);
-      if (!account || !newName || isNaN(newBalance)) return showToast('Datos inválidos');
-      
-      account.name = newName; account.balance = newBalance;
+      if (!account || !newName) return showToast('Datos inválidos');
+      account.name = newName;
+      account.balance = parseFloat(document.getElementById('edit-account-balance').value) || 0;
       document.getElementById('edit-account-modal').classList.remove('active');
       updateExpenses();
+      saveDataToLocalStorage();
       showToast('Cuenta actualizada');
       editingAccountId = null;
-      saveDataToLocalStorage();
     }
-
-    function transferBetweenAccounts() {
-      const fromId = parseInt(document.getElementById('transfer-from').value);
-      const toId = parseInt(document.getElementById('transfer-to').value);
-      const amount = parseFloat(document.getElementById('transfer-amount').value);
-      
-      if (isNaN(fromId) || isNaN(toId) || isNaN(amount) || amount <= 0 || fromId === toId) return showToast('Datos de transferencia inválidos');
-      const fromAcc = diaryData.accounts.find(a => a.id === fromId), toAcc = diaryData.accounts.find(a => a.id === toId);
-      if (!fromAcc || !toAcc || fromAcc.balance < amount) return showToast('Fondos insuficientes o cuenta no válida');
-      
-      fromAcc.balance -= amount; toAcc.balance += amount;
-      diaryData.transactions.push({ id: Date.now(), type: 'transfer', amount, description: `Transferencia a ${toAcc.name}`, accountId: fromId, date: currentDate, recurring: 'none' });
-      document.getElementById('transfer-amount').value = '';
-      updateExpenses();
-      showToast('Transferencia realizada');
-      saveDataToLocalStorage();
-    }
-
     function deleteAccount(accountId) {
-      const account = diaryData.accounts.find(a => a.id === accountId);
-      if (!account || account.isDefault) return showToast('No puedes eliminar la cuenta principal');
-      if (account.balance > 0 && !confirm(`La cuenta "${account.name}" tiene saldo. ¿Seguro que quieres eliminarla?`)) return;
-      
-      const defaultAccount = diaryData.accounts.find(a => a.isDefault);
-      if (defaultAccount) diaryData.transactions.forEach(t => { if (t.accountId === accountId) t.accountId = defaultAccount.id; });
-      diaryData.accounts = diaryData.accounts.filter(a => a.id !== accountId);
-      updateExpenses();
-      showToast('Cuenta eliminada');
-      saveDataToLocalStorage();
+        if (!confirm("¿Seguro que quieres eliminar esta cuenta?")) return;
+        diaryData.accounts = diaryData.accounts.filter(acc => acc.id !== accountId);
+        updateExpenses();
+        saveDataToLocalStorage();
+        showToast("Cuenta eliminada");
     }
-
     function setDefaultAccount(accountId) {
-      diaryData.accounts.forEach(acc => acc.isDefault = (acc.id === accountId));
-      updateExpenses();
-      showToast('Cuenta principal actualizada');
-      saveDataToLocalStorage();
+        diaryData.accounts.forEach(acc => acc.isDefault = (acc.id === accountId));
+        updateExpenses();
+        saveDataToLocalStorage();
+        showToast("Cuenta principal actualizada");
     }
-
-    function toggleRecurringOptions(reset = false) {
-      const select = document.getElementById('transaction-recurring'), options = document.getElementById('recurring-options');
-      if (reset) {
-        select.value = 'none';
-        document.getElementById('recurring-start-date').value = '';
-        document.getElementById('recurring-end-date').value = '';
-      }
-      options.style.display = select.value !== 'none' ? 'block' : 'none';
-      if (select.value !== 'none' && !document.getElementById('recurring-start-date').value) document.getElementById('recurring-start-date').value = currentDate;
+    function transferBetweenAccounts() {
+        const fromId = parseInt(document.getElementById('transfer-from').value);
+        const toId = parseInt(document.getElementById('transfer-to').value);
+        const amount = parseFloat(document.getElementById('transfer-amount').value);
+        if (isNaN(fromId) || isNaN(toId) || isNaN(amount) || amount <= 0 || fromId === toId) return showToast('Datos de transferencia inválidos.');
+        const fromAccount = diaryData.accounts.find(a => a.id === fromId);
+        const toAccount = diaryData.accounts.find(a => a.id === toId);
+        if (!fromAccount || !toAccount || fromAccount.balance < amount) return showToast('Fondos insuficientes o cuentas no válidas.');
+        fromAccount.balance -= amount;
+        toAccount.balance += amount;
+        if (!diaryData.transactions) diaryData.transactions = [];
+        diaryData.transactions.push({ id: Date.now(), type: 'transfer', amount, description: `Transferencia a ${toAccount.name}`, accountId: fromId, date: currentDate });
+        document.getElementById('transfer-amount').value = '';
+        updateExpenses();
+        saveDataToLocalStorage();
+        showToast('Transferencia realizada con éxito.');
     }
-
-    function exportDiary() {
-      if (!diaryData.ownerName) return showToast('No hay diario para exportar');
-      
-      const xmlData = `<?xml version="1.0" encoding="UTF-8"?>
-<diary owner="${diaryData.ownerName}">
-  <settings>
-    <theme>${diaryData.settings.theme}</theme>
-    ${diaryData.settings.password ? `<password>${diaryData.settings.password}</password>` : ''}
-  </settings>
-  <habits>
-    ${(diaryData.habits || []).map(h => `<habit id="${h.id}" text="${h.text}" category="${h.category || ''}"><subcategories>${h.subcategories.map(s => `<subcat>${s}</subcat>`).join('')}</subcategories></habit>`).join('')}
-  </habits>
-  <accounts>
-    ${(diaryData.accounts || []).map(a => `<account id="${a.id}" name="${a.name}" balance="${a.balance}" isDefault="${a.isDefault}"/>`).join('')}
-  </accounts>
-  <entries>
-    ${Object.entries(diaryData.entries).map(([date, entry]) => `
-    <entry date="${date}">
-      ${entry.emotion ? `<emotion name="${entry.emotion.name}" intensity="${entry.emotion.intensity}"/>` : ''}
-      ${entry.text ? `<content><![CDATA[${entry.text}]]></content>` : ''}
-      ${entry.physicalActivity ? `<physicalActivity>${entry.physicalActivity}</physicalActivity>` : ''}
-      ${entry.waterIntake ? `<waterIntake>${entry.waterIntake}</waterIntake>` : ''}
-      ${entry.habitsProgress ? `<habitsProgress>${Object.entries(entry.habitsProgress).map(([id,p]) => `<habit id="${id}" progress="${p}"/>`).join('')}</habitsProgress>` : ''}
-    </entry>`).join('')}
-  </entries>
-  <transactions>
-    ${(diaryData.transactions || []).map(t => `<transaction id="${t.id}" type="${t.type}" amount="${t.amount}" accountId="${t.accountId}" date="${t.date}" recurring="${t.recurring}"><description>${t.description}</description></transaction>`).join('')}
-  </transactions>
-</diary>`;
-      
-      const blob = new Blob([xmlData], { type: 'application/xml' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `diario_${diaryData.ownerName.replace(/ /g, '_')}.xml`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-      showToast('Diario exportado correctamente');
+    
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      document.getElementById(`${tabId}-tab`).style.display = 'block';
     }
+    function switchTimeFilter(period) {
+      document.querySelector('.time-filter.active')?.classList.remove('active');
+      document.querySelector(`.time-filter[data-period="${period}"]`)?.classList.add('active');
+      updateStats(period);
+    }
+    
+    function updateStats(period = document.querySelector('.time-filter.active').dataset.period) {
+        const entries = getEntriesForPeriod(period);
+        const transactions = getTransactionsForPeriod(period);
+        
+        const entriesWithEmotion = entries.filter(e => e.emotion && typeof e.emotion.intensity === 'number');
 
-    function handleFileImport(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        try {
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(event.target.result, 'application/xml');
-          if (xmlDoc.querySelector('parsererror')) throw new Error('XML parsing error');
+        if (entriesWithEmotion.length > 0) {
+            const totalScore = entriesWithEmotion.reduce((sum, entry) => {
+                const emotionData = EMOTIONS.find(em => em.n === entry.emotion.name);
+                return sum + (emotionData ? emotionData.v * entry.emotion.intensity : 0);
+            }, 0);
+            document.getElementById('wellness-index').textContent = (totalScore / entriesWithEmotion.length).toFixed(1);
 
-          diaryData = {
-            ownerName: xmlDoc.querySelector('diary').getAttribute('owner'),
-            settings: { theme: xmlDoc.querySelector('settings > theme')?.textContent || 'pastel', password: null },
-            habits: Array.from(xmlDoc.querySelectorAll('habits > habit')).map(h => ({ id: parseInt(h.getAttribute('id')), text: h.getAttribute('text'), category: h.getAttribute('category'), subcategories: Array.from(h.querySelectorAll('subcat')).map(s => s.textContent) })),
-            accounts: Array.from(xmlDoc.querySelectorAll('accounts > account')).map(a => ({ id: parseInt(a.getAttribute('id')), name: a.getAttribute('name'), balance: parseFloat(a.getAttribute('balance')), isDefault: a.getAttribute('isDefault') === 'true' })),
-            entries: {},
-            transactions: Array.from(xmlDoc.querySelectorAll('transactions > transaction')).map(t => ({ id: parseInt(t.getAttribute('id')), type: t.getAttribute('type'), amount: parseFloat(t.getAttribute('amount')), accountId: parseInt(t.getAttribute('accountId')), date: t.getAttribute('date'), recurring: t.getAttribute('recurring'), description: t.querySelector('description').textContent }))
-          };
+            const emotionCounts = entriesWithEmotion.reduce((acc, entry) => {
+                acc[entry.emotion.name] = (acc[entry.emotion.name] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const mainEmotionName = Object.keys(emotionCounts).reduce((a, b) => emotionCounts[a] > emotionCounts[b] ? a : b, 'N/A');
+            const mainEmotionData = EMOTIONS.find(em => em.n === mainEmotionName);
+            document.getElementById('main-emotion').textContent = mainEmotionData ? mainEmotionData.e : '❓';
+            
+            updateEmotionChart(entriesWithEmotion);
 
-          Array.from(xmlDoc.querySelectorAll('entries > entry')).forEach(entryNode => {
-              const date = entryNode.getAttribute('date');
-              const entry = {};
-              const emotionNode = entryNode.querySelector('emotion');
-              if (emotionNode) entry.emotion = { name: emotionNode.getAttribute('name'), intensity: parseInt(emotionNode.getAttribute('intensity')) };
-              entryNode.querySelector('content') && (entry.text = entryNode.querySelector('content').textContent);
-              entryNode.querySelector('physicalActivity') && (entry.physicalActivity = parseInt(entryNode.querySelector('physicalActivity').textContent));
-              entryNode.querySelector('waterIntake') && (entry.waterIntake = parseInt(entryNode.querySelector('waterIntake').textContent));
-              const habitsNode = entryNode.querySelector('habitsProgress');
-              if (habitsNode) {
-                  entry.habitsProgress = Array.from(habitsNode.querySelectorAll('habit')).reduce((acc, h) => {
-                      acc[h.getAttribute('id')] = parseInt(h.getAttribute('progress'));
-                      return acc;
-                  }, {});
-              }
-              diaryData.entries[date] = entry;
-          });
-          
-          document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
-          document.body.className = `theme-${diaryData.settings.theme}`;
-          document.getElementById('theme-selector').value = diaryData.settings.theme;
-          document.getElementById('diary-name-input').value = diaryData.ownerName;
-          
-          showScreen('main-diary-screen');
-          switchBottomNav('diario');
-          updateHabitsList();
-          updateExpenses();
-          showToast('Diario importado correctamente');
-          document.querySelector('.bottom-nav').classList.add('visible');
-          saveDataToLocalStorage();
-
-        } catch (error) {
-          console.error('Error al importar:', error);
-          showToast('Error al importar el archivo.');
+        } else {
+            document.getElementById('wellness-index').textContent = '--';
+            document.getElementById('main-emotion').textContent = '--';
+            if(emotionChartInstance) { emotionChartInstance.destroy(); emotionChartInstance = null; }
         }
-      };
-      reader.readAsText(file);
-      e.target.value = '';
+      
+        document.getElementById('total-income').textContent = `$${transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
+        document.getElementById('total-expenses').textContent = `$${transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0).toFixed(2)}`;
+        updateExpensesChart(transactions.filter(t => t.type === 'expense'));
+        updateBalanceDistributionChart();
+        updateHabitsStats(entries);
+        updateWellbeingStats(entries);
     }
 
-    function showToast(message, duration = 3000) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), duration);
+    function updateHabitsStats(entries) {
+        if (!diaryData.habits?.length) {
+            document.getElementById('avg-habits-completed').textContent = 'N/A';
+            document.getElementById('habits-stats-list').innerHTML = '<li>No hay hábitos.</li>';
+            return;
+        }
+        let totalCompletedHabits = 0;
+        const habitCompletionCounts = diaryData.habits.reduce((acc, h) => ({ ...acc, [h.id]: 0 }), {});
+        entries.forEach(entry => {
+            if (entry.habitsProgress) diaryData.habits.forEach(h => {
+                if (entry.habitsProgress[h.id] === h.subcategories.length) { totalCompletedHabits++; habitCompletionCounts[h.id]++; }
+            });
+        });
+        document.getElementById('avg-habits-completed').textContent = entries.length > 0 ? (totalCompletedHabits / entries.length).toFixed(1) : '0';
+        const performanceList = diaryData.habits.map(h => ({ text: h.text, percentage: entries.length > 0 ? Math.round((habitCompletionCounts[h.id] / entries.length) * 100) : 0 })).sort((a, b) => b.percentage - a.percentage);
+        document.getElementById('habits-stats-list').innerHTML = performanceList.map(h => `<li><span>${h.text}</span><span style="color: var(--accent-primary);">${h.percentage}%</span></li>`).join('');
+    }
+    function updateWellbeingStats(entries) {
+        const activityEntries = entries.filter(e => typeof e.physicalActivity === 'number');
+        const waterEntries = entries.filter(e => typeof e.waterIntake === 'number');
+        document.getElementById('avg-activity').textContent = activityEntries.length ? (activityEntries.reduce((s, e) => s + e.physicalActivity, 0) / activityEntries.length).toFixed(1) : '--';
+        document.getElementById('avg-water').textContent = waterEntries.length ? (waterEntries.reduce((s, e) => s + e.waterIntake, 0) / waterEntries.length).toFixed(1) : '--';
     }
 
-    function debounce(func, wait) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
+    function updateChart(chartInstance, elementId, config) {
+        const ctx = document.getElementById(elementId)?.getContext('2d');
+        if (!ctx) return null;
+        if (chartInstance) chartInstance.destroy();
+        return new Chart(ctx, config);
+    }
+    
+    // ## FINAL CHART FIX ##
+    function updateEmotionChart(entries) {
+      entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      const chartData = entries.map(e => {
+          const emotionData = EMOTIONS.find(em => em.n === e.emotion.name);
+          const score = emotionData ? emotionData.v * e.emotion.intensity : 0;
+          // Using new Date() makes the format explicit and avoids parsing issues.
+          // Adding T00:00:00 prevents timezone shifts.
+          return { x: new Date(e.date + 'T00:00:00'), y: score };
+      });
+
+      emotionChartInstance = updateChart(emotionChartInstance, 'emotion-chart', {
+        type: 'line', 
+        data: {
+            datasets: [{ 
+                label: 'Índice Bienestar Diario', 
+                data: chartData,
+                borderColor: 'var(--accent-primary)', 
+                backgroundColor: 'var(--accent-primary)',
+                tension: 0.4, 
+                fill: false 
+            }]
+        }, 
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'time',
+                    time: { unit: 'day', displayFormats: { day: 'd MMM' } },
+                    ticks: { color: 'var(--text-secondary)' },
+                    grid: { color: 'var(--border-color)' }
+                },
+                y: {
+                    ticks: { color: 'var(--text-secondary)' },
+                    grid: { color: 'var(--border-color)' }
+                }
+            },
+            plugins: {
+                legend: { labels: { color: 'var(--text-primary)' } }
+            }
+        }
+      });
+    }
+    
+    function updateExpensesChart(transactions) {
+      const categories = transactions.reduce((acc, t) => { const cat = t.description.split(' ')[0] || 'Otros'; acc[cat] = (acc[cat] || 0) + t.amount; return acc; }, {});
+      expensesChartInstance = updateChart(expensesChartInstance, 'expenses-chart', {
+        type: 'doughnut', data: { labels: Object.keys(categories), datasets: [{ data: Object.values(categories), backgroundColor: ['#63b3ed', '#68d391', '#f6ad55', '#fc8181', '#e94560', '#9b59b6'] }] },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+    function updateBalanceDistributionChart() {
+        const accountsWithBalance = (diaryData.accounts || []).filter(a => a.balance > 0);
+        balanceChartInstance = updateChart(balanceChartInstance, 'balance-distribution-chart', {
+            type: 'doughnut', data: { 
+                labels: accountsWithBalance.map(a => a.name), 
+                datasets: [{ data: accountsWithBalance.map(a => a.balance), backgroundColor: ['#63b3ed', '#68d391', '#f6ad55', '#fc8181', '#e94560', '#9b59b6'] }] 
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
     }
 
-    function resetDiary() {
-      if (confirm('¿Estás seguro? Se borrará TODO. Esta acción no se puede deshacer.')) {
-        localStorage.removeItem('diarioMojiData');
-        location.reload();
-      }
+    function initCalendar() {
+      if (calendarInstance) calendarInstance.destroy();
+      calendarInstance = flatpickr("#calendar", {
+        inline: true, defaultDate: currentDate, onChange: (selectedDates, dateStr) => loadEntryForDate(dateStr),
+        onDayCreate: (dObj, dStr, fp, dayElem) => {
+            const date = dayElem.dateObj.toISOString().split('T')[0];
+            const entry = diaryData.entries[date];
+            if (entry && Object.keys(entry).length) {
+                dayElem.classList.add("has-entry");
+                const allDone = diaryData.habits?.length > 0 && diaryData.habits.every(h => entry.habitsProgress?.[h.id] === h.subcategories.length);
+                if (allDone) dayElem.classList.add("all-habits-done");
+            }
+        }
+      });
     }
-
-    function saveDataToLocalStorage() {
-      if (diaryData && diaryData.ownerName) {
-        localStorage.setItem('diarioMojiData', JSON.stringify(diaryData));
-      }
+    
+    function getEntriesForPeriod(period) {
+      const now = new Date(); let startDate = new Date();
+      if (period === 'week') startDate.setDate(now.getDate() - 7);
+      else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
+      else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
+      else startDate = new Date(0);
+      return Object.entries(diaryData.entries || {}).filter(([date]) => new Date(date) >= startDate).map(([date, entry]) => ({ ...entry, date }));
     }
-
+    function getTransactionsForPeriod(period) {
+        const now = new Date(); let startDate = new Date();
+        if (period === 'week') startDate.setDate(now.getDate() - 7);
+        else if (period === 'month') startDate.setMonth(now.getMonth() - 1);
+        else if (period === 'year') startDate.setFullYear(now.getFullYear() - 1);
+        else startDate = new Date(0);
+        return (diaryData.transactions || []).filter(t => new Date(t.date) >= startDate && new Date(t.date) <= now);
+    }
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message; toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    const debounce = (func, wait) => { let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; };
+    function resetDiary() { if (confirm('¿Seguro? Se borrará TODO.')) { localStorage.removeItem('diarioMojiData'); location.reload(); } }
+    
+    function saveDataToLocalStorage() { if (diaryData.ownerName) localStorage.setItem('diarioMojiData', JSON.stringify(diaryData)); }
     function loadDataFromLocalStorage() {
       const savedData = localStorage.getItem('diarioMojiData');
       if (savedData) {
         diaryData = JSON.parse(savedData);
-        // Migración de datos viejos de hábitos si es necesario
-        if (diaryData.habits && diaryData.habits.length > 0 && !diaryData.habits[0].subcategories) {
-            diaryData.habits.forEach(h => {
-                if (!h.subcategories) h.subcategories = [h.text];
-            });
+        if (diaryData.habits?.length && !diaryData.habits[0].subcategories) {
+            diaryData.habits.forEach(h => { h.subcategories = [h.text]; });
             Object.values(diaryData.entries).forEach(entry => {
                 if (entry.completedHabits) {
                     entry.habitsProgress = {};
-                    entry.completedHabits.forEach(habitId => {
-                        const habit = diaryData.habits.find(h => h.id === habitId);
-                        if(habit) entry.habitsProgress[habitId] = habit.subcategories.length;
-                    });
+                    entry.completedHabits.forEach(id => { const h = diaryData.habits.find(hb => hb.id === id); if(h) entry.habitsProgress[id] = h.subcategories.length; });
                     delete entry.completedHabits;
                 }
             });
-            showToast("Datos de hábitos actualizados al nuevo formato.");
             saveDataToLocalStorage();
         }
         return true;
@@ -2376,8 +1046,12 @@
       return false;
     }
 
+    function exportDiary() { showToast('Funcionalidad de exportación pendiente.'); }
+    function handleFileImport(e) { showToast('Funcionalidad de importación pendiente.'); }
+
     initApp();
   });
   </script>
 </body>
 </html>
+
