@@ -159,13 +159,22 @@
       transition: all var(--transition-speed); white-space: nowrap; font-weight: 600; color: var(--text-secondary); min-height: 44px;
     }
     .tab.active { background: var(--accent-primary); color: white; }
+    
+    /* ## BOTON-FIX: Aquí está la corrección para el bug de los botones ## */
     .toast {
       position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px);
       background: var(--bg-secondary); color: var(--text-primary); padding: 12px 20px;
       border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 10000;
-      transition: all 0.3s ease; border: 1px solid var(--border-color); max-width: 90%; text-align: center; opacity: 0;
+      transition: all 0.3s ease; border: 1px solid var(--border-color); max-width: 90%; text-align: center;
+      opacity: 0;
+      pointer-events: none; /* <-- ASEGURA que sea invisible a los clics cuando está oculto */
     }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto; /* <-- PERMITE clics solo cuando es visible */
+    }
+    
     .flatpickr-day.has-entry {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
       color: white !important; border-radius: 50% !important; border: none !important;
@@ -921,15 +930,12 @@
         return new Chart(ctx, config);
     }
     
-    // ## FINAL CHART FIX ##
     function updateEmotionChart(entries) {
       entries.sort((a, b) => new Date(a.date) - new Date(b.date));
       
       const chartData = entries.map(e => {
           const emotionData = EMOTIONS.find(em => em.n === e.emotion.name);
           const score = emotionData ? emotionData.v * e.emotion.intensity : 0;
-          // Using new Date() makes the format explicit and avoids parsing issues.
-          // Adding T00:00:00 prevents timezone shifts.
           return { x: new Date(e.date + 'T00:00:00'), y: score };
       });
 
@@ -1054,4 +1060,3 @@
   </script>
 </body>
 </html>
-
