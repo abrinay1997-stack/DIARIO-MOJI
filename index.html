@@ -159,22 +159,19 @@
       transition: all var(--transition-speed); white-space: nowrap; font-weight: 600; color: var(--text-secondary); min-height: 44px;
     }
     .tab.active { background: var(--accent-primary); color: white; }
-    
-    /* ## BOTON-FIX: Aquí está la corrección para el bug de los botones ## */
     .toast {
       position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px);
       background: var(--bg-secondary); color: var(--text-primary); padding: 12px 20px;
       border-radius: var(--border-radius); box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 10000;
       transition: all 0.3s ease; border: 1px solid var(--border-color); max-width: 90%; text-align: center;
       opacity: 0;
-      pointer-events: none; /* <-- ASEGURA que sea invisible a los clics cuando está oculto */
+      pointer-events: none;
     }
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
-      pointer-events: auto; /* <-- PERMITE clics solo cuando es visible */
+      pointer-events: auto;
     }
-    
     .flatpickr-day.has-entry {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)) !important;
       color: white !important; border-radius: 50% !important; border: none !important;
@@ -511,13 +508,7 @@
       renderEmotionSelector();
       setupAccordions();
       if (loadDataFromLocalStorage()) {
-        document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
-        document.body.className = `theme-${diaryData.settings.theme || 'pastel'}`;
-        document.querySelector('.bottom-nav').classList.add('visible');
-        showScreen('main-diary-screen');
-        switchBottomNav('diario');
-        loadEntryForDate(currentDate);
-        showToast(`¡Bienvenido/a de nuevo, ${diaryData.ownerName}!`);
+        initializeAppWithData(diaryData);
       } else {
         showScreen('welcome-screen');
       }
@@ -526,6 +517,14 @@
     function setupEventListeners() {
       document.getElementById('btn-new-diary').addEventListener('click', () => showScreen('name-prompt-screen'));
       document.getElementById('btn-confirm-name').addEventListener('click', createNewDiary);
+      
+      // NEW: Back button on name prompt screen
+      document.getElementById('btn-back-name').addEventListener('click', () => showScreen('welcome-screen'));
+
+      // NEW: Event listeners for Import/Export
+      document.getElementById('btn-open-diary').addEventListener('click', () => document.getElementById('import-file-input').click());
+      document.getElementById('import-file-input').addEventListener('change', handleFileImport);
+      document.getElementById('btn-export-diary').addEventListener('click', exportDiary);
 
       document.querySelector('.bottom-nav').addEventListener('click', (e) => {
           const navButton = e.target.closest('.nav-item');
@@ -550,11 +549,22 @@
       document.getElementById('btn-transfer').addEventListener('click', transferBetweenAccounts);
       document.getElementById('btn-settings').addEventListener('click', () => showModal('settings-modal'));
       document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
-      document.getElementById('btn-export-diary').addEventListener('click', exportDiary);
       document.getElementById('btn-reset-diary').addEventListener('click', resetDiary);
       document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => e.target.closest('.modal').classList.remove('active')));
       document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', (e) => switchTab(e.currentTarget.dataset.tab)));
       document.querySelectorAll('.time-filter').forEach(filter => filter.addEventListener('click', (e) => switchTimeFilter(e.currentTarget.dataset.period)));
+    }
+    
+    // NEW: Central function to initialize the UI after data is loaded
+    function initializeAppWithData(data) {
+        diaryData = data;
+        document.getElementById('diary-owner-name').textContent = `Diario de ${diaryData.ownerName}`;
+        document.body.className = `theme-${diaryData.settings.theme || 'pastel'}`;
+        document.querySelector('.bottom-nav').classList.add('visible');
+        showScreen('main-diary-screen');
+        switchBottomNav('diario');
+        loadEntryForDate(currentDate);
+        showToast(`¡Bienvenido/a de nuevo, ${diaryData.ownerName}!`);
     }
 
     function showScreen(screenIdToShow) { ALL_SCREENS.forEach(id => document.getElementById(id)?.classList.toggle('active', id === screenIdToShow)); }
@@ -591,15 +601,12 @@
     function createNewDiary() {
       const name = document.getElementById('owner-name-input').value.trim();
       if (!name) return showToast('Por favor, introduce tu nombre');
-      diaryData = {
+      const newDiaryData = {
         ownerName: name, settings: { theme: 'pastel' }, entries: {}, habits: [],
         accounts: [{ id: Date.now(), name: 'Cuenta Principal', balance: 0, isDefault: true }], transactions: []
       };
-      document.getElementById('diary-owner-name').textContent = `Diario de ${name}`;
-      showScreen('main-diary-screen');
-      document.querySelector('.bottom-nav').classList.add('visible');
-      saveDataToLocalStorage();
-      showToast(`¡Bienvenido/a, ${name}!`);
+      saveDataToLocalStorage(newDiaryData);
+      initializeAppWithData(newDiaryData);
     }
     function loadEntryForDate(date) {
       currentDate = date;
@@ -627,19 +634,19 @@
       if (selected) {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
         diaryData.entries[currentDate].emotion = { name: selected.dataset.name, intensity: parseInt(document.getElementById('emotion-intensity').value) };
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
       }
     }
     function saveWellbeingData() {
         if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
         diaryData.entries[currentDate].physicalActivity = parseInt(document.getElementById('physical-activity').value);
         diaryData.entries[currentDate].waterIntake = parseInt(document.getElementById('water-intake').value);
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
     }
     function saveEntryText() {
       if (!diaryData.entries[currentDate]) diaryData.entries[currentDate] = {};
       diaryData.entries[currentDate].text = document.getElementById('editor').innerHTML;
-      saveDataToLocalStorage();
+      saveDataToLocalStorage(diaryData);
     }
     function saveSettings() {
       const name = document.getElementById('diary-name-input').value.trim();
@@ -647,7 +654,7 @@
       diaryData.settings.theme = document.getElementById('theme-selector').value;
       document.body.className = `theme-${diaryData.settings.theme}`;
       document.getElementById('settings-modal').classList.remove('active');
-      saveDataToLocalStorage();
+      saveDataToLocalStorage(diaryData);
       showToast('Configuración guardada');
     }
     function addNewHabit() {
@@ -659,7 +666,7 @@
         ['new-habit-name', 'new-habit-category', 'new-habit-subcategories'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('add-habit-modal').classList.remove('active');
         updateHabitsScreen();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast('Hábito agregado');
     }
     function editHabit(habitId) {
@@ -683,7 +690,7 @@
         habit.subcategories = subcategories.length > 0 ? subcategories : [name];
         document.getElementById('edit-habit-modal').classList.remove('active');
         updateHabitsScreen();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast('Hábito actualizado');
         editingHabitId = null;
     }
@@ -692,7 +699,7 @@
         Object.values(diaryData.entries).forEach(entry => { if (entry.habitsProgress?.[habitId]) delete entry.habitsProgress[habitId]; });
         updateHabitsManagementList();
         updateHabitsScreen();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast('Hábito eliminado');
     }
     function updateHabitsListSliders() {
@@ -713,7 +720,7 @@
                 diaryData.entries[currentDate].habitsProgress[id] = value;
                 document.getElementById(`label-habit-${id}`).textContent = `${value > 0 ? h.subcategories[value - 1] : "Sin empezar"} (${value}/${h.subcategories.length})`;
             });
-            slider.addEventListener('change', saveDataToLocalStorage);
+            slider.addEventListener('change', () => saveDataToLocalStorage(diaryData));
         });
     }
     function updateHabitsManagementList() {
@@ -784,7 +791,7 @@
       document.getElementById('transaction-amount').value = '';
       document.getElementById('transaction-description').value = '';
       updateExpenses();
-      saveDataToLocalStorage();
+      saveDataToLocalStorage(diaryData);
       showToast('Transacción agregada');
     }
     function addNewAccount() {
@@ -795,7 +802,7 @@
       document.getElementById('new-account-name').value = '';
       document.getElementById('new-account-balance').value = '0';
       updateExpenses();
-      saveDataToLocalStorage();
+      saveDataToLocalStorage(diaryData);
       showToast('Cuenta agregada');
     }
     function editAccount(accountId) {
@@ -815,7 +822,7 @@
       account.balance = parseFloat(document.getElementById('edit-account-balance').value) || 0;
       document.getElementById('edit-account-modal').classList.remove('active');
       updateExpenses();
-      saveDataToLocalStorage();
+      saveDataToLocalStorage(diaryData);
       showToast('Cuenta actualizada');
       editingAccountId = null;
     }
@@ -823,13 +830,13 @@
         if (!confirm("¿Seguro que quieres eliminar esta cuenta?")) return;
         diaryData.accounts = diaryData.accounts.filter(acc => acc.id !== accountId);
         updateExpenses();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast("Cuenta eliminada");
     }
     function setDefaultAccount(accountId) {
         diaryData.accounts.forEach(acc => acc.isDefault = (acc.id === accountId));
         updateExpenses();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast("Cuenta principal actualizada");
     }
     function transferBetweenAccounts() {
@@ -846,7 +853,7 @@
         diaryData.transactions.push({ id: Date.now(), type: 'transfer', amount, description: `Transferencia a ${toAccount.name}`, accountId: fromId, date: currentDate });
         document.getElementById('transfer-amount').value = '';
         updateExpenses();
-        saveDataToLocalStorage();
+        saveDataToLocalStorage(diaryData);
         showToast('Transferencia realizada con éxito.');
     }
     
@@ -1031,7 +1038,7 @@
     const debounce = (func, wait) => { let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; };
     function resetDiary() { if (confirm('¿Seguro? Se borrará TODO.')) { localStorage.removeItem('diarioMojiData'); location.reload(); } }
     
-    function saveDataToLocalStorage() { if (diaryData.ownerName) localStorage.setItem('diarioMojiData', JSON.stringify(diaryData)); }
+    function saveDataToLocalStorage(dataToSave) { if (dataToSave && dataToSave.ownerName) localStorage.setItem('diarioMojiData', JSON.stringify(dataToSave)); }
     function loadDataFromLocalStorage() {
       const savedData = localStorage.getItem('diarioMojiData');
       if (savedData) {
@@ -1045,15 +1052,67 @@
                     delete entry.completedHabits;
                 }
             });
-            saveDataToLocalStorage();
+            saveDataToLocalStorage(diaryData);
         }
         return true;
       }
       return false;
     }
 
-    function exportDiary() { showToast('Funcionalidad de exportación pendiente.'); }
-    function handleFileImport(e) { showToast('Funcionalidad de importación pendiente.'); }
+    // NEW: Function to handle exporting the diary data
+    function exportDiary() {
+        if (!diaryData.ownerName) return showToast('No hay diario para exportar.');
+        
+        // We use a CDATA section to safely embed JSON inside XML. This is robust.
+        const jsonString = JSON.stringify(diaryData);
+        const xmlContent = `<DiarioMojiData><![CDATA[${jsonString}]]></DiarioMojiData>`;
+        const blob = new Blob([xmlContent], { type: 'application/xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Diario de ${diaryData.ownerName}.xml`;
+        document.body.appendChild(a);
+        a.click();
+        
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Diario exportado.');
+    }
+    
+    // NEW: Function to handle importing a diary file
+    function handleFileImport(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            try {
+                const xmlString = event.target.result;
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+                
+                const dataNode = xmlDoc.querySelector('DiarioMojiData');
+                if (!dataNode) throw new Error("XML no contiene la etiqueta <DiarioMojiData>");
+
+                const jsonString = dataNode.textContent;
+                const loadedData = JSON.parse(jsonString);
+
+                if (!loadedData.ownerName) throw new Error("El archivo no parece ser un diario válido.");
+                
+                saveDataToLocalStorage(loadedData);
+                initializeAppWithData(loadedData);
+                
+            } catch (error) {
+                console.error("Error al importar:", error);
+                showToast('Error: El archivo del diario no es válido.');
+            } finally {
+                // Reset file input to allow re-selection of the same file
+                e.target.value = '';
+            }
+        };
+        reader.readAsText(file);
+    }
 
     initApp();
   });
